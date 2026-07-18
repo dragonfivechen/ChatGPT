@@ -103,4 +103,45 @@ memory/
 | 事项 | 优先级 | 状态 |
 |------|--------|------|
 | Telegram `accounts.default` 缺失 | 低 | 标记待处理，当前 defaultAccount: main 回退启用 |
-| SecretRef 明文迁移 | 低 | 延期 |
+
+## SecretRef Migration v1.0
+
+| Phase | 状态 |
+|------|------|
+| Phase 0: Baseline Audit | ✅ Complete |
+| Phase 1: Target Identification | ✅ Complete |
+| Phase 2: Provider Selection | ✅ Complete (file provider) |
+| Phase 3: Config Set (Telegram block) | ✅ Complete |
+| Phase 3.5: Provider Name Registry | ✅ Complete |
+| Phase 3.6: DeepSeek keyRef Compatibility | ✅ Complete (源码确认) |
+| Phase 4.1: Telegram + Gateway SecretRef | ✅ Written to secrets.json |
+| Phase 4.2: DeepSeek SecretRef | ✅ Resolved at runtime |
+| Phase 5: Validation & Freeze | ✅ Complete |
+
+**审计结果:**
+- plaintext=1 (Ollama 本地占位符，按策略排除)
+- unresolved=0 ✅
+- shadowed=1 (models.providers.deepseek.apiKey 被 auth-profile 遮蔽，auth-profile 优先)
+- legacy=0
+
+**冻结原则:**
+- 不重新 apply
+- 不修改 SecretRef
+- 不删除残留备份
+- 不修改 models.json
+- 不调整 Ollama apiKey
+
+## Lottery Timeline Refactor 进度
+
+```
+Step 1:   fetch timer 22:10           ✅
+Step 2:   check 消除重复 fetch        ✅
+Step 2.5: 输入完整性（KL8链路补齐）    ✅
+Step 3:   日报能力迁移                🏗️ (3-a 设计完成)
+Step 4:   出口收敛                    ⏳
+```
+
+- `fetch_kl8.sh` 新建于 `/home/dragonfive/.local/bin/lottery/fetch_kl8.sh`（CWL + mock）
+- `fetch_only.sh` 修改：加入 KL8 fetch 段
+- `report_pipeline_v2.md` 设计文档已产出
+- Next: 编写 unified_report_gen.py → 修改 daily_report.sh → B-2/B-3 SKIP

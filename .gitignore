@@ -11,6 +11,9 @@ memory/cache/
 # Archives
 archive/
 
+# Pre-change backup snapshots
+*.v1.0-pre-*
+
 # Editor temp files
 *.swp
 *.swo

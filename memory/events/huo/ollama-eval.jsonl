@@ -1,0 +1,125 @@
+{"timestamp": "2026-07-17T03:29:57Z", "model": "qwen2.5:3b", "task": "short_qa", "latency_ms": 16710, "success": true, "output_length": 29}
+{"timestamp": "2026-07-17T03:29:57Z", "model": "qwen2.5:3b", "task": "explain", "latency_ms": 6977, "success": true, "output_length": 28}
+{"timestamp": "2026-07-17T03:29:57Z", "model": "qwen2.5:3b", "task": "format", "latency_ms": 21358, "success": true, "output_length": 122}
+{"timestamp": "2026-07-17T03:29:57Z", "model": "qwen2.5:3b", "task": "summarize", "latency_ms": 14548, "success": true, "output_length": 73}
+{"timestamp": "2026-07-17T03:29:57Z", "model": "qwen2.5:3b", "task": "report", "latency_ms": 7370, "success": true, "output_length": 25}
+{"timestamp": "2026-07-17T04:00:01Z", "model": "qwen2.5:3b", "task": "short_qa", "latency_ms": 10365, "success": true, "quality": "pass", "output_length": 31, "cpu_peak_pct": 1, "mem_peak_mb": 59}
+{"timestamp": "2026-07-17T04:00:01Z", "model": "qwen2.5:3b", "task": "explain", "latency_ms": 6145, "success": true, "quality": "pass", "output_length": 22, "cpu_peak_pct": 1, "mem_peak_mb": 59}
+{"timestamp": "2026-07-17T04:00:01Z", "model": "qwen2.5:3b", "task": "format", "latency_ms": 9833, "success": true, "quality": "pass", "output_length": 67, "cpu_peak_pct": 1, "mem_peak_mb": 61}
+{"timestamp": "2026-07-17T04:00:01Z", "model": "qwen2.5:3b", "task": "summarize", "latency_ms": 19771, "success": true, "quality": "pass", "output_length": 92, "cpu_peak_pct": 1, "mem_peak_mb": 61}
+{"timestamp": "2026-07-17T04:00:01Z", "model": "qwen2.5:3b", "task": "report", "latency_ms": 6036, "success": true, "quality": "pass", "output_length": 23, "cpu_peak_pct": 1, "mem_peak_mb": 56}
+{"timestamp": "2026-07-17T05:00:01Z", "model": "qwen2.5:3b", "task": "short_qa", "latency_ms": 12178, "success": true, "quality": "pass", "output_length": 35, "cpu_peak_pct": 0, "mem_peak_mb": 46}
+{"timestamp": "2026-07-17T05:00:01Z", "model": "qwen2.5:3b", "task": "explain", "latency_ms": 4428, "success": true, "quality": "pass", "output_length": 23, "cpu_peak_pct": 0, "mem_peak_mb": 47}
+{"timestamp": "2026-07-17T05:00:01Z", "model": "qwen2.5:3b", "task": "format", "latency_ms": 41411, "success": true, "quality": "pass", "output_length": 174, "cpu_peak_pct": 0, "mem_peak_mb": 47}
+{"timestamp": "2026-07-17T05:00:01Z", "model": "qwen2.5:3b", "task": "summarize", "latency_ms": 17628, "success": true, "quality": "pass", "output_length": 75, "cpu_peak_pct": 0, "mem_peak_mb": 47}
+{"timestamp": "2026-07-17T05:00:01Z", "model": "qwen2.5:3b", "task": "report", "latency_ms": 5041, "success": true, "quality": "pass", "output_length": 25, "cpu_peak_pct": 0, "mem_peak_mb": 47}
+{"timestamp": "2026-07-17T06:00:01Z", "model": "qwen2.5:3b", "task": "short_qa", "latency_ms": 12223, "success": true, "quality": "pass", "output_length": 34, "cpu_peak_pct": 0, "mem_peak_mb": 45}
+{"timestamp": "2026-07-17T06:00:01Z", "model": "qwen2.5:3b", "task": "explain", "latency_ms": 4922, "success": true, "quality": "pass", "output_length": 23, "cpu_peak_pct": 0, "mem_peak_mb": 45}
+{"timestamp": "2026-07-17T06:00:01Z", "model": "qwen2.5:3b", "task": "format", "latency_ms": 18568, "success": true, "quality": "pass", "output_length": 137, "cpu_peak_pct": 0, "mem_peak_mb": 46}
+{"timestamp": "2026-07-17T06:00:01Z", "model": "qwen2.5:3b", "task": "summarize", "latency_ms": 15049, "success": true, "quality": "pass", "output_length": 83, "cpu_peak_pct": 0, "mem_peak_mb": 46}
+{"timestamp": "2026-07-17T06:00:01Z", "model": "qwen2.5:3b", "task": "report", "latency_ms": 6037, "success": true, "quality": "pass", "output_length": 25, "cpu_peak_pct": 0, "mem_peak_mb": 45}
+{"timestamp": "2026-07-17T07:00:01Z", "model": "qwen2.5:3b", "task": "short_qa", "latency_ms": 11083, "success": true, "quality": "pass", "output_length": 44, "cpu_peak_pct": 0, "mem_peak_mb": 45}
+{"timestamp": "2026-07-17T07:00:01Z", "model": "qwen2.5:3b", "task": "explain", "latency_ms": 4818, "success": true, "quality": "pass", "output_length": 21, "cpu_peak_pct": 0, "mem_peak_mb": 47}
+{"timestamp": "2026-07-17T07:00:01Z", "model": "qwen2.5:3b", "task": "format", "latency_ms": 29745, "success": true, "quality": "pass", "output_length": 141, "cpu_peak_pct": 0, "mem_peak_mb": 47}
+{"timestamp": "2026-07-17T07:00:01Z", "model": "qwen2.5:3b", "task": "summarize", "latency_ms": 20720, "success": true, "quality": "pass", "output_length": 101, "cpu_peak_pct": 0, "mem_peak_mb": 46}
+{"timestamp": "2026-07-17T07:00:01Z", "model": "qwen2.5:3b", "task": "report", "latency_ms": 7368, "success": true, "quality": "pass", "output_length": 25, "cpu_peak_pct": 0, "mem_peak_mb": 46}
+{"timestamp": "2026-07-17T08:00:02Z", "model": "qwen2.5:3b", "task": "short_qa", "latency_ms": 13556, "success": true, "quality": "pass", "output_length": 47, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T08:00:02Z", "model": "qwen2.5:3b", "task": "explain", "latency_ms": 12920, "success": true, "quality": "pass", "output_length": 25, "cpu_peak_pct": 0, "mem_peak_mb": 45}
+{"timestamp": "2026-07-17T08:00:02Z", "model": "qwen2.5:3b", "task": "format", "latency_ms": 28220, "success": true, "quality": "pass", "output_length": 135, "cpu_peak_pct": 0, "mem_peak_mb": 46}
+{"timestamp": "2026-07-17T08:00:02Z", "model": "qwen2.5:3b", "task": "summarize", "latency_ms": 19555, "success": true, "quality": "pass", "output_length": 79, "cpu_peak_pct": 0, "mem_peak_mb": 46}
+{"timestamp": "2026-07-17T08:00:02Z", "model": "qwen2.5:3b", "task": "report", "latency_ms": 5844, "success": true, "quality": "pass", "output_length": 21, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T09:00:01Z", "model": "qwen2.5:3b", "task": "short_qa", "latency_ms": 14873, "success": true, "quality": "pass", "output_length": 61, "cpu_peak_pct": 0, "mem_peak_mb": 45}
+{"timestamp": "2026-07-17T09:00:01Z", "model": "qwen2.5:3b", "task": "explain", "latency_ms": 13380, "success": true, "quality": "pass", "output_length": 23, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T09:00:01Z", "model": "qwen2.5:3b", "task": "format", "latency_ms": 11603, "success": true, "quality": "pass", "output_length": 69, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T09:00:01Z", "model": "qwen2.5:3b", "task": "summarize", "latency_ms": 19765, "success": true, "quality": "pass", "output_length": 92, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T09:00:01Z", "model": "qwen2.5:3b", "task": "report", "latency_ms": 5990, "success": true, "quality": "pass", "output_length": 21, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T10:00:01Z", "model": "qwen2.5:3b", "task": "short_qa", "latency_ms": 17857, "success": true, "quality": "pass", "output_length": 37, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T10:00:01Z", "model": "qwen2.5:3b", "task": "explain", "latency_ms": 5072, "success": true, "quality": "pass", "output_length": 28, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T10:00:01Z", "model": "qwen2.5:3b", "task": "format", "latency_ms": 11139, "success": true, "quality": "pass", "output_length": 67, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T10:00:01Z", "model": "qwen2.5:3b", "task": "summarize", "latency_ms": 31426, "success": true, "quality": "pass", "output_length": 122, "cpu_peak_pct": 0, "mem_peak_mb": 45}
+{"timestamp": "2026-07-17T10:00:01Z", "model": "qwen2.5:3b", "task": "report", "latency_ms": 6264, "success": true, "quality": "pass", "output_length": 30, "cpu_peak_pct": 0, "mem_peak_mb": 45}
+{"timestamp": "2026-07-17T11:00:02Z", "model": "qwen2.5:3b", "task": "short_qa", "latency_ms": 13814, "success": true, "quality": "pass", "output_length": 46, "cpu_peak_pct": 0, "mem_peak_mb": 45}
+{"timestamp": "2026-07-17T11:00:02Z", "model": "qwen2.5:3b", "task": "explain", "latency_ms": 5243, "success": true, "quality": "pass", "output_length": 25, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T11:00:02Z", "model": "qwen2.5:3b", "task": "format", "latency_ms": 36969, "success": true, "quality": "pass", "output_length": 224, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T11:00:02Z", "model": "qwen2.5:3b", "task": "summarize", "latency_ms": 20631, "success": true, "quality": "pass", "output_length": 99, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T11:00:02Z", "model": "qwen2.5:3b", "task": "report", "latency_ms": 9657, "success": true, "quality": "pass", "output_length": 28, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T12:00:01Z", "model": "qwen2.5:3b", "task": "short_qa", "latency_ms": 11729, "success": true, "quality": "pass", "output_length": 32, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T12:00:01Z", "model": "qwen2.5:3b", "task": "explain", "latency_ms": 7286, "success": true, "quality": "pass", "output_length": 25, "cpu_peak_pct": 0, "mem_peak_mb": 42}
+{"timestamp": "2026-07-17T12:00:01Z", "model": "qwen2.5:3b", "task": "format", "latency_ms": 14169, "success": true, "quality": "pass", "output_length": 69, "cpu_peak_pct": 0, "mem_peak_mb": 45}
+{"timestamp": "2026-07-17T12:00:01Z", "model": "qwen2.5:3b", "task": "summarize", "latency_ms": 15960, "success": true, "quality": "pass", "output_length": 79, "cpu_peak_pct": 0, "mem_peak_mb": 45}
+{"timestamp": "2026-07-17T12:00:01Z", "model": "qwen2.5:3b", "task": "report", "latency_ms": 7757, "success": true, "quality": "pass", "output_length": 26, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T13:00:01Z", "model": "qwen2.5:3b", "task": "short_qa", "latency_ms": 14077, "success": true, "quality": "pass", "output_length": 58, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T13:00:01Z", "model": "qwen2.5:3b", "task": "explain", "latency_ms": 5469, "success": true, "quality": "pass", "output_length": 24, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T13:00:01Z", "model": "qwen2.5:3b", "task": "format", "latency_ms": 23196, "success": true, "quality": "pass", "output_length": 145, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T13:00:01Z", "model": "qwen2.5:3b", "task": "summarize", "latency_ms": 17761, "success": true, "quality": "pass", "output_length": 85, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T13:00:01Z", "model": "qwen2.5:3b", "task": "report", "latency_ms": 7913, "success": true, "quality": "pass", "output_length": 26, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T14:00:02Z", "model": "qwen2.5:3b", "task": "short_qa", "latency_ms": 12851, "success": true, "quality": "pass", "output_length": 37, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T14:00:02Z", "model": "qwen2.5:3b", "task": "explain", "latency_ms": 5965, "success": true, "quality": "pass", "output_length": 25, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T14:00:02Z", "model": "qwen2.5:3b", "task": "format", "latency_ms": 10446, "success": true, "quality": "pass", "output_length": 69, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T14:00:02Z", "model": "qwen2.5:3b", "task": "summarize", "latency_ms": 18398, "success": true, "quality": "pass", "output_length": 85, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T14:00:02Z", "model": "qwen2.5:3b", "task": "report", "latency_ms": 5878, "success": true, "quality": "pass", "output_length": 26, "cpu_peak_pct": 0, "mem_peak_mb": 45}
+{"timestamp": "2026-07-17T15:00:01Z", "model": "qwen2.5:3b", "task": "short_qa", "latency_ms": 11943, "success": true, "quality": "pass", "output_length": 39, "cpu_peak_pct": 0, "mem_peak_mb": 46}
+{"timestamp": "2026-07-17T15:00:01Z", "model": "qwen2.5:3b", "task": "explain", "latency_ms": 8755, "success": true, "quality": "pass", "output_length": 28, "cpu_peak_pct": 0, "mem_peak_mb": 45}
+{"timestamp": "2026-07-17T15:00:01Z", "model": "qwen2.5:3b", "task": "format", "latency_ms": 26415, "success": true, "quality": "pass", "output_length": 135, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T15:00:01Z", "model": "qwen2.5:3b", "task": "summarize", "latency_ms": 18138, "success": true, "quality": "pass", "output_length": 106, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T15:00:01Z", "model": "qwen2.5:3b", "task": "report", "latency_ms": 7109, "success": true, "quality": "pass", "output_length": 25, "cpu_peak_pct": 0, "mem_peak_mb": 45}
+{"timestamp": "2026-07-17T16:00:02Z", "model": "qwen2.5:3b", "task": "short_qa", "latency_ms": 12562, "success": true, "quality": "pass", "output_length": 38, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T16:00:02Z", "model": "qwen2.5:3b", "task": "explain", "latency_ms": 6950, "success": true, "quality": "pass", "output_length": 23, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T16:00:02Z", "model": "qwen2.5:3b", "task": "format", "latency_ms": 25639, "success": true, "quality": "pass", "output_length": 165, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T16:00:02Z", "model": "qwen2.5:3b", "task": "summarize", "latency_ms": 21494, "success": true, "quality": "pass", "output_length": 115, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T16:00:02Z", "model": "qwen2.5:3b", "task": "report", "latency_ms": 10899, "success": true, "quality": "pass", "output_length": 25, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T17:00:01Z", "model": "qwen2.5:3b", "task": "short_qa", "latency_ms": 21478, "success": true, "quality": "pass", "output_length": 76, "cpu_peak_pct": 0, "mem_peak_mb": 43}
+{"timestamp": "2026-07-17T17:00:01Z", "model": "qwen2.5:3b", "task": "explain", "latency_ms": 6514, "success": true, "quality": "pass", "output_length": 22, "cpu_peak_pct": 0, "mem_peak_mb": 43}
+{"timestamp": "2026-07-17T17:00:01Z", "model": "qwen2.5:3b", "task": "format", "latency_ms": 30773, "success": true, "quality": "pass", "output_length": 132, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T17:00:01Z", "model": "qwen2.5:3b", "task": "summarize", "latency_ms": 24187, "success": true, "quality": "pass", "output_length": 90, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T17:00:01Z", "model": "qwen2.5:3b", "task": "report", "latency_ms": 10299, "success": true, "quality": "pass", "output_length": 27, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T18:00:01Z", "model": "qwen2.5:3b", "task": "short_qa", "latency_ms": 15739, "success": true, "quality": "pass", "output_length": 55, "cpu_peak_pct": 0, "mem_peak_mb": 45}
+{"timestamp": "2026-07-17T18:00:01Z", "model": "qwen2.5:3b", "task": "explain", "latency_ms": 4821, "success": true, "quality": "pass", "output_length": 24, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T18:00:01Z", "model": "qwen2.5:3b", "task": "format", "latency_ms": 25916, "success": true, "quality": "pass", "output_length": 148, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T18:00:01Z", "model": "qwen2.5:3b", "task": "summarize", "latency_ms": 15836, "success": true, "quality": "pass", "output_length": 93, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T18:00:01Z", "model": "qwen2.5:3b", "task": "report", "latency_ms": 7433, "success": true, "quality": "pass", "output_length": 27, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T19:00:01Z", "model": "qwen2.5:3b", "task": "short_qa", "latency_ms": 18718, "success": true, "quality": "pass", "output_length": 46, "cpu_peak_pct": 0, "mem_peak_mb": 46}
+{"timestamp": "2026-07-17T19:00:01Z", "model": "qwen2.5:3b", "task": "explain", "latency_ms": 5372, "success": true, "quality": "pass", "output_length": 28, "cpu_peak_pct": 0, "mem_peak_mb": 45}
+{"timestamp": "2026-07-17T19:00:01Z", "model": "qwen2.5:3b", "task": "format", "latency_ms": 13551, "success": true, "quality": "pass", "output_length": 70, "cpu_peak_pct": 0, "mem_peak_mb": 45}
+{"timestamp": "2026-07-17T19:00:01Z", "model": "qwen2.5:3b", "task": "summarize", "latency_ms": 30154, "success": true, "quality": "pass", "output_length": 153, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp": "2026-07-17T19:00:01Z", "model": "qwen2.5:3b", "task": "report", "latency_ms": 7612, "success": true, "quality": "pass", "output_length": 27, "cpu_peak_pct": 0, "mem_peak_mb": 44}
+{"timestamp":"2026-07-17T20:00:02Z","model":"qwen2.5:3b","task":"short_qa","latency_ms":11844,"success":true,"quality":"pass","output_length":32,"cpu_peak_pct":0,"mem_peak_mb":45}
+{"timestamp":"2026-07-17T20:00:02Z","model":"qwen2.5:3b","task":"explain","latency_ms":5566,"success":true,"quality":"pass","output_length":24,"cpu_peak_pct":0,"mem_peak_mb":45}
+{"timestamp":"2026-07-17T20:00:02Z","model":"qwen2.5:3b","task":"format","latency_ms":16901,"success":true,"quality":"pass","output_length":66,"cpu_peak_pct":0,"mem_peak_mb":45}
+{"timestamp":"2026-07-17T20:00:02Z","model":"qwen2.5:3b","task":"summarize","latency_ms":16019,"success":true,"quality":"pass","output_length":95,"cpu_peak_pct":0,"mem_peak_mb":45}
+{"timestamp":"2026-07-17T20:00:02Z","model":"qwen2.5:3b","task":"report","latency_ms":6342,"success":true,"quality":"pass","output_length":26,"cpu_peak_pct":0,"mem_peak_mb":45}
+{"timestamp":"2026-07-17T21:00:02Z","model":"qwen2.5:3b","task":"short_qa","latency_ms":15871,"success":true,"quality":"pass","output_length":42,"cpu_peak_pct":0,"mem_peak_mb":44}
+{"timestamp":"2026-07-17T21:00:02Z","model":"qwen2.5:3b","task":"explain","latency_ms":9501,"success":true,"quality":"pass","output_length":28,"cpu_peak_pct":0,"mem_peak_mb":45}
+{"timestamp":"2026-07-17T21:00:02Z","model":"qwen2.5:3b","task":"format","latency_ms":8532,"success":true,"quality":"pass","output_length":69,"cpu_peak_pct":0,"mem_peak_mb":45}
+{"timestamp":"2026-07-17T21:00:02Z","model":"qwen2.5:3b","task":"summarize","latency_ms":14138,"success":true,"quality":"pass","output_length":92,"cpu_peak_pct":0,"mem_peak_mb":45}
+{"timestamp":"2026-07-17T21:00:02Z","model":"qwen2.5:3b","task":"report","latency_ms":5047,"success":true,"quality":"pass","output_length":26,"cpu_peak_pct":0,"mem_peak_mb":45}
+{"timestamp":"2026-07-17T22:00:02Z","model":"qwen2.5:3b","task":"short_qa","latency_ms":13354,"success":true,"quality":"pass","output_length":31,"cpu_peak_pct":0,"mem_peak_mb":45}
+{"timestamp":"2026-07-17T22:00:02Z","model":"qwen2.5:3b","task":"explain","latency_ms":4623,"success":true,"quality":"pass","output_length":25,"cpu_peak_pct":0,"mem_peak_mb":45}
+{"timestamp":"2026-07-17T22:00:02Z","model":"qwen2.5:3b","task":"format","latency_ms":16067,"success":true,"quality":"pass","output_length":69,"cpu_peak_pct":0,"mem_peak_mb":45}
+{"timestamp":"2026-07-17T22:00:02Z","model":"qwen2.5:3b","task":"summarize","latency_ms":19129,"success":true,"quality":"pass","output_length":97,"cpu_peak_pct":0,"mem_peak_mb":45}
+{"timestamp":"2026-07-17T22:00:02Z","model":"qwen2.5:3b","task":"report","latency_ms":6580,"success":true,"quality":"pass","output_length":25,"cpu_peak_pct":0,"mem_peak_mb":45}
+{"timestamp":"2026-07-18T04:00:02Z","model":"qwen2.5:3b","task":"short_qa","latency_ms":11836,"success":true,"quality":"pass","output_length":42,"cpu_peak_pct":0,"mem_peak_mb":56}
+{"timestamp":"2026-07-18T04:00:02Z","model":"qwen2.5:3b","task":"explain","latency_ms":4623,"success":true,"quality":"pass","output_length":29,"cpu_peak_pct":0,"mem_peak_mb":56}
+{"timestamp":"2026-07-18T04:00:02Z","model":"qwen2.5:3b","task":"format","latency_ms":15534,"success":true,"quality":"pass","output_length":112,"cpu_peak_pct":0,"mem_peak_mb":56}
+{"timestamp":"2026-07-18T04:00:02Z","model":"qwen2.5:3b","task":"summarize","latency_ms":15593,"success":true,"quality":"pass","output_length":100,"cpu_peak_pct":0,"mem_peak_mb":56}
+{"timestamp":"2026-07-18T04:00:02Z","model":"qwen2.5:3b","task":"report","latency_ms":6016,"success":true,"quality":"pass","output_length":26,"cpu_peak_pct":0,"mem_peak_mb":56}
+{"timestamp":"2026-07-18T05:00:01Z","model":"qwen2.5:3b","task":"short_qa","latency_ms":16690,"success":true,"quality":"pass","output_length":62,"cpu_peak_pct":0,"mem_peak_mb":56}
+{"timestamp":"2026-07-18T05:00:01Z","model":"qwen2.5:3b","task":"explain","latency_ms":5447,"success":true,"quality":"pass","output_length":23,"cpu_peak_pct":0,"mem_peak_mb":54}
+{"timestamp":"2026-07-18T05:00:01Z","model":"qwen2.5:3b","task":"format","latency_ms":19959,"success":true,"quality":"pass","output_length":130,"cpu_peak_pct":0,"mem_peak_mb":54}
+{"timestamp":"2026-07-18T05:00:01Z","model":"qwen2.5:3b","task":"summarize","latency_ms":15601,"success":true,"quality":"pass","output_length":107,"cpu_peak_pct":0,"mem_peak_mb":54}
+{"timestamp":"2026-07-18T05:00:01Z","model":"qwen2.5:3b","task":"report","latency_ms":5903,"success":true,"quality":"pass","output_length":26,"cpu_peak_pct":0,"mem_peak_mb":54}
+{"timestamp":"2026-07-18T06:00:01Z","model":"qwen2.5:3b","task":"short_qa","latency_ms":16350,"success":true,"quality":"pass","output_length":46,"cpu_peak_pct":0,"mem_peak_mb":54}
+{"timestamp":"2026-07-18T06:00:01Z","model":"qwen2.5:3b","task":"explain","latency_ms":6916,"success":true,"quality":"pass","output_length":28,"cpu_peak_pct":0,"mem_peak_mb":51}
+{"timestamp":"2026-07-18T06:00:01Z","model":"qwen2.5:3b","task":"format","latency_ms":12757,"success":true,"quality":"pass","output_length":62,"cpu_peak_pct":0,"mem_peak_mb":52}
+{"timestamp":"2026-07-18T06:00:01Z","model":"qwen2.5:3b","task":"summarize","latency_ms":20773,"success":true,"quality":"pass","output_length":79,"cpu_peak_pct":0,"mem_peak_mb":52}
+{"timestamp":"2026-07-18T06:00:01Z","model":"qwen2.5:3b","task":"report","latency_ms":7148,"success":true,"quality":"pass","output_length":25,"cpu_peak_pct":0,"mem_peak_mb":52}
+{"timestamp":"2026-07-18T07:00:01Z","model":"qwen2.5:3b","task":"short_qa","latency_ms":18018,"success":true,"quality":"pass","output_length":71,"cpu_peak_pct":0,"mem_peak_mb":51}
+{"timestamp":"2026-07-18T07:00:01Z","model":"qwen2.5:3b","task":"explain","latency_ms":6073,"success":true,"quality":"pass","output_length":27,"cpu_peak_pct":0,"mem_peak_mb":52}
+{"timestamp":"2026-07-18T07:00:01Z","model":"qwen2.5:3b","task":"format","latency_ms":30643,"success":true,"quality":"pass","output_length":166,"cpu_peak_pct":0,"mem_peak_mb":52}
+{"timestamp":"2026-07-18T07:00:01Z","model":"qwen2.5:3b","task":"summarize","latency_ms":14539,"success":true,"quality":"pass","output_length":81,"cpu_peak_pct":0,"mem_peak_mb":51}
+{"timestamp":"2026-07-18T07:00:01Z","model":"qwen2.5:3b","task":"report","latency_ms":5124,"success":true,"quality":"pass","output_length":25,"cpu_peak_pct":0,"mem_peak_mb":52}
+{"timestamp":"2026-07-18T08:00:02Z","model":"qwen2.5:3b","task":"short_qa","latency_ms":11155,"input_tokens":35,"output_tokens":16,"total_tokens":51,"success":true,"quality":"pass","output_length":31,"cpu_peak_pct":0,"mem_peak_mb":52}
+{"timestamp":"2026-07-18T08:00:02Z","model":"qwen2.5:3b","task":"explain","latency_ms":5001,"input_tokens":41,"output_tokens":14,"total_tokens":55,"success":true,"quality":"pass","output_length":25,"cpu_peak_pct":0,"mem_peak_mb":53}
+{"timestamp":"2026-07-18T08:00:02Z","model":"qwen2.5:3b","task":"format","latency_ms":7,"input_tokens":0,"output_tokens":0,"total_tokens":0,"success":false,"quality":"fail","output_length":21,"cpu_peak_pct":0,"mem_peak_mb":53}
+{"timestamp":"2026-07-18T08:00:02Z","model":"qwen2.5:3b","task":"summarize","latency_ms":17670,"input_tokens":57,"output_tokens":44,"total_tokens":101,"success":true,"quality":"pass","output_length":76,"cpu_peak_pct":0,"mem_peak_mb":53}
+{"timestamp":"2026-07-18T08:00:02Z","model":"qwen2.5:3b","task":"report","latency_ms":6148,"input_tokens":47,"output_tokens":16,"total_tokens":63,"success":true,"quality":"pass","output_length":25,"cpu_peak_pct":0,"mem_peak_mb":53}

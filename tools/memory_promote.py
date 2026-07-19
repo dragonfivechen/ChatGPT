@@ -174,19 +174,50 @@ def _enforce_provenance(candidate: dict) -> list:
     return issues
 
 
+# ── Patch-005: Unified Truth Write Gate ──
+
+def validate_promotion_authority(candidate: dict) -> tuple[bool, list[str]]:
+    """
+    统一写入门：所有 Truth 写入（Facts / Rules / SOUL）必须通过此门。
+
+    Returns:
+        (passed: bool, reasons: list[str])
+    """
+    reasons = []
+
+    # 1. 状态检查
+    if candidate.get('state') != 'approved':
+        reasons.append(f"state='{candidate.get('state')}', 需要 'approved'")
+
+    # 2. 证据契约检查
+    missing = _check_evidence(candidate)
+    if missing:
+        reasons.append(f"证据契约缺失: {', '.join(missing)}")
+
+    # 3. 来源追溯检查
+    provenance_issues = _enforce_provenance(candidate)
+    reasons.extend(provenance_issues)
+
+    return len(reasons) == 0, reasons
+
+
 # ── Patch-002: SOUL.md is explicit only ──
 
 SOUL_MD_FLAG = '--soul'
 
 
 def promote_to_soulmd(candidate: dict, dry_run: bool = False) -> bool:
-    """仅当显式 --soul 标志时写入 SOUL.md"""
+    """仅当显式 --soul 标志时写入 SOUL.md — 通过 unified gate 验证"""
     rule_text = candidate.get('candidate', '')
     if not rule_text:
         return False
-    if candidate.get('state') != 'approved':
-        print(f"  ⛔ SOUL.md 写入拒绝: state='{candidate.get('state')}', 需要 'approved'")
+
+    # Patch-005: 走统一写入门
+    passed, reasons = validate_promotion_authority(candidate)
+    if not passed:
+        print(f"  ⛔ SOUL.md 写入拒绝: {'; '.join(reasons)}")
         return False
+
     if dry_run:
         print(f"  [DRY RUN] 写入 SOUL.md: {rule_text}")
         return True
@@ -200,28 +231,16 @@ def promote_to_soulmd(candidate: dict, dry_run: bool = False) -> bool:
 # ── Core: promote ──
 
 def promote(candidate: dict, dry_run: bool = False, write_soul: bool = False) -> bool:
-    """升级候选规则 — 需先经过 approved 状态"""
-    # Patch-001: approval gate
-    if candidate.get('state') != 'approved':
-        print(f"  ⛔ 升级拒绝: state='{candidate.get('state')}', 需要 'approved'")
+    """升级候选规则 — 通过 unified gate 验证"""
+    # Patch-005: 走统一写入门
+    passed, reasons = validate_promotion_authority(candidate)
+    if not passed:
+        print(f"  ⛔ 升级拒绝: {'; '.join(reasons)}")
         return False
 
     category = candidate.get('category', 'interaction')
     rule_text = candidate.get('candidate', '')
     if not rule_text:
-        return False
-
-    # Patch-003: check evidence
-    missing = _check_evidence(candidate)
-    if missing:
-        print(f"  ⛔ 证据契约缺失: {', '.join(missing)}")
-        return False
-
-    # Patch-004: provenance
-    provenance_issues = _enforce_provenance(candidate)
-    if provenance_issues:
-        for issue in provenance_issues:
-            print(f"  ⛔ {issue}")
         return False
 
     if dry_run:

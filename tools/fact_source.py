@@ -100,6 +100,26 @@ def _infer_domain(title: str, content_lines: list[str]) -> str:
     return 'general'
 
 
+# —— Patch-006: Provenance Status ——
+
+def get_provenance_status(fact: dict) -> str:
+    """
+    返回事实的 provenance 状态。
+
+    原则：不对历史数据进行静默降级，只标注 provenance 可观测性。
+
+    Returns:
+        'valid'   — source_event 存在
+        'manual'  — 无 source_event 但有 manual_reason
+        'missing' — 无 source_event 且无 manual_reason（历史遗留）
+    """
+    if fact.get('source_event'):
+        return 'valid'
+    if fact.get('manual_reason'):
+        return 'manual'
+    return 'missing'
+
+
 # —— 读取 ——
 
 def _scan_facts() -> list[dict]:
@@ -115,6 +135,11 @@ def _scan_facts() -> list[dict]:
             all_facts.extend(_parse_jsonl(f))
         elif f.name.endswith('.md'):
             all_facts.extend(_parse_md(f))
+
+    # Patch-006: 为每条事实标注 provenance_status
+    for fact in all_facts:
+        fact['provenance_status'] = get_provenance_status(fact)
+
     return all_facts
 
 
@@ -125,6 +150,7 @@ def query_facts(
     confidence: Optional[str] = None,
     keyword: Optional[str] = None,
     source_event: Optional[str] = None,
+    provenance: Optional[str] = None,
     limit: Optional[int] = None,
 ) -> list[dict]:
     """
@@ -135,6 +161,7 @@ def query_facts(
         confidence: 置信度过滤 (high / medium / low)
         keyword: 内容关键词
         source_event: 来源事件 ID
+        provenance: provenance 过滤 (valid / manual / missing)
         limit: 返回条数上限
 
     Returns:
@@ -151,9 +178,10 @@ def query_facts(
         facts = [f for f in facts if kw in f.get('content', '').lower()]
     if source_event:
         facts = [f for f in facts if f.get('source_event') == source_event]
+    if provenance:
+        facts = [f for f in facts if f.get('provenance_status') == provenance.lower()]
 
-    # 按置信度排序: high > medium > low
-    conf_order = {'high': 0, 'medium': 1, 'low': 2}
+    conf_order = {'high': 0, 'medium': 1, 'low': 2, 'candidate': 3}
     facts.sort(key=lambda f: conf_order.get(f.get('confidence', 'low'), 3))
 
     if limit:
@@ -189,6 +217,16 @@ def count_facts(**kwargs) -> int:
     return len(query_facts(**kwargs))
 
 
+def get_provenance_stats() -> dict:
+    """统计 provenance 状态分布。"""
+    facts = _scan_facts()
+    stats = {'valid': 0, 'manual': 0, 'missing': 0}
+    for f in facts:
+        status = f.get('provenance_status', 'missing')
+        stats[status] = stats.get(status, 0) + 1
+    return stats
+
+
 # —— CLI ——
 
 if __name__ == '__main__':
@@ -198,10 +236,12 @@ if __name__ == '__main__':
     parser.add_argument('--confidence', help='置信度过滤 (high/medium/low)')
     parser.add_argument('--keyword', help='内容关键词')
     parser.add_argument('--source-event', help='来源事件 ID')
+    parser.add_argument('--provenance', help='Provenance 过滤 (valid/manual/missing)')
     parser.add_argument('--limit', type=int, default=20, help='输出条数上限')
     parser.add_argument('--get', help='按 fact_id 查询')
     parser.add_argument('--source-of', help='获取事实的来源事件')
     parser.add_argument('--count', action='store_true', help='仅计数')
+    parser.add_argument('--provenance-stats', action='store_true', help='Provenance 统计')
     args = parser.parse_args()
 
     if args.get:
@@ -210,12 +250,15 @@ if __name__ == '__main__':
     elif args.source_of:
         ev = get_source_event(args.source_of)
         print(json.dumps(ev, ensure_ascii=False) if ev else 'null')
+    elif args.provenance_stats:
+        print(json.dumps(get_provenance_stats(), ensure_ascii=False, indent=2))
     elif args.count:
         print(json.dumps({
             "total": count_facts(
                 domain=args.domain,
                 confidence=args.confidence,
                 keyword=args.keyword,
+                provenance=args.provenance,
             ),
         }, ensure_ascii=False))
     else:
@@ -224,6 +267,7 @@ if __name__ == '__main__':
             confidence=args.confidence,
             keyword=args.keyword,
             source_event=args.source_event,
+            provenance=args.provenance,
             limit=args.limit,
         )
         print(json.dumps(results, ensure_ascii=False, indent=2))

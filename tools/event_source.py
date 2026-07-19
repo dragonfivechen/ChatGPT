@@ -228,6 +228,25 @@ def _scan_events(agent: Optional[str] = None, days: Optional[int] = None, includ
     return all_events
 
 
+# —— Patch-011: Authority Guard ——
+
+def assert_event_authority(event: dict) -> None:
+    """
+    确认事件 authority_source 为 'event'，防止 category 误用于治理决策。
+
+    调用方（promotion/persistence/replay）应在基于事件 category
+    做出决策前调用此函数。
+
+    Raises:
+        ValueError: 如果 authority_source 不是 'event'
+    """
+    if event.get('authority_source') != 'event':
+        raise ValueError(
+            f"Invalid authority_source: '{event.get('authority_source')}'. "
+            f"Expected 'event'. category '{event.get('category')}' cannot drive governance decisions."
+        )
+
+
 # —— 公共 API ——
 
 def query_events(

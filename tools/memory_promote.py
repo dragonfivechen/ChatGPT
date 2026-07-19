@@ -80,7 +80,7 @@ def load_candidates() -> list:
 def save_candidate(candidate: dict):
     """写回候选文件"""
     out_path = CANDIDATES_DIR / f"{candidate['id']}.json"
-    with open(out_path, 'w') as f:
+    with open(out_path, 'w', encoding='utf-8') as f:
         json.dump(candidate, f, ensure_ascii=False, indent=2)
 
 

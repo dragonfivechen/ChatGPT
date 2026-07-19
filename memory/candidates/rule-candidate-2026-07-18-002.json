@@ -1,0 +1,14 @@
+{
+  "id": "rule-candidate-2026-07-18-002",
+  "source_event": "/home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-18.md",
+  "source_line": 63,
+  "agent": "huo",
+  "date": "2026-07-18",
+  "category": "interaction",
+  "feedback_type": "correction_explicit",
+  "candidate": "求 → 直接执行",
+  "confidence": 0.75,
+  "score": 0.595,
+  "hit_count": 1,
+  "status": "deduped"
+}

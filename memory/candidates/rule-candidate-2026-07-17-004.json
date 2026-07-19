@@ -1,0 +1,15 @@
+{
+  "id": "rule-candidate-2026-07-17-004",
+  "source_event": "/home/dragonfive/.openclaw/workspace/memory/events/jin/2026-07-17.md",
+  "source_line": 239,
+  "agent": "jin",
+  "date": "2026-07-17",
+  "category": "interaction",
+  "feedback_type": "correction_explicit",
+  "candidate": "- 没有证据，不要给根因",
+  "confidence": 0.8,
+  "score": 0.61,
+  "hit_count": 1,
+  "status": "approved",
+  "archived_at": "2026-07-20 02:09"
+}

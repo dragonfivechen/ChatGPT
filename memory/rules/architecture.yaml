@@ -1,0 +1,22 @@
+# architecture.yaml — 架构治理规则
+# 自动管理，手动修改会被治理管道覆盖
+rules:
+  - rule: 暂无规则
+    source: system_init
+    promoted: '2026-07-20'
+    score: 0
+  - rule: 单任务失败不阻断后续链路（失败隔离 > 级联失败）
+    source: /home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-19.md
+    promoted: 2026-07-20 01:03
+    score: 0.775
+    hit_count: 7
+  - rule: 跨天边界的相对时间表达需要绝对时间校验
+    source: /home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-20.md
+    promoted: 2026-07-20 01:03
+    score: 0.645
+    hit_count: 1
+  - rule: 事实声明必须有来源，推理判断标明推理性质
+    source: /home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-18.md
+    promoted: 2026-07-20 01:03
+    score: 0.58
+    hit_count: 1

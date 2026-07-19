@@ -1,0 +1,15 @@
+{
+  "id": "rule-candidate-2026-07-18-001",
+  "source_event": "/home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-18.md",
+  "source_line": 51,
+  "agent": "huo",
+  "date": "2026-07-18",
+  "category": "interaction",
+  "feedback_type": "correction_explicit",
+  "candidate": "输出可能、好像等不确定内容",
+  "confidence": 0.9,
+  "score": 0.64,
+  "hit_count": 1,
+  "status": "approved",
+  "archived_at": "2026-07-20 01:03"
+}

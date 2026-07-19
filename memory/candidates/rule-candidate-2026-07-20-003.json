@@ -1,0 +1,14 @@
+{
+  "id": "rule-candidate-2026-07-20-003",
+  "source_event": "/home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-20.md",
+  "source_line": 10,
+  "agent": "huo",
+  "date": "2026-07-20",
+  "category": "interaction",
+  "feedback_type": "correction_explicit",
+  "candidate": "自然语言时间表达不应直接使用\"今天/明天/昨天\"语义",
+  "confidence": 0.7,
+  "score": 0.58,
+  "hit_count": 1,
+  "status": "deduped"
+}

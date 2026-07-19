@@ -1,0 +1,20 @@
+{
+  "id": "rule-candidate-2026-07-20-004",
+  "source_event": "/home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-20.md",
+  "source_line": 38,
+  "agent": "huo",
+  "date": "2026-07-20",
+  "category": "interaction",
+  "feedback_type": "principle",
+  "candidate": "把\"观察\"变成\"延期修复\"",
+  "confidence": 0.95,
+  "score": 0.825,
+  "hit_count": 23,
+  "status": "approved",
+  "merged_group": [
+    "rule-candidate-2026-07-20-004",
+    "rule-candidate-2026-07-20-005",
+    "rule-candidate-2026-07-20-006"
+  ],
+  "archived_at": "2026-07-20 03:00"
+}

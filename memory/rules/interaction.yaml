@@ -1,0 +1,39 @@
+# interaction.yaml — 交互行为规则
+# 自动管理，手动修改会被治理管道覆盖
+rules:
+- rule: 暂无规则
+  source: system_init
+  promoted: '2026-07-20'
+  score: 0
+- rule: 不确定性必须有来源或依据，不禁止具体用词
+  source: /home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-18.md
+  promoted: 2026-07-20 01:03
+  score: 0.64
+  hit_count: 1
+- rule: 关键结论必须有可验证依据，不需要暴露全部内部推理过程
+  source: /home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-18.md
+  promoted: 2026-07-20 01:03
+  score: 0.61
+  hit_count: 1
+- rule: 禁止 exfiltrate 私有数据
+  source: /home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-18.md
+  promoted: 2026-07-20 01:03
+  score: 0.64
+  hit_count: 1
+- rule: '- 没有证据，不要给根因'
+  source: /home/dragonfive/.openclaw/workspace/memory/events/jin/2026-07-17.md
+  promoted: 2026-07-20 02:09
+  score: 0.61
+  hit_count: 1
+- rule: 单任务失败不阻断后续链路
+  source: /home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-19.md
+  promoted: 2026-07-20 02:09
+  score: 0.825
+  hit_count: 43
+  last_updated: 2026-07-20 03:00
+- rule: 把"观察"变成"延期修复"
+  source: /home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-20.md
+  promoted: 2026-07-20 02:09
+  score: 0.825
+  hit_count: 71
+  last_updated: 2026-07-20 03:00

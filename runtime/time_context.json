@@ -1,0 +1,12 @@
+{
+  "timestamp_iso": "2026-07-20T03:10:01+0800",
+  "timestamp_cst": "2026-07-20 03:10 CST",
+  "date": "2026-07-20",
+  "time": "03:10",
+  "hour": 3,
+  "minute": 10,
+  "weekday": "Monday",
+  "weekday_cn": "星期一",
+  "timezone": "Asia/Shanghai (UTC+8)",
+  "unix_ts": 1784488201
+}

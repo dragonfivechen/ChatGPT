@@ -1,0 +1,16 @@
+{
+  "id": "rule-candidate-2026-07-19-001",
+  "source_event": "/home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-19.md",
+  "source_line": 13,
+  "agent": "huo",
+  "date": "2026-07-19",
+  "category": "interaction",
+  "feedback_type": "principle",
+  "candidate": "原则: 单任务失败不阻断后续链路",
+  "confidence": 0.75,
+  "score": 0.0,
+  "hit_count": 1,
+  "status": "duplicate",
+  "merged_into": "rule-candidate-2026-07-19-000",
+  "notes": "合并至 rule-candidate-2026-07-19-000"
+}

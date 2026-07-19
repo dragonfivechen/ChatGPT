@@ -1,0 +1,14 @@
+{
+  "id": "rule-candidate-2026-07-20-002",
+  "source_event": "/home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-20.md",
+  "source_line": 9,
+  "agent": "huo",
+  "date": "2026-07-20",
+  "category": "architecture",
+  "feedback_type": "principle",
+  "candidate": "跨天边界（00:00~事件时间之间）的相对时间表达需要绝对时间校验",
+  "confidence": 0.75,
+  "score": 0.645,
+  "hit_count": 1,
+  "status": "deduped"
+}

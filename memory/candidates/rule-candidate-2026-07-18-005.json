@@ -1,0 +1,15 @@
+{
+  "id": "rule-candidate-2026-07-18-005",
+  "source_event": "/home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-18.md",
+  "source_line": 80,
+  "agent": "huo",
+  "date": "2026-07-18",
+  "category": "interaction",
+  "feedback_type": "correction_explicit",
+  "candidate": "exfiltrate 私有数据",
+  "confidence": 0.9,
+  "score": 0.64,
+  "hit_count": 1,
+  "status": "approved",
+  "archived_at": "2026-07-20 01:03"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "rule-candidate-2026-07-17-003",
+  "source_event": "/home/dragonfive/.openclaw/workspace/memory/events/jin/2026-07-17.md",
+  "source_line": 235,
+  "agent": "jin",
+  "date": "2026-07-17",
+  "category": "interaction",
+  "feedback_type": "correction_explicit",
+  "candidate": "显式重新 enable",
+  "confidence": 0.75,
+  "score": 0.595,
+  "hit_count": 1,
+  "status": "deduped"
+}

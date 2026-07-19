@@ -1,0 +1,15 @@
+{
+  "id": "rule-candidate-2026-07-20-000",
+  "source_event": "/home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-20.md",
+  "source_line": 14,
+  "agent": "huo",
+  "date": "2026-07-20",
+  "category": "interaction",
+  "feedback_type": "principle",
+  "candidate": "审计缺口处理方式 (2026-07-20 00:58)",
+  "confidence": 0.95,
+  "score": 0.625,
+  "hit_count": 1,
+  "status": "approved",
+  "archived_at": "2026-07-20 00:58"
+}

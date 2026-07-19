@@ -1,0 +1,14 @@
+{
+  "id": "rule-candidate-2026-07-17-000",
+  "source_event": "/home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-17.md",
+  "source_line": 23,
+  "agent": "huo",
+  "date": "2026-07-17",
+  "category": "architecture",
+  "feedback_type": "principle",
+  "candidate": "用证据证明能力边界",
+  "confidence": 0.75,
+  "score": 0.645,
+  "hit_count": 1,
+  "status": "deduped"
+}

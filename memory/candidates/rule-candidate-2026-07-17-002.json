@@ -1,0 +1,14 @@
+{
+  "id": "rule-candidate-2026-07-17-002",
+  "source_event": "/home/dragonfive/.openclaw/workspace/memory/events/jin/2026-07-17.md",
+  "source_line": 57,
+  "agent": "jin",
+  "date": "2026-07-17",
+  "category": "project",
+  "feedback_type": "principle",
+  "candidate": "新增 `LOTTERY-PREDICTION-CONTRACT.md` — 预测格式/验证规则/能力依赖",
+  "confidence": 0.75,
+  "score": 0.605,
+  "hit_count": 1,
+  "status": "deduped"
+}

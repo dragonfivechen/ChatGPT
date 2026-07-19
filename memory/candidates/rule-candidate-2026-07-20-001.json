@@ -1,0 +1,19 @@
+{
+  "id": "rule-candidate-2026-07-20-001",
+  "source_event": "/home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-20.md",
+  "source_line": 33,
+  "agent": "huo",
+  "date": "2026-07-20",
+  "category": "interaction",
+  "feedback_type": "principle",
+  "candidate": "作为阻止动作的状态",
+  "confidence": 0.95,
+  "score": 0.825,
+  "hit_count": 23,
+  "status": "deduped",
+  "merged_group": [
+    "rule-candidate-2026-07-20-001",
+    "rule-candidate-2026-07-20-002-1",
+    "rule-candidate-2026-07-20-003-1"
+  ]
+}

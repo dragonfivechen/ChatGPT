@@ -1,0 +1,14 @@
+{
+  "id": "rule-candidate-2026-07-20-001-1",
+  "source_event": "/home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-20.md",
+  "source_line": 8,
+  "agent": "huo",
+  "date": "2026-07-20",
+  "category": "interaction",
+  "feedback_type": "principle",
+  "candidate": "关联: Interaction Governance 缺口 — 闭环后填充行为无规则约束",
+  "confidence": 0.75,
+  "score": 0.565,
+  "hit_count": 1,
+  "status": "deduped"
+}

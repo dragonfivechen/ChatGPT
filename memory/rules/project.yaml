@@ -1,0 +1,7 @@
+# project.yaml — 项目级规则
+# 自动管理，手动修改会被治理管道覆盖
+rules:
+  - rule: "暂无规则"
+    source: "system_init"
+    promoted: "2026-07-20"
+    score: 0

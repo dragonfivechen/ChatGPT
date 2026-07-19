@@ -1,0 +1,14 @@
+{
+  "id": "rule-candidate-2026-07-20-000-1",
+  "source_event": "/home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-20.md",
+  "source_line": 7,
+  "agent": "huo",
+  "date": "2026-07-20",
+  "category": "interaction",
+  "feedback_type": "correction_explicit",
+  "candidate": "判定: 违反 SOUL.md 铁律 #1 — \"仅限直接结果输出",
+  "confidence": 0.7,
+  "score": 0.58,
+  "hit_count": 1,
+  "status": "deduped"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "rule-candidate-2026-07-18-006",
+  "source_event": "/home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-18.md",
+  "source_line": 103,
+  "agent": "huo",
+  "date": "2026-07-18",
+  "category": "interaction",
+  "feedback_type": "correction_explicit",
+  "candidate": "冻结保护基线稳定，不禁止审计缺口修复。观察不用于延迟已确认缺口修复。",
+  "confidence": 0.8,
+  "score": 0.61,
+  "hit_count": 1,
+  "status": "approved",
+  "archived_at": "2026-07-20 01:03"
+}

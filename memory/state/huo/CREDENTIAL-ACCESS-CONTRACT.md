@@ -127,7 +127,50 @@ PASS:
 
 ---
 
-## 9. Contract Evolution
+## 9. Credential Lifecycle
+
+### Validity
+
+Credential 有效性不是永恒状态。使用前需确认：
+
+```text
+- credential exists
+- scope matches target repository
+- operation is git push only
+```
+
+### Failure Classification
+
+`push failed` 不一定是网络错误。按类型区分：
+
+```text
+Authentication Failure
+  ├── token missing / empty
+  ├── token expired
+  ├── token revoked
+  ├── permission denied
+  └── scope mismatch
+```
+
+### Rotation Rule
+
+```text
+credential invalid
+     ↓
+replace in .secrets/push-gate.json
+     ↓
+retry push
+     ↓
+cleanup residue
+     ↓
+verify remote clean
+```
+
+不追溯、不回滚、不修改已推送的 commit。
+
+---
+
+## 10. Contract Evolution
 
 ```text
 Baseline: v1.0 (2026-07-20)

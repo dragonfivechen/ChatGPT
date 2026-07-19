@@ -70,7 +70,7 @@ def load_candidates() -> list:
     cands = []
     for f in sorted(CANDIDATES_DIR.glob('rule-candidate-*.json')):
         try:
-            with open(f) as fh:
+            with open(f, encoding='utf-8') as fh:
                 cands.append(json.load(fh))
         except json.JSONDecodeError:
             pass
@@ -90,7 +90,7 @@ def load_rules(category: str) -> dict:
         return {'rules': []}
     try:
         import yaml
-        with open(target) as fh:
+        with open(target, encoding='utf-8') as fh:
             data = yaml.safe_load(fh)
         if data and isinstance(data, dict):
             return data
@@ -249,7 +249,7 @@ def promote_to_soulmd(candidate: dict, dry_run: bool = False) -> bool:
         print(f"  [DRY RUN] 写入 SOUL.md: {rule_text}")
         return True
     soul_path = WORKSPACE / 'SOUL.md'
-    with open(soul_path, 'a') as f:
+    with open(soul_path, 'a', encoding='utf-8') as f:
         f.write(f"\n- {rule_text}  # {candidate['id']}\n")
     print(f"  ✅ 已写入 SOUL.md")
     return True

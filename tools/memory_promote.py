@@ -258,7 +258,13 @@ def promote_to_soulmd(candidate: dict, dry_run: bool = False) -> bool:
 # ── Core: promote ──
 
 def promote(candidate: dict, dry_run: bool = False, write_soul: bool = False) -> bool:
-    """升级候选规则 — 通过 unified gate 验证"""
+    """升级候选规则 — review_gate → unified authority gate → write"""
+    # Patch-023: 先过 review_gate（文本/长度/state 初筛）
+    passed, reasons = review_gate(candidate)
+    if not passed:
+        print(f"  ⛔ 升级拒绝: review_gate: {', '.join(reasons)}")
+        return False
+
     # Patch-005: 走统一写入门
     passed, reasons = validate_promotion_authority(candidate)
     if not passed:
@@ -373,15 +379,17 @@ def main():
             print(f"未找到: {sys.argv[2]}")
             sys.exit(1)
         c = found[0]
-        # 自动填充 evidence 字段（留空则提示）
+        # Patch-022: 必需 evidence 字段由调用方提供，不自动填充
         if not c.get('validator'):
             c['validator'] = 'system'
         if not c.get('approved_at'):
             c['approved_at'] = datetime.now().strftime('%Y-%m-%d %H:%M')
         if not c.get('promotion_id'):
-            c['promotion_id'] = f"promote-{c['id']}"
+            print(f"  ⛔ 审批拒绝: promotion_id 缺失，approval 不自动生成 evidence")
+            sys.exit(1)
         if not c.get('approval_reason'):
-            c['approval_reason'] = '(待填写)'
+            print(f"  ⛔ 审批拒绝: approval_reason 缺失，approval 不自动生成 evidence")
+            sys.exit(1)
         transition(c, 'approved')
         return
 

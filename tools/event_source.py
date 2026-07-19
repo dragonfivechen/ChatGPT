@@ -249,6 +249,38 @@ def assert_event_authority(event: dict) -> None:
 
 # —— 公共 API ——
 
+def query_authoritative_events(
+    start_time: Optional[str] = None,
+    end_time: Optional[str] = None,
+    agent: Optional[str] = None,
+    category: Optional[str] = None,
+    keyword: Optional[str] = None,
+    limit: Optional[int] = None,
+    days: Optional[int] = None,
+    payload: bool = False,
+) -> list[dict]:
+    """
+    Patch-013: 强制鉴权的事件查询。校验所有返回事件的 authority_source。
+
+    与 query_events() 参数相同，但每一条返回事件都会经过
+    assert_event_authority() 确认。
+    消费者应优先使用此 API 而非裸 query_events()。
+    """
+    events = query_events(
+        start_time=start_time,
+        end_time=end_time,
+        agent=agent,
+        category=category,
+        keyword=keyword,
+        limit=limit,
+        days=days,
+        payload=payload,
+    )
+    for evt in events:
+        assert_event_authority(evt)
+    return events
+
+
 def query_events(
     start_time: Optional[str] = None,
     end_time: Optional[str] = None,

@@ -99,7 +99,24 @@ def load_rules(category: str) -> dict:
     return {'rules': []}
 
 
+def _validate_rule_record(rule: dict) -> list[str]:
+    """Patch-012: 验证最终规则对象字段完整性后再保存。"""
+    required = ['source', 'promotion_id', 'validator', 'approved_at', 'approval_reason']
+    missing = [f for f in required if not rule.get(f)]
+    return missing
+
+
 def save_rules(category: str, rules_data: dict):
+    """保存规则到 YAML，写入前对每条规则做结构验证。"""
+    rules = rules_data.get('rules', [])
+    for rule in rules:
+        missing = _validate_rule_record(rule)
+        if missing:
+            raise ValueError(
+                f"Rule persistence contract violation: missing {', '.join(missing)}. "
+                f"Rule content: {rule.get('rule', '')[:60]}"
+            )
+
     target = RULE_FILES[category]
     import yaml
     import io

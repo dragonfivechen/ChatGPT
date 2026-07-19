@@ -223,7 +223,7 @@ def query_facts(
     if limit:
         facts = facts[:limit]
 
-    return facts
+    return copy.deepcopy(facts)
 
 
 def get_fact(fact_id: str) -> Optional[dict]:
@@ -231,7 +231,7 @@ def get_fact(fact_id: str) -> Optional[dict]:
     facts = _scan_facts()
     for f in facts:
         if f.get('fact_id') == fact_id:
-            return f
+            return copy.deepcopy(f)
     return None
 
 

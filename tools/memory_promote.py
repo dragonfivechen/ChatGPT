@@ -23,6 +23,18 @@ import json, sys
 from pathlib import Path
 from datetime import datetime
 
+# Patch-030: candidate parse error tracking
+_candidate_load_errors = []
+
+
+def get_candidate_load_errors() -> list:
+    return list(_candidate_load_errors)
+
+
+def reset_candidate_load_errors():
+    _candidate_load_errors.clear()
+
+
 WORKSPACE = Path.home() / '.openclaw' / 'workspace'
 CANDIDATES_DIR = WORKSPACE / 'memory' / 'candidates'
 RULES_DIR = WORKSPACE / 'memory' / 'rules'
@@ -65,6 +77,7 @@ def init_rules_dir():
 
 
 def load_candidates() -> list:
+    reset_candidate_load_errors()
     if not CANDIDATES_DIR.exists():
         return []
     cands = []
@@ -72,8 +85,12 @@ def load_candidates() -> list:
         try:
             with open(f, encoding='utf-8') as fh:
                 cands.append(json.load(fh))
-        except json.JSONDecodeError:
-            pass
+        except json.JSONDecodeError as e:
+            _candidate_load_errors.append({
+                'file': str(f),
+                'error': str(e),
+            })
+            continue
     return cands
 
 

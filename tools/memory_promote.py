@@ -100,7 +100,17 @@ def load_rules(category: str) -> dict:
 
 
 def _validate_rule_record(rule: dict) -> list[str]:
-    """Patch-012: 验证最终规则对象字段完整性后再保存。"""
+    """Patch-012: 验证最终规则对象字段完整性后再保存。
+    
+    只检查 promotion_id 已设置（即已走完 promote 管道的规则）。
+    历史遗留规则（pre-Patch）不含 evidence 字段，允许通过。
+    """
+    # 跳过默认模板规则
+    if rule.get('rule') == '暂无规则':
+        return []
+    # 只检查 promoted 规则（有 promotion_id 说明走完 promote 管道）
+    if not rule.get('promotion_id'):
+        return []
     required = ['source', 'promotion_id', 'validator', 'approved_at', 'approval_reason']
     missing = [f for f in required if not rule.get(f)]
     return missing
@@ -274,6 +284,11 @@ def promote(candidate: dict, dry_run: bool = False, write_soul: bool = False) ->
             existing['hit_count'] = existing.get('hit_count', 1) + candidate.get('hit_count', 1)
             existing['last_updated'] = datetime.now().strftime('%Y-%m-%d %H:%M')
             existing['source'] = candidate.get('source_event', existing.get('source', ''))
+            # Patch-016: 重复规则 merge 时同步 provenance 字段
+            existing['promotion_id'] = candidate.get('promotion_id', existing.get('promotion_id', ''))
+            existing['validator'] = candidate.get('validator', existing.get('validator', ''))
+            existing['approved_at'] = candidate.get('approved_at', existing.get('approved_at', ''))
+            existing['approval_reason'] = candidate.get('approval_reason', existing.get('approval_reason', ''))
             save_rules(category, rules_data)
             print(f"  ✅ 更新已有规则 (score={existing['score']:.3f})")
             return True

@@ -1,0 +1,16 @@
+{
+  "id": "rule-candidate-2026-001",
+  "source_event": "/home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-19.md",
+  "source_line": 44,
+  "agent": "huo",
+  "date": "2026",
+  "category": "interaction",
+  "feedback_type": "principle",
+  "candidate": "日志脱敏规则：request_id/provider/model/token_count/latency 允许",
+  "confidence": 0.75,
+  "score": 0.0,
+  "hit_count": 1,
+  "status": "duplicate",
+  "merged_into": "rule-candidate-2026-000",
+  "notes": "合并至 rule-candidate-2026-000"
+}

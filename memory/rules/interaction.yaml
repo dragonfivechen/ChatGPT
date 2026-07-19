@@ -29,11 +29,25 @@ rules:
   source: /home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-19.md
   promoted: 2026-07-20 02:09
   score: 0.825
-  hit_count: 43
-  last_updated: 2026-07-20 03:00
+  hit_count: 57
+  last_updated: 2026-07-20 03:30
 - rule: 把"观察"变成"延期修复"
   source: /home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-20.md
   promoted: 2026-07-20 02:09
   score: 0.825
-  hit_count: 71
-  last_updated: 2026-07-20 03:00
+  hit_count: 96
+  last_updated: 2026-07-20 03:30
+- rule: request_id/provider/model/token_count/latency 允许
+  source: /home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-19.md
+  promoted: 2026-07-20 03:30
+  score: 0.684
+  hit_count: 2
+- rule: test soul evidence full
+  source: evt-007
+  promoted: 2026-07-20 03:40
+  score: 0.85
+  hit_count: 1
+  promotion_id: p007
+  validator: human
+  approved_at: '2026-07-20'
+  approval_reason: confirmed

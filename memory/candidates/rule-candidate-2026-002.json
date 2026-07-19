@@ -1,0 +1,14 @@
+{
+  "id": "rule-candidate-2026-002",
+  "source_event": "/home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-19.md",
+  "source_line": 99,
+  "agent": "huo",
+  "date": "2026",
+  "category": "interaction",
+  "feedback_type": "correction_explicit",
+  "candidate": "插件绕过 Context Builder 直接注入",
+  "confidence": 0.7,
+  "score": 0.58,
+  "hit_count": 1,
+  "status": "deduped"
+}

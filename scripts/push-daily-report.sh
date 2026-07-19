@@ -4,7 +4,79 @@
 set -euo pipefail
 
 BASE="$HOME/.openclaw/workspace/memory/data/system"
-HUO="$HOME/.openclaw/workspace/memory/events/huo"
+# HUO removed — event reads go through Event Reader
+PUSH="$HOME/.openclaw/workspace/hooks/oek-ci-gate/push-notify.mjs"
+DATE=$(TZ='Asia/Shanghai' date +"%Y-%m-%d %H:%M")
+TITLE="📊 传感器日报 — ${DATE}"
+
+# ── 系统健康 (最新一条) ──
+SYS=$(tail -1 "$BASE/system-health.jsonl" 2>/dev/null | python3 -c "
+import sys,json
+try:
+    d=json.load(sys.stdin)
+    print(f\"CPU: {d['cpu_pct']}% | MEM: {d['mem_mb']}MB | DISK: {d['disk_pct']} | LOAD: {d['load']}\")
+except:
+    print('N/A')
+" 2>/dev/null || echo "N/A")
+
+# ── 服务状态 (读取整个文件，按service分组取最新) ──
+SVC_DATA=$(python3 -c "
+import json
+with open('$BASE/service-state.jsonl') as f:
+    lines=[l.strip() for l in f if l.strip() and not l.startswith('#')]
+gw='N/A'
+ol='N/A'
+for l in lines:
+    try:
+        d=json.loads(l)
+        if d['service']=='openclaw-gateway':
+            gw=f\"Gateway: {d['status']} (restarts: {d['restarts']})\"
+        elif d['service']=='ollama':
+            ol=f\"Ollama: {d['status']} (restarts: {d['restarts']})\"
+    except:
+        pass
+print(gw)
+print(ol)
+" 2>/dev/null)
+GW=$(echo "$SVC_DATA" | head -1)
+OL=$(echo "$SVC_DATA" | tail -1)
+
+# ── 记忆快照 ──
+MEM=$(tail -1 "$BASE/memory-snapshot.jsonl" 2>/dev/null | python3 -c "
+import sys,json
+try:
+    d=json.load(sys.stdin)
+    print(f\"文件: {d['mem_file_count']} | 大小: {d['mem_dir_kb']}KB | 跨度: {d['oldest_day']} ~ {d['newest_day']}\")
+except:
+    print('N/A')
+" 2>/dev/null || echo "N/A")
+
+# ── 模型评估 (当天汇总，通过 Event Reader) ──
+EVENT_READER="$HOME/.openclaw/workspace/tools/event_source.py"
+EVAL=$($EVENT_READER --agent huo --days 1 --payload 2>/dev/null | python3 -c "
+import sys, json
+now = __import__('datetime').datetime.now().strftime('%Y-%m-%d')
+entries = json.load(sys.stdin)
+today_e = [e for e in entries if e.get('timestamp','')[:10]==now]
+if not today_e:
+    print('今日无评估数据')
+else:
+    total=len(today_e)
+    succ=sum(1 for e in today_e if e.get('payload',{}).get('success'))
+    lat=[e['payload']['latency_ms'] for e in today_e if e.get('payload',{}).get('latency_ms')]
+    avg=sum(lat)/len(lat)/1000 if lat else 0
+    cpu=[e['payload'].get('cpu_peak_pct',0) for e in today_e]
+    mem=[e['payload'].get('mem_peak_mb',0) for e in today_e]
+    avg_cpu=sum(cpu)/len(cpu) if cpu else 0
+    peak_mem=max(mem) if mem else 0
+    print(f"任务: {total}次 | 成功: {succ}/{total} | 平均延迟: {avg:.1f}s | CPU峰值: {avg_cpu:.0f}% | 内存峰值: {peak_mem}MB")
+" 2>/dev/null || echo "N/A") bash
+# 传感器日报 — 每日推送系统状态到 Telegram
+# 依赖: push-notify.mjs (通过 push-gate 统一出口)
+set -euo pipefail
+
+BASE="$HOME/.openclaw/workspace/memory/data/system"
+# HUO removed — event reads go through Event Reader
 PUSH="$HOME/.openclaw/workspace/hooks/oek-ci-gate/push-notify.mjs"
 DATE=$(TZ='Asia/Shanghai' date +"%Y-%m-%d %H:%M")
 TITLE="📊 传感器日报 — ${DATE}"

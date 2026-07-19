@@ -45,23 +45,26 @@ gen_log_summary() {
   echo "{\"type\":\"log_summary\",\"prompt\":$(echo "$prompt" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read().strip()))")}"
 }
 
-# Task 4: 配置文件解释（简短片段）
+# Task 4: 配置文件解释（简短片段，通过 Config Reader）
 gen_config_explain() {
-  local config_path="$HOME/.openclaw/openclaw.json"
-  if [ ! -f "$config_path" ]; then
-    echo '{"type":"config_explain","prompt":"暂无配置文件"}'
+  local reader="$HOME/.openclaw/workspace/tools/config_source.py"
+  if [ ! -f "$reader" ]; then
+    echo '{"type":"config_explain","prompt":"暂无配置读取器"}'
     return
   fi
   local snippet=$(python3 -c "
-import json
-with open('$config_path') as f:
-    c = json.load(f)
-prov = c.get('models',{}).get('providers',{})
-out = {}
-for pid in list(prov.keys())[:1]:
-    p = prov[pid]
-    out[pid] = {k: p.get(k) for k in ['type','baseUrl'] if k in p}
-print(json.dumps(out, indent=2))
+import json, subprocess
+r = subprocess.run(['python3', '$reader', '--key', 'models.providers'], capture_output=True, text=True)
+if r.returncode != 0:
+    print('获取配置失败')
+else:
+    d = json.loads(r.stdout)
+    prov = d.get('value', {})
+    out = {}
+    for pid in list(prov.keys())[:1]:
+        p = prov[pid]
+        out[pid] = {k: p.get(k) for k in ['api','baseUrl'] if k in p}
+    print(json.dumps(out, indent=2))
 " 2>/dev/null || echo "获取配置失败")
   local prompt="解释以下配置项的作用（一句话）：${snippet}"
   echo "{\"type\":\"config_explain\",\"prompt\":$(echo "$prompt" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read().strip()))")}"

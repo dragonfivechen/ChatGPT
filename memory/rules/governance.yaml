@@ -1,22 +1,22 @@
 # governance.yaml — 治理原则
 # 自动管理，手动修改会被治理管道覆盖
 rules:
-  - rule: 暂无规则
-    source: system_init
-    promoted: '2026-07-20'
-    score: 0
-  - rule: 冻结保护基线稳定，不禁止审计缺口修复。观察不用于延迟已确认缺口修复。
-    source: /home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-18.md
-    promoted: 2026-07-20 01:03
-    score: 0.61
-    hit_count: 1
-  - rule: 审计缺口处理方式 — 确认缺口的修复不应被"观察期"延迟
-    source: /home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-20.md
-    promoted: 2026-07-20 01:03
-    score: 0.625
-    hit_count: 1
-  - rule: 已确认审计缺口立即修复，观察用于验证修复效果
-    source: /home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-20.md
-    promoted: 2026-07-20 01:03
-    score: 0.825
-    hit_count: 8
+- rule: 暂无规则
+  source: system_init
+  promoted: '2026-07-20'
+  score: 0
+- rule: 冻结保护基线稳定，不禁止审计缺口修复。观察不用于延迟已确认缺口修复。
+  source: /home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-18.md
+  promoted: 2026-07-20 01:03
+  score: 0.61
+  hit_count: 1
+- rule: 审计缺口处理方式 — 确认缺口的修复不应被"观察期"延迟
+  source: /home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-20.md
+  promoted: 2026-07-20 01:03
+  score: 0.625
+  hit_count: 1
+- rule: 已确认审计缺口立即修复，观察用于验证修复效果
+  source: /home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-20.md
+  promoted: 2026-07-20 01:03
+  score: 0.825
+  hit_count: 8

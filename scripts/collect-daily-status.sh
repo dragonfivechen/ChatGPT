@@ -62,40 +62,37 @@ print(f'{cnt} {total}')
   TOKEN_TOTAL=$(echo "$TOKEN_STATS" | awk '{print $2}')
 fi
 
-# ── 4. Events (past 24h from events/huo) ──
-HUO_DIR="$BASE/memory/events/huo"
-EVENT_FILES=$(find "$HUO_DIR" -name "*.md" -type f 2>/dev/null | wc -l)
-EVENT_TODAY=$(grep -c "${TS}" "$HUO_DIR/${TS}.md" 2>/dev/null || echo "0")
-EVENT_EXCEPTIONS=$(grep -ci "error\|fail\|violation\|abort" "$HUO_DIR/${TS}.md" 2>/dev/null || echo "0")
+# ── 4. Events (past 24h via Event Reader) ──
+EVENT_READER="$BASE/tools/event_source.py"
 
-# ── 5. Ollama Eval status ──
-EVAL_FILE="$BASE/memory/events/huo/ollama-eval.jsonl"
+# 通过 Event Reader 获取今日 huo 事件统计
+HUO_EVENTS=$($EVENT_READER --agent huo --days 1 --count 2>/dev/null | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('total_events',0))" 2>/dev/null || echo 0)
+HUO_EXCEPTIONS=$($EVENT_READER --agent huo --days 1 --keyword error --count 2>/dev/null | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('total_events',0))" 2>/dev/null || echo 0)
+
+# 事件文件计数（文件老化度量，非事件消费）
+EVENT_FILES=$(find "$BASE/memory/events/huo" -name "*.md" -type f 2>/dev/null | wc -l)
+EVENT_TODAY=${HUO_EVENTS}
+EVENT_EXCEPTIONS=${HUO_EXCEPTIONS}
+
+# ── 5. Ollama Eval status (via Event Reader) ──
 EVAL_COUNT=0
 EVAL_SUCCESS=0
 EVAL_LATENCY=0
-if [ -f "$EVAL_FILE" ]; then
-  EVAL_STATS=$(python3 -c "
-import json
-now='$TS'
-entries=[]
-with open('$EVAL_FILE') as f:
-    for line in f:
-        line=line.strip()
-        if not line: continue
-        d=json.loads(line)
-        ts=d.get('timestamp','')
-        if ts[:10]==now:
-            entries.append(d)
-total=len(entries)
-succ=sum(1 for e in entries if e.get('success'))
-lat=[e['latency_ms'] for e in entries if 'latency_ms' in e]
+
+EVAL_EVENTS=$($EVENT_READER --agent huo --days 1 --payload 2>/dev/null | python3 -c "
+import sys, json
+entries = json.load(sys.stdin)
+today='$TS'
+today_e = [e for e in entries if e.get('timestamp','')[:10]==today]
+total=len(today_e)
+succ=sum(1 for e in today_e if e.get('payload',{}).get('success'))
+lat=[e['payload']['latency_ms'] for e in today_e if e.get('payload',{}).get('latency_ms')]
 avg_lat=sum(lat)/len(lat)/1000 if lat else 0
 print(f'{total} {succ} {avg_lat:.1f}')
 " 2>/dev/null || echo "0 0 0")
-  EVAL_COUNT=$(echo "$EVAL_STATS" | awk '{print $1}')
-  EVAL_SUCCESS=$(echo "$EVAL_STATS" | awk '{print $2}')
-  EVAL_LATENCY=$(echo "$EVAL_STATS" | awk '{print $3}')
-fi
+EVAL_COUNT=$(echo "$EVAL_EVENTS" | awk '{print $1}')
+EVAL_SUCCESS=$(echo "$EVAL_EVENTS" | awk '{print $2}')
+EVAL_LATENCY=$(echo "$EVAL_EVENTS" | awk '{print $3}')
 
 # ── Write Report ──
 cat > "$REPORT" << EOF

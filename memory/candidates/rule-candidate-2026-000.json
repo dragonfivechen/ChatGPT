@@ -8,8 +8,8 @@
   "feedback_type": "principle",
   "candidate": "request_id/provider/model/token_count/latency 允许",
   "confidence": 0.98,
-  "score": 0.734,
-  "hit_count": 3,
+  "score": 0.834,
+  "hit_count": 5,
   "status": "deduped",
   "merged_group": [
     "rule-candidate-2026-000",

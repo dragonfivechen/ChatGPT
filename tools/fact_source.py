@@ -14,6 +14,23 @@ from typing import Optional
 
 FACTS_DIR = Path(__file__).resolve().parent.parent / 'memory' / 'facts'
 
+# —— Patch-026: Parse error tracking ——
+
+_parse_stats = {
+    'error_count': 0,
+    'error_records': [],  # list of (filename, line_no, snippet)
+}
+
+
+def reset_parse_stats():
+    _parse_stats['error_count'] = 0
+    _parse_stats['error_records'] = []
+
+
+def get_parse_stats() -> dict:
+    return dict(_parse_stats)
+
+
 # —— 解析 ——
 
 def _parse_jsonl(filepath: Path) -> list[dict]:
@@ -27,6 +44,12 @@ def _parse_jsonl(filepath: Path) -> list[dict]:
             try:
                 obj = json.loads(line)
             except json.JSONDecodeError:
+                _parse_stats['error_count'] += 1
+                _parse_stats['error_records'].append({
+                    'file': str(filepath),
+                    'line': line_no,
+                    'snippet': line[:80].strip(),
+                })
                 continue
             obj.setdefault('fact_id', f"fact-{filepath.stem}-{line_no:04d}")
             obj.setdefault('source_event', '')
@@ -133,6 +156,7 @@ def get_provenance_status(fact: dict) -> str:
 
 def _scan_facts() -> list[dict]:
     """扫描 facts 目录，返回所有事实。"""
+    reset_parse_stats()
     if not FACTS_DIR.is_dir():
         return []
 
@@ -251,6 +275,7 @@ if __name__ == '__main__':
     parser.add_argument('--source-of', help='获取事实的来源事件')
     parser.add_argument('--count', action='store_true', help='仅计数')
     parser.add_argument('--provenance-stats', action='store_true', help='Provenance 统计')
+    parser.add_argument('--parse-stats', action='store_true', help='解析错误统计')
     args = parser.parse_args()
 
     if args.get:
@@ -261,6 +286,8 @@ if __name__ == '__main__':
         print(json.dumps(ev, ensure_ascii=False) if ev else 'null')
     elif args.provenance_stats:
         print(json.dumps(get_provenance_stats(), ensure_ascii=False, indent=2))
+    elif args.parse_stats:
+        print(json.dumps(get_parse_stats(), ensure_ascii=False, indent=2))
     elif args.count:
         print(json.dumps({
             "total": count_facts(

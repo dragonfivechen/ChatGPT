@@ -79,6 +79,7 @@ def _build_md_event(filepath, agent, title, content_lines, start_line, counter):
         "timestamp": timestamp,
         "agent": agent,
         "category": category,
+        "category_source": "derived",
         "content": content,
         "source": f"{filepath}#L{start_line}",
     }
@@ -102,11 +103,14 @@ def _parse_jsonl_events(filepath: Path, agent: str, include_payload: bool = Fals
             category = obj.get('type', '').lower() if obj.get('type') else _infer_json_category(obj)
             content = _summarize_json(obj)
 
+            category_source = "explicit" if obj.get('type') else "derived"
+
             event = {
                 "event_id": event_id,
                 "timestamp": timestamp,
                 "agent": agent,
                 "category": category,
+                "category_source": category_source,
                 "content": content,
                 "source": f"{filepath}#L{line_no}",
             }

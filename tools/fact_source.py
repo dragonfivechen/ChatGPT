@@ -57,11 +57,11 @@ def _parse_md(filepath: Path) -> list[dict]:
                 facts.append({
                     'fact_id': f"fact-{filepath.stem}-{event_counter:04d}",
                     'content': ''.join(current_content).strip(),
-                    'confidence': _infer_confidence(current_title, current_content),
+                    'confidence': _default_confidence(),
                     'source_event': '',
                     'validator': 'manual',
                     'created_at': '',
-                    'domain': _infer_domain(current_title, current_content),
+                    'domain': _default_domain(),
                 })
             current_title = stripped[3:]
             current_content = []
@@ -83,21 +83,25 @@ def _parse_md(filepath: Path) -> list[dict]:
     return facts
 
 
-def _infer_confidence(title: str, content_lines: list[str]) -> str:
-    """置信度由 promotion 层指定，Reader 不做推断。返回默认值。
+def _default_confidence() -> str:
+    """返回默认置信度。Reader 不做推断，由 promotion 层指定。
 
-    Patch-004: 移除推断逻辑。Promotion 层在写入时必须指定 confidence。
-    此函数保持调用兼容，直接返回 'candidate' 表示需 promotion 层确认。
+    Patch-007: 重命名以消除"infer"语义，原 _infer_confidence 保留为兼容别名。
     """
     return 'candidate'
 
 
-def _infer_domain(title: str, content_lines: list[str]) -> str:
-    """领域由 promotion 层指定，Reader 不做推断。返回默认值。
+def _default_domain() -> str:
+    """返回默认领域。Reader 不做推断，由 promotion 层指定。
 
-    Patch-004: 移除推断逻辑。
+    Patch-007: 重命名以消除"infer"语义，原 _infer_domain 保留为兼容别名。
     """
     return 'general'
+
+
+# 兼容别名：旧命名保持可调用
+_infer_confidence = _default_confidence
+_infer_domain = _default_domain
 
 
 # —— Patch-006: Provenance Status ——

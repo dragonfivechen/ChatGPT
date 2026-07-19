@@ -9,6 +9,7 @@ memory/facts/ -> Fact Reader -> Consumer
 
 import os
 import json
+import copy
 from pathlib import Path
 from typing import Optional
 

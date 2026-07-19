@@ -1,12 +1,14 @@
 {
-  "timestamp_iso": "2026-07-20T04:30:02+0800",
-  "timestamp_cst": "2026-07-20 04:30 CST",
+  "data_type": "runtime_observation",
+  "authority": "runtime",
+  "timestamp_iso": "2026-07-20T04:37:08+0800",
+  "timestamp_cst": "2026-07-20 04:37 CST",
   "date": "2026-07-20",
-  "time": "04:30",
+  "time": "04:37",
   "hour": 4,
-  "minute": 30,
+  "minute": 37,
   "weekday": "Monday",
   "weekday_cn": "星期一",
   "timezone": "Asia/Shanghai (UTC+8)",
-  "unix_ts": 1784493002
+  "unix_ts": 1784493428
 }

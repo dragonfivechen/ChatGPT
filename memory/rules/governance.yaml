@@ -1,3 +1,5 @@
+# governance.yaml — 治理原则
+# 自动管理，手动修改会被治理管道覆盖
 rules:
 - rule: 暂无规则
   source: system_init

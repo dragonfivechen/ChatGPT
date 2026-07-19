@@ -24,6 +24,9 @@ def build_context(now: datetime | None = None) -> dict:
         now = datetime.now(CST)
 
     return {
+        # === 数据分类（runtime observation, not fact truth） ===
+        "data_type": "runtime_observation",
+        "authority": "runtime",
         # === 时间事实（唯一来源：OS clock） ===
         "timestamp_iso": now.strftime('%Y-%m-%dT%H:%M:%S%z'),
         "timestamp_cst": now.strftime('%Y-%m-%d %H:%M CST'),

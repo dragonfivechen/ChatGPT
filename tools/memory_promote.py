@@ -60,7 +60,7 @@ def init_rules_dir():
     for fname in RULE_FILES.values():
         fname = Path(fname)
         if not fname.exists():
-            with open(fname, 'w') as f:
+            with open(fname, 'w', encoding='utf-8') as f:
                 f.write(DEFAULT_RULES_TEMPLATES.get(fname.name, f"# {fname.name}\nrules: []\n"))
 
 
@@ -140,7 +140,7 @@ def save_rules(category: str, rules_data: dict):
             header_lines.append(line)
         else:
             break
-    with open(target, 'w') as f:
+    with open(target, 'w', encoding='utf-8') as f:
         for hl in header_lines:
             f.write(hl + '\n')
         f.write(content)

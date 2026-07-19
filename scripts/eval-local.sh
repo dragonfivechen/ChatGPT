@@ -47,13 +47,20 @@ for task in "${TASKS[@]}"; do
   fi
 
   # Execute task via REST API (get token counts)
+  PAYLOAD=$(jq -nc --arg model "$MODEL" --arg prompt "$PROMPT" '{model:$model,prompt:$prompt,stream:false}')
   START=$(date +%s%N)
-  API_RESP=$(curl -s http://localhost:11434/api/generate \
-    -d "{\"model\":\"$MODEL\",\"prompt\":\"$PROMPT\",\"stream\":false}" 2>/dev/null || echo '{"error":"API call failed"}')
+  API_RESP=$(curl -s http://localhost:11434/api/generate -d "$PAYLOAD" 2>/dev/null || echo '{"error":"API call failed"}')
   END=$(date +%s%N)
   LATENCY_MS=$(( (END - START) / 1000000 ))
 
-  OUTPUT=$(echo "$API_RESP" | python3 -c "import sys,json; print(json.load(sys.stdin).get('response','ERROR: empty response'))" 2>/dev/null || echo "ERROR: parse failed")
+  # Guard: bail on Ollama error response
+  if echo "$API_RESP" | jq -e '.error' >/dev/null 2>&1; then
+    OLLAMA_ERR=$(echo "$API_RESP" | jq -r '.error')
+    echo "OLLAMA_ERROR: $OLLAMA_ERR" >&2
+    OUTPUT="ERROR: empty response"
+  else
+    OUTPUT=$(echo "$API_RESP" | python3 -c "import sys,json; print(json.load(sys.stdin).get('response','ERROR: empty response'))" 2>/dev/null || echo "ERROR: parse failed")
+  fi
   INPUT_TOKENS=$(echo "$API_RESP" | python3 -c "import sys,json; print(json.load(sys.stdin).get('prompt_eval_count',0))" 2>/dev/null || echo 0)
   OUTPUT_TOKENS=$(echo "$API_RESP" | python3 -c "import sys,json; print(json.load(sys.stdin).get('eval_count',0))" 2>/dev/null || echo 0)
 

@@ -1,0 +1,2 @@
+{"event_id": "lco-20260719-143036-23118", "timestamp": "2026-07-19T06:30:43Z", "task_type": "ops_classify", "model": "qwen2.5:3b", "duration_sec": 7, "input_length": 44, "output_length": 3, "status": "success", "output": "网络\n"}
+{"event_id": "lco-20260719-143045-23159", "timestamp": "2026-07-19T06:31:19Z", "task_type": "log_summary", "model": "qwen2.5:3b", "duration_sec": 34, "input_length": 199, "output_length": 104, "status": "success", "output": "摘要：日志记录了gateway启动的信息，随后出现一次延迟的账单快照警告。之后，系统尝试连接到IP地址为192.168.1.5、端口为8080的目标时遇到连接拒绝错误。在错误发生后，系统成功重试并恢复正常。\n"}

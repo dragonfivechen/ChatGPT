@@ -1,7 +1,8 @@
 # 系统架构里程碑
 
-**最后更新:** 2026-07-17 08:54 CST
+**最后更新:** 2026-07-19 09:24 CST
 **当前状态:** Architecture Governance Layer v1.0 — FROZEN (观察期)
+Phase 6 Runtime Intelligence Layer — COMPLETE (v1)
 
 ---
 
@@ -70,14 +71,31 @@ memory/
 
 ---
 
-## 当前冻结状态
+## 架构层次状态
 
 ```
-Architecture Governance Layer v1.0 — FROZEN
-├── Phase 1 Extension Boundary       ✅ COMPLETE
-├── Phase 2 Memory Governance        ✅ COMPLETE (4 sub-phases)
-├── Phase 3 Plugin Governance        ✅ COMPLETE (4 sub-phases)
-└── Runtime Compliance Audit         ✅ PASS (recommend: KEEP_FROZEN)
+OpenClaw Architecture v3
+├── Foundation Layer                 ✅ COMPLETE
+├── Governance Layer                 ✅ COMPLETE
+│   ├── Phase 1 Extension Boundary   ✅ COMPLETE
+│   ├── Phase 2 Memory Governance    ✅ COMPLETE
+│   └── Phase 3 Plugin Governance    ✅ COMPLETE
+├── Security Layer                   ✅ COMPLETE
+│   └── SecretRef Migration v1.0     🔒 FROZEN
+└── Runtime Intelligence Layer       ✅ COMPLETE
+    ├── Phase 6.1 Reasoning Isolation    🔒 FROZEN
+    ├── Phase 6.2 Capability Registry    🔒 FROZEN
+    ├── Phase 6.3 Context Projection     🔒 FROZEN
+    └── Phase 6.4 Tool Call Gateway      🔒 FROZEN
+```
+
+### Phase 6 建设路线
+
+```
+Phase 6.1: Reasoning Isolation Contract   🔒 FROZEN
+Phase 6.2: Provider Capability Registry   🔒 FROZEN
+Phase 6.3: Context Projection Contract    🔒 FROZEN
+Phase 6.4: Tool Call Gateway              🔒 FROZEN
 ```
 
 ### 运行中组件
@@ -98,7 +116,35 @@ state/huo/MEMORY-WRITER-BOUNDARY.md         Writer 分类+权限矩阵（Phase 2
 state/huo/METADATA-CONTRACT.md              Frontmatter 描述规范（Phase 2.4）
 state/huo/PLUGIN-CAPABILITY-CONTRACT.md     能力命名空间+授权模型（Phase 3.2）
 state/huo/CAPABILITY-REGISTRY.md            20 项能力注册表（Phase 3.3）
+state/huo/REASONING-ISOLATION-CONTRACT.md   推理痕迹生命周期契约（Phase 6.1）
+state/huo/PROVIDER-CAPABILITY-CONTRACT.md   Provider 能力声明与验证契约（Phase 6.2.1）
+state/huo/provider-capability.schema.json   Provider 能力 Schema（Phase 6.2.1）
+state/huo/PROVIDER-CAPABILITY-REGISTRY-DESIGN.md Registry v2 设计文档（Phase 6.2.2）
+state/huo/provider-capability-registry.json  Provider 能力注册表数据（Phase 6.2.2）
+state/huo/RUNTIME-ENFORCEMENT-DESIGN.md     Runtime Enforcement 决策设计（Phase 6.2.3）
+state/huo/RUNTIME-ENFORCEMENT-VALIDATION.md  Enforcement 不变量验证（Phase 6.2.4）
+state/huo/CONTEXT-PROJECTION-CONTRACT.md     Context Projection 契约（Phase 6.3）
+state/huo/TOOL-CALL-GATEWAY-CONTRACT.md      Tool Call Gateway 契约（Phase 6.4）
+state/huo/PHASE-6.4.1-SCHEMA-DESIGN.md       Tool Call Gateway Schema 设计（Phase 6.4.1）
+state/huo/tool-call-request.schema.json       Tool Call Request Schema（Phase 6.4.1）
+state/huo/gateway-decision.schema.json        Gateway Decision Schema（Phase 6.4.1）
+state/huo/tool-call-event.schema.json         Tool Call Event Schema（Phase 6.4.1）
 ```
+
+### Phase 6 — Runtime Intelligence Layer v1.0 ✅ ALL FROZEN
+
+| 阶段 | 产出 | 状态 |
+|:---|:---|:---:|
+| 6.1 Reasoning Isolation Contract | REASONING-ISOLATION-CONTRACT.md (10 章节) | 🔒 FROZEN |
+| 6.2.0 Provider Capability Audit | PHASE-6.2-AUDIT-REPORT.md (7 节) | 🔒 FROZEN |
+| 6.2.1 Provider Capability Contract + Schema | PROVIDER-CAPABILITY-CONTRACT.md + schema.json + design/mapping docs | 🔒 FROZEN |
+| 6.2.2 Registry v2 Design + Initialization | PROVIDER-CAPABILITY-REGISTRY-DESIGN.md + registry.json (6 capabilities, 4 models) | 🔒 FROZEN |
+| 6.2.3 Runtime Enforcement Design | RUNTIME-ENFORCEMENT-DESIGN.md (8 章节) | 🔒 FROZEN |
+| 6.2.4 Enforcement Validation | RUNTIME-ENFORCEMENT-VALIDATION.md (5 invariants × 24 scenarios) | 🔒 FROZEN |
+| 6.3 Context Projection | CONTEXT-PROJECTION-CONTRACT.md + 3 schemas + PHASE-6.3.2/6.3.3 design + validation | 🔒 FROZEN |
+| 6.4 Tool Call Gateway | TOOL-CALL-GATEWAY-CONTRACT.md + 3 schemas + PHASE-6.4.2 runtime design + 6.4.3 validation | 🔒 FROZEN |
+
+**核心原则：** `LLM = Producer, Runtime = Executor, Governance = Judge, Event = Truth`
 
 ---
 
@@ -129,6 +175,9 @@ state/huo/CAPABILITY-REGISTRY.md            20 项能力注册表（Phase 3.3）
 | Phase 4 Governance Validation | 观察期，以运行证据驱动，不新增抽象层 |
 | Plugin Capability Runtime Enforcement 实现 | 暂不实现，当前可信环境无迫切需求 |
 | Memory Semantic Namespace 的 Core 改动 | 零改源码原则，契约层已覆盖 |
+| Phase 6.3 Provider Capability Runtime Detection | 设计完成（Enforcement），实际代码等待 Phase 7 |
+| Phase 7 Runtime Integrity Verification | 待规划 Phase 7+ |
+| Phase 7 Runtime Integrity Verification | 后续 Planning 阶段范围
 
 ---
 

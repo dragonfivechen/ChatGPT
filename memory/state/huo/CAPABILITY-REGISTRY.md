@@ -27,11 +27,13 @@ runtime:
   - http.route
   - service.register
   - lifecycle.hook
+  - compaction.provider
 
 memory:
   - memory.read
   - memory.prompt.inject
   - memory.provider
+  - memory.write
 
 event:
   - event.subscribe
@@ -282,6 +284,20 @@ registry:
     risk_level: medium
     depends_on: [notification.channel.register]
     exposed_api: lottery.notify()
+
+  - id: memory.write
+    category: memory
+    description: 按 Memory Ownership 契约将数据持久化写入指定 namespace
+    risk_level: high
+    depends_on: [memory.read]
+    exposed_api: n/a (系统内部能力，非 Plugin API)
+
+  - id: compaction.provider
+    category: runtime
+    description: Session Transcript Compaction — 控制 transcript/trajectory 增长
+    risk_level: high
+    depends_on: [runtime.lifecycle.hook]
+    exposed_api: registerCompactionProvider()
 
 ---
 

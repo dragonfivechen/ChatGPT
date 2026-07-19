@@ -1,0 +1,225 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "urn:openclaw:schema:provider-capability:v1",
+  "title": "Provider Capability Schema v1",
+  "description": "Machine-verifiable structure for Provider/Model capability declarations. Derived from PROVIDER-CAPABILITY-CONTRACT v1.0 FINAL.",
+  "type": "object",
+  "definitions": {
+    "provenanceSource": {
+      "type": "string",
+      "enum": [
+        "runtime_verification",
+        "provider_adapter",
+        "runtime_detection",
+        "external_catalog",
+        "config_hint",
+        "unknown"
+      ],
+      "description": "Who provides the capability information. Ordered by trust: runtime_verification > provider_adapter > runtime_detection > external_catalog > config_hint > unknown. Config is not fact — config is just a hint."
+    },
+    "evidenceType": {
+      "type": "string",
+      "enum": [
+        "api_response_observation",
+        "api_error_pattern",
+        "adapter_declaration",
+        "runtime_detection",
+        "openrouter_catalog",
+        "static_config"
+      ],
+      "description": "Why we trust the capability value. api_response_observation = highest trust; static_config = lowest."
+    },
+    "lifecycleState": {
+      "type": "string",
+      "enum": ["unknown", "detected", "verified", "deprecated"],
+      "description": "Capability lifecycle state. unknown → detected → verified → deprecated. No bare 'true' allowed without a state chain."
+    },
+    "provenanceObject": {
+      "type": "object",
+      "description": "Provenance: who provides the capability information.",
+      "required": ["source"],
+      "properties": {
+        "source": {
+          "$ref": "#/definitions/provenanceSource"
+        },
+        "detail": {
+          "type": "string",
+          "description": "Free-form detail about the provenance source, e.g. 'deepseek-provider-adapter v1.2' or 'detectOpenAICompletionsCompat() based on baseUrl=api.deepseek.com'"
+        }
+      },
+      "additionalProperties": false
+    },
+    "evidenceObject": {
+      "type": "object",
+      "description": "Evidence: why we trust the capability value. Separate from provenance — provenance answers 'who says', evidence answers 'why believe'.",
+      "required": ["type", "value"],
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/evidenceType"
+        },
+        "value": {
+          "type": "string",
+          "description": "Specific observable fact supporting this capability, e.g. 'POST /chat/completions → response.reasoning_content present'"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp of when this evidence was collected or verified"
+        }
+      },
+      "additionalProperties": false
+    },
+    "toolCallsSubCapability": {
+      "type": "object",
+      "description": "Sub-capability: schema_validation strictness for tool_calls. Maps from ModelCompatConfig.supportsStrictMode.",
+      "properties": {
+        "supported": {
+          "type": "boolean"
+        },
+        "format": {
+          "type": "string",
+          "enum": ["strict", "lax"],
+          "description": "Schema validation strictness. 'strict' = full JSON schema enforcement; 'lax' = permissive parsing."
+        },
+        "provenance": {
+          "$ref": "#/definitions/provenanceObject"
+        },
+        "evidence": {
+          "$ref": "#/definitions/evidenceObject"
+        },
+        "state": {
+          "$ref": "#/definitions/lifecycleState"
+        }
+      },
+      "required": ["supported", "provenance", "evidence"],
+      "additionalProperties": false
+    },
+    "capabilityEntry": {
+      "type": "object",
+      "description": "A single capability entry. Every entry MUST have supported + provenance + evidence. Bare 'true' or 'false' without sources is forbidden.",
+      "required": ["supported", "provenance", "evidence"],
+      "properties": {
+        "supported": {
+          "type": "boolean",
+          "description": "Whether the provider/model supports this capability. Not a preference, not a routing decision — a fact."
+        },
+        "format": {
+          "type": "string",
+          "description": "How the capability manifests. Separate from supported — format changes do NOT imply capability changes. Example: thinking.format = 'reasoning_content'. Must be null when supported = false.",
+          "default": null
+        },
+        "provenance": {
+          "$ref": "#/definitions/provenanceObject"
+        },
+        "evidence": {
+          "$ref": "#/definitions/evidenceObject"
+        },
+        "state": {
+          "$ref": "#/definitions/lifecycleState"
+        }
+      },
+      "additionalProperties": false,
+      "if": {
+        "properties": { "supported": { "const": false } }
+      },
+      "then": {
+        "properties": {
+          "format": {
+            "const": null,
+            "description": "format must be null when capability is not supported"
+          }
+        }
+      }
+    },
+    "capabilitySet": {
+      "type": "object",
+      "description": "Set of capabilities for a single model. Each property name is a capability identifier. Extensible — future capabilities can be added without schema change.",
+      "minProperties": 1,
+      "propertyNames": {
+        "pattern": "^[a-z_][a-z0-9_]*$",
+        "description": "Capability names must be lowercase snake_case, e.g. 'thinking', 'tool_calls', 'reasoning_effort'"
+      },
+      "additionalProperties": {
+        "anyOf": [
+          { "$ref": "#/definitions/capabilityEntry" },
+          {
+            "type": "object",
+            "description": "tool_calls with sub-capability schema_validation",
+            "allOf": [
+              { "$ref": "#/definitions/capabilityEntry" },
+              {
+                "properties": {
+                  "schema_validation": {
+                    "$ref": "#/definitions/toolCallsSubCapability"
+                  }
+                },
+                "required": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "modelEntry": {
+      "type": "object",
+      "description": "Capability declaration for a single model.",
+      "required": ["capabilities"],
+      "properties": {
+        "capabilities": {
+          "$ref": "#/definitions/capabilitySet"
+        },
+        "inherits": {
+          "type": "string",
+          "description": "Optional reference to a provider-level capability set from which this model inherits. When set, model-level capabilities override inherited ones.",
+          "pattern": "^[a-z_][a-z0-9_]*$"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": ["provider"],
+  "properties": {
+    "provider": {
+      "type": "string",
+      "description": "Provider identifier. Matches the key in openclaw.json models.providers, e.g. 'deepseek', 'ollama'.",
+      "pattern": "^[a-zA-Z0-9_-]+$"
+    },
+    "capabilities": {
+      "type": "object",
+      "description": "Provider-level default capabilities. Applied to all models unless overridden at model level.",
+      "properties": {
+        "thinking": { "$ref": "#/definitions/capabilityEntry" },
+        "tool_calls": {
+          "allOf": [
+            { "$ref": "#/definitions/capabilityEntry" },
+            {
+              "properties": {
+                "schema_validation": { "$ref": "#/definitions/toolCallsSubCapability" }
+              },
+              "required": []
+            }
+          ]
+        },
+        "reasoning_effort": { "$ref": "#/definitions/capabilityEntry" },
+        "temperature": { "$ref": "#/definitions/capabilityEntry" },
+        "streaming": { "$ref": "#/definitions/capabilityEntry" },
+        "vision": { "$ref": "#/definitions/capabilityEntry" }
+      },
+      "additionalProperties": {
+        "$ref": "#/definitions/capabilityEntry",
+        "description": "Future/unknown capabilities must still have provenance + evidence"
+      }
+    },
+    "models": {
+      "type": "object",
+      "description": "Per-model capability overrides. Each key is a model id (e.g. 'deepseek-v4-flash'). Empty if all models use provider-level defaults.",
+      "propertyNames": {
+        "pattern": "^[a-zA-Z0-9_.-]+$"
+      },
+      "additionalProperties": {
+        "$ref": "#/definitions/modelEntry"
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,120 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "state/huo/gateway-decision.schema.json",
+  "title": "Gateway Decision",
+  "description": "Gateway 对 tool call 的决策结果",
+  "type": "object",
+  "required": ["decision", "gatewayProcessed"],
+  "definitions": {
+    "reasonCodes": {
+      "type": "string",
+      "enum": [
+        "unregistered_tool",
+        "capability_not_supported",
+        "denied_by_policy",
+        "enforcement_rejected",
+        "invalid_tool_name",
+        "invalid_tool_args",
+        "missing_request_id",
+        "format_outdated",
+        "degradation_advisory"
+      ]
+    },
+    "degradation": {
+      "type": "object",
+      "required": ["fallbackTool"],
+      "properties": {
+        "fallbackTool": { "type": "string", "minLength": 1 },
+        "fallbackProvider": { "type": "string", "minLength": 1 },
+        "fallbackModel": { "type": "string", "minLength": 1 },
+        "reason": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "enforcementResult": {
+      "type": "object",
+      "properties": {
+        "provider": { "type": "string", "minLength": 1 },
+        "model": { "type": "string", "minLength": 1 },
+        "capability": { "type": "string", "minLength": 1 },
+        "allowed": { "type": "boolean" },
+        "reason": { "type": "string" }
+      },
+      "required": ["provider", "capability", "allowed"]
+    },
+    "checkItem": {
+      "type": "string",
+      "enum": ["registered", "capabilitySupported", "policyAllowed", "enforcementAllowed"]
+    }
+  },
+  "properties": {
+    "requestId": {
+      "type": "string",
+      "minLength": 8
+    },
+    "decision": {
+      "description": "Gateway 的决策: allow | reject | degrade",
+      "type": "string",
+      "enum": ["allow", "reject", "degrade"]
+    },
+    "gatewayProcessed": {
+      "description": "强制标记: 标识经过 Gateway 处理",
+      "type": "boolean",
+      "const": true
+    },
+    "reasonCode": {
+      "description": "拒绝/降级的标准化原因 (仅 reject/degrade 时)",
+      "$ref": "#/definitions/reasonCodes"
+    },
+    "reasonMessage": {
+      "description": "拒绝/降级的人类可读说明 (可选)",
+      "type": "string",
+      "maxLength": 200
+    },
+    "degradation": {
+      "description": "降级建议 (仅 degrade 时)",
+      "$ref": "#/definitions/degradation"
+    },
+    "enforcement": {
+      "description": "来自 Phase 6.2.3 Enforcement 的结果 (如有查询)",
+      "$ref": "#/definitions/enforcementResult"
+    },
+    "pluginId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "toolName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "capability": {
+      "description": "工具对应的 Phase 3.3 能力名",
+      "type": "string",
+      "minLength": 1
+    },
+    "checks": {
+      "description": "Gateway 检查链结果汇总",
+      "type": "object",
+      "required": ["registered", "capabilitySupported", "policyAllowed", "enforcementAllowed"],
+      "properties": {
+        "registered":             { "type": "boolean" },
+        "capabilitySupported":    { "type": "boolean" },
+        "policyAllowed":          { "type": "boolean" },
+        "enforcementAllowed":     { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "checksFailed": {
+      "description": "检查链中失败项 (仅 reject/degrade 时)",
+      "type": "array",
+      "items": { "$ref": "#/definitions/checkItem" },
+      "uniqueItems": true
+    },
+    "processedAt": {
+      "description": "Gateway 处理时间戳 (ISO 8601)",
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}

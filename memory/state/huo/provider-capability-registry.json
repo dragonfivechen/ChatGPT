@@ -1,0 +1,413 @@
+{
+  "$schema": "urn:openclaw:schema:provider-capability:v1",
+  "registry_schema": "provider-capability-registry:v1",
+
+  "provider": "deepseek",
+  "provider_label": "DeepSeek",
+  "created_at": "2026-07-19T09:18:00+08:00",
+  "updated_at": "2026-07-19T09:18:00+08:00",
+  "status": "initialized",
+
+  "capabilities": {
+    "thinking": {
+      "current": {
+        "supported": true,
+        "format": "reasoning_content",
+        "provenance": {
+          "source": "config_hint",
+          "detail": "ModelDefinitionConfig.reasoning=true (legacy)"
+        },
+        "evidence": {
+          "type": "static_config",
+          "value": "openclaw.json → models.providers.deepseek.reasoning: true",
+          "timestamp": "2026-07-17T00:00:00Z"
+        },
+        "state": "detected"
+      },
+      "observations": [
+        {
+          "supported": true,
+          "format": "reasoning_content",
+          "provenance": {
+            "source": "config_hint",
+            "detail": "ModelDefinitionConfig.reasoning=true (legacy)"
+          },
+          "evidence": {
+            "type": "static_config",
+            "value": "openclaw.json → models.providers.deepseek.reasoning: true",
+            "timestamp": "2026-07-17T00:00:00Z"
+          },
+          "recorded_at": "2026-07-19T09:18:00+08:00"
+        }
+      ],
+      "conflicts": [],
+      "lifecycle": "detected",
+      "last_observed": "2026-07-19T09:18:00+08:00"
+    },
+
+    "tool_calls": {
+      "current": {
+        "supported": true,
+        "format": "openai_function",
+        "provenance": {
+          "source": "runtime_detection",
+          "detail": "detectOpenAICompletionsCompat() based on baseUrl=api.deepseek.com"
+        },
+        "evidence": {
+          "type": "runtime_detection",
+          "value": "baseUrl pattern match → openai-compatible transport → tool_calls available",
+          "timestamp": "2026-07-17T00:00:00Z"
+        },
+        "state": "detected"
+      },
+      "observations": [
+        {
+          "supported": true,
+          "format": "openai_function",
+          "provenance": {
+            "source": "runtime_detection",
+            "detail": "detectOpenAICompletionsCompat() based on baseUrl=api.deepseek.com"
+          },
+          "evidence": {
+            "type": "runtime_detection",
+            "value": "baseUrl pattern match → openai-compatible transport → tool_calls available",
+            "timestamp": "2026-07-17T00:00:00Z"
+          },
+          "recorded_at": "2026-07-19T09:18:00+08:00"
+        }
+      ],
+      "conflicts": [],
+      "lifecycle": "detected",
+      "last_observed": "2026-07-19T09:18:00+08:00"
+    },
+
+    "reasoning_effort": {
+      "current": {
+        "supported": true,
+        "provenance": {
+          "source": "config_hint",
+          "detail": "compat.supportsReasoningEffort=true in openclaw.json"
+        },
+        "evidence": {
+          "type": "static_config",
+          "value": "openclaw.json → models.providers.deepseek.compat.supportsReasoningEffort: true",
+          "timestamp": "2026-07-17T00:00:00Z"
+        },
+        "state": "detected"
+      },
+      "observations": [
+        {
+          "supported": true,
+          "provenance": {
+            "source": "config_hint",
+            "detail": "compat.supportsReasoningEffort=true in openclaw.json"
+          },
+          "evidence": {
+            "type": "static_config",
+            "value": "openclaw.json → models.providers.deepseek.compat.supportsReasoningEffort: true",
+            "timestamp": "2026-07-17T00:00:00Z"
+          },
+          "recorded_at": "2026-07-19T09:18:00+08:00"
+        }
+      ],
+      "conflicts": [],
+      "lifecycle": "detected",
+      "last_observed": "2026-07-19T09:18:00+08:00"
+    },
+
+    "temperature": {
+      "current": {
+        "supported": true,
+        "provenance": {
+          "source": "runtime_detection",
+          "detail": "openai-compatible API supports temperature parameter"
+        },
+        "evidence": {
+          "type": "runtime_detection",
+          "value": "openai-compatible transport → temperature field available in request schema",
+          "timestamp": "2026-07-17T00:00:00Z"
+        },
+        "state": "detected"
+      },
+      "observations": [
+        {
+          "supported": true,
+          "provenance": {
+            "source": "runtime_detection",
+            "detail": "openai-compatible API supports temperature parameter"
+          },
+          "evidence": {
+            "type": "runtime_detection",
+            "value": "openai-compatible transport → temperature field available",
+            "timestamp": "2026-07-17T00:00:00Z"
+          },
+          "recorded_at": "2026-07-19T09:18:00+08:00"
+        }
+      ],
+      "conflicts": [],
+      "lifecycle": "detected",
+      "last_observed": "2026-07-19T09:18:00+08:00"
+    },
+
+    "streaming": {
+      "current": {
+        "supported": true,
+        "provenance": {
+          "source": "runtime_detection",
+          "detail": "openai-compatible API supports SSE streaming"
+        },
+        "evidence": {
+          "type": "runtime_detection",
+          "value": "openai-compatible transport → streaming available via SSE",
+          "timestamp": "2026-07-17T00:00:00Z"
+        },
+        "state": "detected"
+      },
+      "observations": [
+        {
+          "supported": true,
+          "provenance": {
+            "source": "runtime_detection",
+            "detail": "openai-compatible API supports SSE streaming"
+          },
+          "evidence": {
+            "type": "runtime_detection",
+            "value": "openai-compatible transport → streaming available via SSE",
+            "timestamp": "2026-07-17T00:00:00Z"
+          },
+          "recorded_at": "2026-07-19T09:18:00+08:00"
+        }
+      ],
+      "conflicts": [],
+      "lifecycle": "detected",
+      "last_observed": "2026-07-19T09:18:00+08:00"
+    },
+
+    "vision": {
+      "current": {
+        "supported": false,
+        "provenance": {
+          "source": "config_hint",
+          "detail": "ModelDefinitionConfig does not include image input config for deepseek"
+        },
+        "evidence": {
+          "type": "static_config",
+          "value": "no input.mimeTypes configured for deepseek provider",
+          "timestamp": "2026-07-17T00:00:00Z"
+        },
+        "state": "detected"
+      },
+      "observations": [
+        {
+          "supported": false,
+          "provenance": {
+            "source": "config_hint",
+            "detail": "ModelDefinitionConfig does not include image input config for deepseek"
+          },
+          "evidence": {
+            "type": "static_config",
+            "value": "no input.mimeTypes configured for deepseek provider",
+            "timestamp": "2026-07-17T00:00:00Z"
+          },
+          "recorded_at": "2026-07-19T09:18:00+08:00"
+        }
+      ],
+      "conflicts": [],
+      "lifecycle": "detected",
+      "last_observed": "2026-07-19T09:18:00+08:00"
+    }
+  },
+
+  "models": {
+    "deepseek-v4-flash": {
+      "inherits": "provider-defaults",
+      "capabilities": {},
+      "updated_at": "2026-07-19T09:18:00+08:00"
+    },
+
+    "deepseek-v4-pro": {
+      "inherits": "provider-defaults",
+      "capabilities": {},
+      "updated_at": "2026-07-19T09:18:00+08:00"
+    },
+
+    "deepseek-chat": {
+      "capabilities": {
+        "thinking": {
+          "current": {
+            "supported": false,
+            "provenance": {
+              "source": "config_hint",
+              "detail": "deepseek-chat is non-reasoning model"
+            },
+            "evidence": {
+              "type": "static_config",
+              "value": "ModelDefinitionConfig.reasoning=false for deepseek-chat",
+              "timestamp": "2026-07-17T00:00:00Z"
+            },
+            "state": "detected"
+          },
+          "observations": [
+            {
+              "supported": false,
+              "provenance": {
+                "source": "config_hint",
+                "detail": "deepseek-chat is non-reasoning model"
+              },
+              "evidence": {
+                "type": "static_config",
+                "value": "ModelDefinitionConfig.reasoning=false for deepseek-chat",
+                "timestamp": "2026-07-17T00:00:00Z"
+              },
+              "recorded_at": "2026-07-19T09:18:00+08:00"
+            }
+          ],
+          "conflicts": [],
+          "lifecycle": "detected",
+          "last_observed": "2026-07-19T09:18:00+08:00"
+        },
+        "reasoning_effort": {
+          "current": {
+            "supported": false,
+            "provenance": {
+              "source": "config_hint",
+              "detail": "non-reasoning model → no reasoning_effort support"
+            },
+            "evidence": {
+              "type": "static_config",
+              "value": "ModelDefinitionConfig.reasoning=false implies reasoning_effort not supported",
+              "timestamp": "2026-07-17T00:00:00Z"
+            },
+            "state": "detected"
+          },
+          "observations": [
+            {
+              "supported": false,
+              "provenance": {
+                "source": "config_hint",
+                "detail": "non-reasoning model → no reasoning_effort support"
+              },
+              "evidence": {
+                "type": "static_config",
+                "value": "ModelDefinitionConfig.reasoning=false implies reasoning_effort not supported",
+                "timestamp": "2026-07-17T00:00:00Z"
+              },
+              "recorded_at": "2026-07-19T09:18:00+08:00"
+            }
+          ],
+          "conflicts": [],
+          "lifecycle": "detected",
+          "last_observed": "2026-07-19T09:18:00+08:00"
+        }
+      },
+      "updated_at": "2026-07-19T09:18:00+08:00"
+    },
+
+    "deepseek-reasoner": {
+      "capabilities": {
+        "thinking": {
+          "current": {
+            "supported": true,
+            "format": "reasoning_content",
+            "provenance": {
+              "source": "config_hint",
+              "detail": "deepseek-reasoner is reasoning model"
+            },
+            "evidence": {
+              "type": "static_config",
+              "value": "ModelDefinitionConfig.reasoning=true for deepseek-reasoner",
+              "timestamp": "2026-07-17T00:00:00Z"
+            },
+            "state": "detected"
+          },
+          "observations": [
+            {
+              "supported": true,
+              "format": "reasoning_content",
+              "provenance": {
+                "source": "config_hint",
+                "detail": "deepseek-reasoner is reasoning model"
+              },
+              "evidence": {
+                "type": "static_config",
+                "value": "ModelDefinitionConfig.reasoning=true for deepseek-reasoner",
+                "timestamp": "2026-07-17T00:00:00Z"
+              },
+              "recorded_at": "2026-07-19T09:18:00+08:00"
+            }
+          ],
+          "conflicts": [],
+          "lifecycle": "detected",
+          "last_observed": "2026-07-19T09:18:00+08:00"
+        },
+        "tool_calls": {
+          "current": {
+            "supported": false,
+            "provenance": {
+              "source": "config_hint",
+              "detail": "deepseek-reasoner does not support tool calls"
+            },
+            "evidence": {
+              "type": "static_config",
+              "value": "no tool_calls config for deepseek-reasoner",
+              "timestamp": "2026-07-17T00:00:00Z"
+            },
+            "state": "detected"
+          },
+          "observations": [
+            {
+              "supported": false,
+              "provenance": {
+                "source": "config_hint",
+                "detail": "deepseek-reasoner does not support tool calls"
+              },
+              "evidence": {
+                "type": "static_config",
+                "value": "no tool_calls config for deepseek-reasoner",
+                "timestamp": "2026-07-17T00:00:00Z"
+              },
+              "recorded_at": "2026-07-19T09:18:00+08:00"
+            }
+          ],
+          "conflicts": [],
+          "lifecycle": "detected",
+          "last_observed": "2026-07-19T09:18:00+08:00"
+        },
+        "reasoning_effort": {
+          "current": {
+            "supported": true,
+            "provenance": {
+              "source": "config_hint",
+              "detail": "reasoning model → supports reasoning_effort parameter"
+            },
+            "evidence": {
+              "type": "static_config",
+              "value": "deepseek-reasoner is reasoning model → reasoning_effort applicable",
+              "timestamp": "2026-07-17T00:00:00Z"
+            },
+            "state": "detected"
+          },
+          "observations": [
+            {
+              "supported": true,
+              "provenance": {
+                "source": "config_hint",
+                "detail": "reasoning model → supports reasoning_effort parameter"
+              },
+              "evidence": {
+                "type": "static_config",
+                "value": "deepseek-reasoner is reasoning model → reasoning_effort applicable",
+                "timestamp": "2026-07-17T00:00:00Z"
+              },
+              "recorded_at": "2026-07-19T09:18:00+08:00"
+            }
+          ],
+          "conflicts": [],
+          "lifecycle": "detected",
+          "last_observed": "2026-07-19T09:18:00+08:00"
+        }
+      },
+      "updated_at": "2026-07-19T09:18:00+08:00"
+    }
+  }
+}

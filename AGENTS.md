@@ -216,3 +216,11 @@ This is a starting point. Add your own conventions, style, and rules as you figu
 ## Related
 
 - [Default AGENTS.md](/reference/AGENTS.default)
+
+## Interaction Protocol Integrity
+
+- 状态决定行为，协议约束输出，验证阶段禁止引入变量。
+- 声明即行为：NO_REPLY = 无输出，Frozen = 不修改，Observe-only = 只记录不扩展。
+- 输出必须匹配当前阶段：Observe-only→记录/确认，Frozen→不动，Execute→执行，Review→分析。
+- 进入验证窗口后，禁止中途注入解释、新方案、新优化。
+- 任何控制指令与输出行为必须保持单一语义一致：声明什么，就做什么，不能兼容第二解释。

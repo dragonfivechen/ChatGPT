@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "state/huo/tool-call-request.schema.json",
+  "title": "Tool Call Request",
+  "description": "LLM 发出的 tool call 请求, 由 Gateway 在 intercept() 中接收并校验",
+  "type": "object",
+  "required": ["toolName", "toolArgs"],
+  "definitions": {
+    "toolArgs": {
+      "description": "工具参数: key-value 结构",
+      "type": "object",
+      "additionalProperties": true,
+      "minProperties": 0
+    }
+  },
+  "properties": {
+    "requestId": {
+      "description": "请求标识 (Gateway 生成或上游传递)",
+      "type": "string",
+      "minLength": 8
+    },
+    "toolName": {
+      "description": "LLM 请求的工具名",
+      "type": "string",
+      "minLength": 1,
+      "examples": ["web_search", "web_fetch", "memory_search"]
+    },
+    "toolArgs": {
+      "$ref": "#/definitions/toolArgs"
+    },
+    "pluginId": {
+      "description": "插件 ID (Gateway 解析后填充, 非 LLM 提供)",
+      "type": "string",
+      "minLength": 1
+    },
+    "providerId": {
+      "description": "当前使用的 Provider ID (非 LLM 提供)",
+      "type": "string",
+      "minLength": 1
+    },
+    "modelId": {
+      "description": "当前使用的 Model ID (非 LLM 提供)",
+      "type": "string",
+      "minLength": 1
+    },
+    "sessionKey": {
+      "description": "Session Key (非 LLM 提供)",
+      "type": "string",
+      "minLength": 1
+    },
+    "rawToolCallIndex": {
+      "description": "在 LLM response 中 tool_calls[] 里的索引",
+      "type": "integer",
+      "minimum": 0
+    }
+  },
+  "additionalProperties": false
+}

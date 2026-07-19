@@ -103,12 +103,25 @@ memory/
 | 事项 | 优先级 | 状态 |
 |------|--------|------|
 | Telegram `accounts.default` 缺失 | 低 | 标记待处理，当前 defaultAccount: main 回退启用 |
+| Local Model Production Trial v1.0 | 中 | Step 1-3 ✅ (解耦链 + validation + 手动验证)。48h batch 观察中 ⏳ |
 
-## SecretRef Migration v1.0
+### Local Model Production Trial v1.0 — Current Status
+
+**Status:**
+- Capability Observer (eval-local.sh) ✅ 每小时稳定运行
+- Runtime Availability (Ollama qwen2.5:3b) ✅
+- Scheduler Isolation (crontab 断链) ✅
+- Real Task Worker (local-task-worker.sh) ✅ 已修复，增 validation 字段
+- Inline Route Integration ❌ 保持 batch 模式观察
+
+**After fix (2026-07-19 14:33):** worker 执行可靠性修复完成，进入 48h 验证窗口。
+**判定标准：** 稳定运行 + 可识别各任务类型适合度。
+
+## SecretRef Migration v1.0 — FROZEN
 
 | Phase | 状态 |
 |------|------|
-| Phase 0: Baseline Audit | ✅ Complete |
+| Phase 0: Baseline Audit | ✅ Complete (models.json 基线缺失) |
 | Phase 1: Target Identification | ✅ Complete |
 | Phase 2: Provider Selection | ✅ Complete (file provider) |
 | Phase 3: Config Set (Telegram block) | ✅ Complete |
@@ -116,7 +129,10 @@ memory/
 | Phase 3.6: DeepSeek keyRef Compatibility | ✅ Complete (源码确认) |
 | Phase 4.1: Telegram + Gateway SecretRef | ✅ Written to secrets.json |
 | Phase 4.2: DeepSeek SecretRef | ✅ Resolved at runtime |
-| Phase 5: Validation & Freeze | ✅ Complete |
+| Runtime Validation | ✅ PASS (unresolved=0) |
+| Final Archive | ✅ COMPLETE |
+
+**归档文件:** `secretref-migration-v1.0-FINAL.md`
 
 **审计结果:**
 - plaintext=1 (Ollama 本地占位符，按策略排除)
@@ -124,24 +140,87 @@ memory/
 - shadowed=1 (models.providers.deepseek.apiKey 被 auth-profile 遮蔽，auth-profile 优先)
 - legacy=0
 
+**已知缺口:**
+- models.json pre-migration 基线未采集（不影响安全完成度）
+
 **冻结原则:**
 - 不重新 apply
 - 不修改 SecretRef
-- 不删除残留备份
-- 不修改 models.json
+- 不删除备份
+- 不回写 models.json
 - 不调整 Ollama apiKey
+- 不扩展 Secret 平台
 
-## Lottery Timeline Refactor 进度
+## Lottery Timeline Refactor v1.0 — COMPLETE
 
 ```
 Step 1:   fetch timer 22:10           ✅
 Step 2:   check 消除重复 fetch        ✅
 Step 2.5: 输入完整性（KL8链路补齐）    ✅
-Step 3:   日报能力迁移                🏗️ (3-a 设计完成)
-Step 4:   出口收敛                    ⏳
+Step 3:   日报能力迁移                ✅
+Step 4:   出口收敛                    ✅
 ```
 
-- `fetch_kl8.sh` 新建于 `/home/dragonfive/.local/bin/lottery/fetch_kl8.sh`（CWL + mock）
-- `fetch_only.sh` 修改：加入 KL8 fetch 段
-- `report_pipeline_v2.md` 设计文档已产出
-- Next: 编写 unified_report_gen.py → 修改 daily_report.sh → B-2/B-3 SKIP
+**最终链路：**
+- 22:10 `fetch_only.sh` → 数据事件
+- 22:15/22:25/22:30 `run_check.sh` → `lottery-worker.sh` (SKIP_REPORT=true) → 仅校验+推送核对
+- 22:35 `daily_report.sh` → `unified_report_gen.py` → **唯一日报出口**
+
+**关键文件：**
+- `unified_report_gen.py` (9134B, 6模块 A-F)
+- `daily_report.sh` 仅作为入口，业务逻辑已迁移
+- `daily_report_gen.py` (3525B) 旧版保留待观察后清理
+- `run_check.sh` 已注入 `SKIP_REPORT=true`
+
+## Phase 7 Runtime Integrity — COMPLETE 🔒
+
+**Phase 7 系列全线完成：**
+
+| Phase | Status |
+|:---|---:|
+| 7.1 Audit Contract | 🔒 FROZEN |
+| 7.2 Boundary Matrix (5/5) | 🔒 FROZEN |
+| 7.3 Bypass Closure (15 paths) | 🔒 CLOSED |
+| 7.4 Runtime Verification (14/14 PASS) | 🔒 CLOSED |
+| 7.5 Integrity Freeze | 🔒 FROZEN |
+
+**核心结论：**
+- Phase 6 Contracts 6.1-6.4 未被解冻
+- Runtime Reality = Governance Decision 确认一致
+- 15 bypass paths 全部治理分类完成
+- No Reclassification 触发
+- 进入 Observe/Evidence Accumulation 周期
+
+**文档位置:** `memory/state/huo/PHASE-7.5-INTEGRITY-FREEZE.md`
+
+## Phase 8 Integrity Observation — FROZEN 🔒
+
+**Observe Layer — 只采集事实，不修改 Runtime**
+
+| 子阶段 | 状态 | 内容 |
+|:---|---:|:---|
+| 8.1 Analyzer Foundation | 🔒 FROZEN | 10 项确定性检查 + 阈值 config |
+| 8.2 Capability Contract | 🔒 FROZEN | 6 能力契约替代业务事件模型 |
+| 8.3 Maintenance Queue | 🔒 FROZEN | Writer + Viewer + 日报集成 |
+| 8.4 Notification Routing | 🚫 SHELVED | 当前无需求，cron 满足治理需求 |
+
+### 完成闭环
+```
+系统运行
+ ↓
+Evidence (jsonl)
+ ↓
+Integrity Analyzer
+ ↓
+Integrity State (GREEN/YELLOW/RED)
+ ↓
+Maintenance Queue
+ ↓
+Human Governance
+```
+
+**输出：** `~/.openclaw/events/integrity_observe.jsonl`（append-only）
+**推送管道：** 复用 push-notify.mjs → Telegram
+**约束：** ❌不自动修复 ❌不改Runtime ❌不解冻Phase6
+
+**文档位置:** `memory/state/huo/PHASE-8.0-RUNTIME-OBSERVATION-LAYER.md`

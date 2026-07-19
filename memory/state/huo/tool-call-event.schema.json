@@ -1,0 +1,108 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "state/huo/tool-call-event.schema.json",
+  "title": "Tool Call Event",
+  "description": "Gateway 记录的 tool call 事件, 用于 Event Store 持久化",
+  "type": "object",
+  "required": [
+    "eventKind",
+    "version",
+    "requestId",
+    "timestamp",
+    "toolName",
+    "gatewayDecision"
+  ],
+  "definitions": {
+    "enforcementCheck": {
+      "type": "object",
+      "required": ["provider", "capabilitiesRequested", "capabilitiesResult"],
+      "properties": {
+        "provider":             { "type": "string", "minLength": 1 },
+        "model":                { "type": "string" },
+        "capabilitiesRequested": {
+          "type": "array",
+          "items":    { "type": "string", "minLength": 1 },
+          "minItems": 1
+        },
+        "capabilitiesResult":   { "type": "string", "enum": ["allow", "reject", "degrade"] }
+      },
+      "additionalProperties": false
+    },
+    "paramSummary": {
+      "type": "object",
+      "required": ["argCount"],
+      "properties": {
+        "argCount":   { "type": "integer", "minimum": 0 },
+        "totalChars": { "type": "integer", "minimum": 0 },
+        "keyNames":   { "type": "array", "items": { "type": "string" }, "uniqueItems": true }
+      },
+      "additionalProperties": false
+    },
+    "gatewayDecisionRecord": {
+      "type": "object",
+      "required": ["decision"],
+      "properties": {
+        "decision":     { "type": "string", "enum": ["allow", "reject", "degrade"] },
+        "reasonCode":   { "type": "string", "minLength": 1 },
+        "reasonMessage":{ "type": "string" },
+        "checksFailed": {
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "eventKind": {
+      "description": "事件类型标识",
+      "type": "string",
+      "const": "tool_call.gateway"
+    },
+    "version": {
+      "description": "Schema 版本",
+      "type": "integer",
+      "const": 1
+    },
+    "requestId": {
+      "description": "关联请求标识 (可关联 projection_event)",
+      "type": "string",
+      "minLength": 8
+    },
+    "timestamp": {
+      "description": "事件时间 (ISO 8601)",
+      "type": "string",
+      "format": "date-time"
+    },
+    "toolName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pluginId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "capability": {
+      "description": "对应 Phase 3.3 能力标识",
+      "type": "string",
+      "minLength": 1
+    },
+    "gatewayDecision": {
+      "$ref": "#/definitions/gatewayDecisionRecord"
+    },
+    "enforcement": {
+      "$ref": "#/definitions/enforcementCheck"
+    },
+    "paramSummary": {
+      "$ref": "#/definitions/paramSummary"
+    },
+    "errors": {
+      "description": "处理过程中的异常列表",
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    }
+  },
+  "additionalProperties": false
+}

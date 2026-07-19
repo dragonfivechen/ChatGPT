@@ -1,0 +1,112 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "urn:openclaw:schema:context-projection-event:v1",
+  "title": "Context Projection Event",
+  "description": "Context 投影事件记录格式。每次 Context 构建后写入 events/system/context-projection/。",
+
+  "definitions": {
+    "violationEntry": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "type": "string",
+          "description": "被拒绝的投影源标识"
+        },
+        "reason": {
+          "type": "string",
+          "enum": [
+            "prohibited_source",
+            "missing_provenance",
+            "invalid_format",
+            "no_expires_at",
+            "source_not_allowed",
+            "missing_required_field"
+          ],
+          "description": "拒绝原因分类"
+        }
+      },
+      "required": ["source", "reason"],
+      "additionalProperties": false
+    }
+  },
+
+  "type": "object",
+  "properties": {
+    "type": {
+      "const": "context_projection",
+      "description": "事件类型 (§6)"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "事件记录时间"
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "请求 ID"
+    },
+    "projections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source": {
+            "$ref": "urn:openclaw:schema:context-projection:v1#/definitions/projectionSource"
+          },
+          "query": {
+            "type": "string",
+            "maxLength": 512,
+            "description": "查询描述 (如文件名、namespace)"
+          },
+          "entries": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "该源的投影条目数"
+          },
+          "total_chars": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "该源的投影总字符数"
+          },
+          "provenance": {
+            "$ref": "urn:openclaw:schema:context-projection:v1#/definitions/provenance"
+          }
+        },
+        "required": ["source", "query", "entries", "total_chars", "provenance"],
+        "additionalProperties": false
+      },
+      "minItems": 1,
+      "description": "本次构建的投影摘要"
+    },
+    "total_projection_size": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "总投影大小 (字符数)"
+    },
+    "max_context_window": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "最大 context window 大小 (字符数)"
+    },
+    "utilization_pct": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Context window 利用率百分比"
+    },
+    "violations": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/violationEntry" },
+      "description": "本次构建中被拒绝的投影列表 (如果有)"
+    }
+  },
+  "required": [
+    "type",
+    "timestamp",
+    "request_id",
+    "projections",
+    "total_projection_size"
+  ],
+  "additionalProperties": false
+}

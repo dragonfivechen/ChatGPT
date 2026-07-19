@@ -1,0 +1,141 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "urn:openclaw:schema:context-projection:v1",
+  "title": "Context Projection Entry",
+  "description": "单条 Context 投影入口 Schema。验证来源分类、格式匹配、provenance 完整性。",
+
+  "definitions": {
+    "projectionSource": {
+      "type": "string",
+      "enum": [
+        "system_instruction",
+        "conversation_history",
+        "memory",
+        "events",
+        "tool_result",
+        "knowledge",
+        "system_state"
+      ],
+      "description": "投影源分类，对应 CONTEXT-PROJECTION-CONTRACT.md §1.1 允许源 A-G"
+    },
+
+    "projectionTarget": {
+      "type": "string",
+      "enum": [
+        "system_instruction",
+        "message",
+        "attachment"
+      ],
+      "description": "投影目标在 LLM 请求中的位置 (§4.1)"
+    },
+
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "type": "string",
+          "enum": [
+            "static_config",
+            "runtime_session",
+            "memory_search",
+            "event_query",
+            "tool_execution",
+            "knowledge_query",
+            "runtime_detection"
+          ],
+          "description": "provenance 来源标识 (§4.1)"
+        },
+        "detail": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "provenance 详细描述"
+        }
+      },
+      "required": ["source", "detail"],
+      "additionalProperties": false
+    },
+
+    "textProjection": {
+      "type": "object",
+      "properties": {
+        "type": { "const": "text" },
+        "content": {
+          "type": "string",
+          "maxLength": 8192,
+          "description": "文本投影内容，最长 8192 字符"
+        },
+        "summary": {
+          "type": "boolean",
+          "default": true,
+          "description": "标记是否为摘要而非原文"
+        }
+      },
+      "required": ["type", "content"],
+      "additionalProperties": false
+    },
+
+    "jsonProjection": {
+      "type": "object",
+      "properties": {
+        "type": { "const": "json" },
+        "content": {
+          "type": "object",
+          "maxProperties": 50,
+          "description": "结构化投影，最多 50 个顶级字段"
+        },
+        "schemaRef": {
+          "type": "string",
+          "description": "可选的 schema URI 引用"
+        }
+      },
+      "required": ["type", "content"],
+      "additionalProperties": false
+    },
+
+    "messageProjection": {
+      "type": "object",
+      "properties": {
+        "type": { "const": "message" },
+        "role": {
+          "type": "string",
+          "enum": ["user", "assistant", "tool", "system"],
+          "description": "消息角色 (user/assistant/tool/system)"
+        },
+        "content": {
+          "type": "string",
+          "maxLength": 64000,
+          "description": "消息内容"
+        }
+      },
+      "required": ["type", "role", "content"],
+      "additionalProperties": false
+    }
+  },
+
+  "type": "object",
+  "properties": {
+    "source": { "$ref": "#/definitions/projectionSource" },
+    "target": { "$ref": "#/definitions/projectionTarget" },
+    "format": {
+      "oneOf": [
+        { "$ref": "#/definitions/textProjection" },
+        { "$ref": "#/definitions/jsonProjection" },
+        { "$ref": "#/definitions/messageProjection" }
+      ],
+      "description": "投影内容格式 (text/json/message)"
+    },
+    "provenance": { "$ref": "#/definitions/provenance" },
+    "projected_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "投影构建时间 (ISO-8601)"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "投影过期时间 (ISO-8601)"
+    }
+  },
+  "required": ["source", "target", "format", "provenance", "projected_at"],
+  "additionalProperties": false
+}

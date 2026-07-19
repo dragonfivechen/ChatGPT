@@ -80,6 +80,7 @@ def _build_md_event(filepath, agent, title, content_lines, start_line, counter):
         "agent": agent,
         "category": category,
         "category_source": "derived",
+        "authority_source": "event",
         "content": content,
         "source": f"{filepath}#L{start_line}",
     }
@@ -111,6 +112,7 @@ def _parse_jsonl_events(filepath: Path, agent: str, include_payload: bool = Fals
                 "agent": agent,
                 "category": category,
                 "category_source": category_source,
+                "authority_source": "event",
                 "content": content,
                 "source": f"{filepath}#L{line_no}",
             }

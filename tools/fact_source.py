@@ -60,6 +60,7 @@ def _parse_md(filepath: Path) -> list[dict]:
                     'confidence': _default_confidence(),
                     'source_event': '',
                     'validator': 'manual',
+                    'manual_reason': 'markdown_source',
                     'created_at': '',
                     'domain': _default_domain(),
                 })
@@ -73,11 +74,12 @@ def _parse_md(filepath: Path) -> list[dict]:
         facts.append({
             'fact_id': f"fact-{filepath.stem}-{event_counter:04d}",
             'content': ''.join(current_content).strip(),
-            'confidence': _infer_confidence(current_title, current_content),
+            'confidence': _default_confidence(),
             'source_event': '',
             'validator': 'manual',
+            'manual_reason': 'markdown_source',
             'created_at': '',
-            'domain': _infer_domain(current_title, current_content),
+            'domain': _default_domain(),
         })
 
     return facts

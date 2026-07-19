@@ -16,7 +16,8 @@ from pathlib import Path
 from datetime import datetime, timedelta, timezone
 from collections import defaultdict
 
-from event_source import query_events
+from event_source import query_authoritative_events as query_events
+# MAB-06: 使用 authoritative API，原 query_events 已弃用
 
 # 明确纠偏信号（高置信度）
 EXPLICIT_CORRECTION = [
@@ -104,7 +105,14 @@ def filter_architecture_sections(text: str) -> str:
     return '\n'.join(filtered)
 
 
-def detect_feedback_events(text: str, source_path: str) -> list:
+def detect_feedback_events(text: str, source_path: str, event_ids: list[str] | None = None) -> list:
+    """从事件文本中检测反馈信号
+    
+    Args:
+        text: 事件文本
+        source_path: 来源文件路径
+        event_ids: 来源事件ID列表（MAB-03: provenance identity）
+    """
     """从事件文本中检测反馈信号"""
     feedbacks = []
     lines = text.split('\n')
@@ -140,18 +148,20 @@ def detect_feedback_events(text: str, source_path: str) -> list:
             feedback_type = 'principle'
             confidence = max(0.75, confidence)
         
-        feedbacks.append({
+        fb = {
             'type': feedback_type,
             'confidence': round(confidence, 2),
             'line': i + 1,
             'text': line_s[:200],
             'source': source_path,
+            'source_id': event_ids[0] if event_ids else '',  # MAB-03: provenance identity
             'matched_signals': {
                 'explicit': has_explicit,
                 'implicit': has_implicit,
                 'principle': has_principle,
             }
-        })
+        }
+        feedbacks.append(fb)
     
     return feedbacks
 
@@ -176,9 +186,10 @@ def scan_events(agent_id: str = None, days: int = 7) -> list:
         # 段落级别过滤：跳过架构/审计段落
         text = filter_architecture_sections(text)
 
-        feedbacks = detect_feedback_events(text, filepath)
+        event_ids = [e['event_id'] for e in evts if e.get('event_id')]
+        feedbacks = detect_feedback_events(text, filepath, event_ids)
         agent = evts[0]['agent']
-        date = evts[0]['event_id'].split('-')[1]  # evt-YYYY-MM-DD-NNN
+        date = evts[0]['event_id'].split('-')[1] if evts else ''  # evt-YYYY-MM-DD-NNN
         for fb in feedbacks:
             fb['agent'] = agent
             fb['date'] = date

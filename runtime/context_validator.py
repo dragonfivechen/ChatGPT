@@ -10,22 +10,63 @@ Context Validator — 校验输出文本中的时间表达一致性。
   python3 runtime/context_validator.py --now "2026-07-20T00:13:00+08:00" --text "明天04:30"
   cat output.txt | python3 runtime/context_validator.py
 """
-import re, json, sys
+import os, re, json, sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Optional
 
-WORKSPACE = Path.home() / '.openclaw' / 'workspace'
+WORKSPACE = Path(os.environ.get('OPENCLAW_WORKSPACE', str(Path.home() / '.openclaw' / 'workspace')))
 CST = timezone(timedelta(hours=8), 'Asia/Shanghai')
+
+# RTM-01: Runtime Context 过期阈值（crontab 每5分钟刷新）
+CONTEXT_TTL_MINUTES = int(os.environ.get('CONTEXT_TTL_MINUTES', '15'))
+ACCEPTED_DATA_TYPES = frozenset({'runtime_observation', 'runtime'})
+ACCEPTED_AUTHORITIES = frozenset({'runtime'})
 
 
 def load_context(path: Optional[Path] = None) -> dict:
-    """加载 runtime/time_context.json"""
+    """加载 runtime/time_context.json
+    
+    RTM-01: 加载后验证 data_type + authority + TTL。
+    
+    Returns:
+        dict: 上下文数据（若验证失败则包含 'context_warnings' 字段）
+    """
     if path is None:
         path = WORKSPACE / 'runtime' / 'time_context.json'
-    if path.exists():
-        return json.loads(path.read_text())
-    return {}
+    
+    if not path.exists():
+        return {'context_warnings': ['time_context.json 不存在']}
+    
+    try:
+        data = json.loads(path.read_text())
+    except (json.JSONDecodeError, IOError) as e:
+        return {'context_warnings': [f'time_context.json 读取失败: {e}']}
+    
+    # RTM-01: data_type 校验
+    data_type = data.get('data_type', '')
+    if data_type not in ACCEPTED_DATA_TYPES:
+        data.setdefault('context_warnings', []).append(
+            f"data_type='{data_type}' 不在预期值 {ACCEPTED_DATA_TYPES} 中"
+        )
+    
+    # RTM-01: authority 校验
+    authority = data.get('authority', '')
+    if authority not in ACCEPTED_AUTHORITIES:
+        data.setdefault('context_warnings', []).append(
+            f"authority='{authority}' 不在预期值 {ACCEPTED_AUTHORITIES} 中"
+        )
+    
+    # RTM-01: TTL 校验
+    unix_ts = data.get('unix_ts', 0)
+    if unix_ts:
+        age_seconds = datetime.now(CST).timestamp() - unix_ts
+        if age_seconds > CONTEXT_TTL_MINUTES * 60:
+            data.setdefault('context_warnings', []).append(
+                f"time_context.json 已过期 {age_seconds/60:.0f} 分钟（TTL={CONTEXT_TTL_MINUTES}min）"
+            )
+    
+    return data
 
 
 def extract_temporal_expressions(text: str) -> list[dict]:
@@ -64,6 +105,12 @@ def validate_text(text: str, now: Optional[datetime] = None) -> dict:
 
     context = load_context()
     context_time_str = context.get('timestamp_cst', '')
+
+    # RTM-01: 输出 context 验证警告
+    context_warnings = context.get('context_warnings', [])
+    if context_warnings:
+        for w in context_warnings:
+            print(f"[context] ⚠️ {w}", file=sys.stderr)
 
     expressions = extract_temporal_expressions(text)
     ambiguities = []

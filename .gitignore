@@ -5,6 +5,9 @@
 memory/data/
 memory/cache/
 
+# Runtime snapshot (生成物，非源码)
+runtime/time_context.json
+
 # OpenClaw internal
 .openclaw/
 

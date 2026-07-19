@@ -10,12 +10,12 @@ memory_dedup.py — 规则候选去重合并 + 评分引擎
   python3 tools/memory_dedup.py --list                   # 仅展示不修改
   python3 tools/memory_dedup.py --min-confidence 0.7     # 只处理高置信度
 """
-import json, sys
+import json, sys, os
 from pathlib import Path
 from difflib import SequenceMatcher
 from datetime import datetime
 
-WORKSPACE = Path.home() / '.openclaw' / 'workspace'
+WORKSPACE = Path(os.environ.get('OPENCLAW_WORKSPACE', str(Path.home() / '.openclaw' / 'workspace')))
 CANDIDATES_DIR = WORKSPACE / 'memory' / 'candidates'
 RULES_DIR = WORKSPACE / 'memory' / 'rules'
 

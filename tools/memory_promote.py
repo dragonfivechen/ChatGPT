@@ -19,9 +19,17 @@ Patch-004: Fact Provenance — source_event 为必填
   python3 tools/memory_promote.py promote-all --dry-run         # 预览
   python3 tools/memory_promote.py reject <id>                   # 拒绝
 """
-import json, sys
+import json, sys, os
 from pathlib import Path
 from datetime import datetime
+
+# RTM-02: 单一时间真值源
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+try:
+    from runtime.context_provider import runtime_timestamp
+except ImportError:
+    def runtime_timestamp():
+        return datetime.now().strftime('%Y-%m-%d %H:%M')
 
 # Patch-030: candidate parse error tracking
 _candidate_load_errors = []
@@ -35,7 +43,7 @@ def reset_candidate_load_errors():
     _candidate_load_errors.clear()
 
 
-WORKSPACE = Path.home() / '.openclaw' / 'workspace'
+WORKSPACE = Path(os.environ.get('OPENCLAW_WORKSPACE', str(Path.home() / '.openclaw' / 'workspace')))
 CANDIDATES_DIR = WORKSPACE / 'memory' / 'candidates'
 RULES_DIR = WORKSPACE / 'memory' / 'rules'
 ARCHIVE_DIR = WORKSPACE / 'memory' / 'archive'
@@ -176,12 +184,12 @@ def _transition_allowed(current: str, target: str) -> bool:
 
 def transition(candidate: dict, target_state: str, reason: str = '') -> bool:
     """执行状态转换"""
-    current = candidate.get('state', 'pending')
+    current = candidate.get('state', candidate.get('status', 'pending'))
     if not _transition_allowed(current, target_state):
         print(f"  ⛔ 状态转换拒绝: {current} → {target_state}")
         return False
     candidate['state'] = target_state
-    candidate['state_changed_at'] = datetime.now().strftime('%Y-%m-%d %H:%M')
+    candidate['state_changed_at'] = runtime_timestamp()
     if reason:
         candidate.setdefault('state_log', []).append({
             'from': current,
@@ -195,6 +203,9 @@ def transition(candidate: dict, target_state: str, reason: str = '') -> bool:
 
 
 # ── Patch-003: Promotion Evidence Contract ──
+
+# MAB-04: Legacy migration boundary — candidates approved before this date skip evidence check
+MIGRATION_DATE = '2026-07-20'
 
 REQUIRED_EVIDENCE_FIELDS = [
     'source_event', 'validator', 'approved_at', 'approval_reason', 'promotion_id',
@@ -220,9 +231,22 @@ def _enforce_provenance(candidate: dict) -> list:
 
 # ── Patch-005: Unified Truth Write Gate ──
 
+def _is_legacy_approved(candidate: dict) -> bool:
+    """MAB-04: 判断候选是否为 legacy approved（Patch 前通过，缺 evidence fields）"""
+    state = candidate.get('state', candidate.get('status'))
+    if state != 'approved':
+        return False
+    if not candidate.get('source_event'):
+        return False
+    has_evidence = all(candidate.get(f) for f in REQUIRED_EVIDENCE_FIELDS[1:])  # skip source_event
+    return not has_evidence
+
+
 def validate_promotion_authority(candidate: dict) -> tuple[bool, list[str]]:
     """
     统一写入门：所有 Truth 写入（Facts / Rules / SOUL）必须通过此门。
+
+    兼容 MAB-04: legacy approved candidates 跳过 evidence 检查（迁移期）。
 
     Returns:
         (passed: bool, reasons: list[str])
@@ -230,13 +254,15 @@ def validate_promotion_authority(candidate: dict) -> tuple[bool, list[str]]:
     reasons = []
 
     # 1. 状态检查
-    if candidate.get('state') != 'approved':
+    if candidate.get('state', candidate.get('status')) != 'approved':
         reasons.append(f"state='{candidate.get('state')}', 需要 'approved'")
+        return False, reasons
 
-    # 2. 证据契约检查
-    missing = _check_evidence(candidate)
-    if missing:
-        reasons.append(f"证据契约缺失: {', '.join(missing)}")
+    # 2. 证据契约检查（跳过 legacy 候选）
+    if not _is_legacy_approved(candidate):
+        missing = _check_evidence(candidate)
+        if missing:
+            reasons.append(f"证据契约缺失: {', '.join(missing)}")
 
     # 3. 来源追溯检查
     provenance_issues = _enforce_provenance(candidate)
@@ -288,6 +314,15 @@ def promote(candidate: dict, dry_run: bool = False, write_soul: bool = False) ->
         print(f"  ⛔ 升级拒绝: {'; '.join(reasons)}")
         return False
 
+    # MAB-04: legacy 迁移标记 — 补充缺失的证据字段
+    if _is_legacy_approved(candidate):
+        now_ts = runtime_timestamp()
+        candidate.setdefault('promotion_id', f"legacy-{candidate['id']}")
+        candidate.setdefault('validator', 'legacy_migration')
+        candidate.setdefault('approved_at', now_ts)
+        candidate.setdefault('approval_reason', 'legacy migration: pre-Patch approved candidate')
+        print(f"  ⚠️ legacy migration: evidence fields 自动填充")
+
     category = candidate.get('category', 'interaction')
     rule_text = candidate.get('candidate', '')
     if not rule_text:
@@ -305,7 +340,7 @@ def promote(candidate: dict, dry_run: bool = False, write_soul: bool = False) ->
         if rule_text in existing.get('rule', '') or existing.get('rule', '') in rule_text:
             existing['score'] = max(existing.get('score', 0), candidate.get('score', 0))
             existing['hit_count'] = existing.get('hit_count', 1) + candidate.get('hit_count', 1)
-            existing['last_updated'] = datetime.now().strftime('%Y-%m-%d %H:%M')
+            existing['last_updated'] = runtime_timestamp()
             existing['source'] = candidate.get('source_event', existing.get('source', ''))
             # Patch-016: 重复规则 merge 时同步 provenance 字段
             existing['promotion_id'] = candidate.get('promotion_id', existing.get('promotion_id', ''))
@@ -317,7 +352,7 @@ def promote(candidate: dict, dry_run: bool = False, write_soul: bool = False) ->
             return True
 
     # 新规则 — Patch-003: 完整证据契约
-    now_ts = datetime.now().strftime('%Y-%m-%d %H:%M')
+    now_ts = runtime_timestamp()
     new_rule = {
         'rule': rule_text,
         'source': candidate.get('source_event', ''),
@@ -400,7 +435,7 @@ def main():
         if not c.get('validator'):
             c['validator'] = 'system'
         if not c.get('approved_at'):
-            c['approved_at'] = datetime.now().strftime('%Y-%m-%d %H:%M')
+            c['approved_at'] = runtime_timestamp()
         if not c.get('promotion_id'):
             print(f"  ⛔ 审批拒绝: promotion_id 缺失，approval 不自动生成 evidence")
             sys.exit(1)
@@ -427,7 +462,7 @@ def main():
     if action == 'promote-all':
         promoted_count = 0
         for c in candidates:
-            if c.get('state') != 'approved':
+            if c.get('state', c.get('status')) != 'approved':
                 continue
             if promote(c, dry_run, write_soul):
                 if not dry_run:

@@ -12,6 +12,7 @@ import os
 import re
 import json
 import glob
+import warnings
 from datetime import datetime, timezone, timedelta
 from typing import Optional
 from pathlib import Path
@@ -294,6 +295,8 @@ def query_events(
     """
     查询事件。
 
+    MAB-06: 弃用中。新代码应使用 query_authoritative_events()。
+
     Args:
         start_time: ISO-8601 起始时间
         end_time: ISO-8601 截止时间
@@ -306,6 +309,11 @@ def query_events(
     Returns:
         事件列表，按时间戳倒序排列
     """
+    warnings.warn(
+        "query_events() 已弃用，请使用 query_authoritative_events() （MAB-06）",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     events = _scan_events(agent=agent, days=days, include_payload=payload)
 
     # 时间过滤

@@ -29,6 +29,7 @@ Frontmatter Metadata（最低）
 | **events** | Runtime / Agent | 永久 | append-only | ❌ 禁止覆盖 | ❌ 禁止删除 |
 | **knowledge** | Importer / Human | 长期 | 外部知识导入 | 版本化替换 | 保留版本 |
 | **cache** | Any Worker / Agent | 短期 | 自动生成 | 随时覆盖 | 可自动清理 |
+| **data** | Runtime / Worker | 短期 | 管道日志 append，状态 update | 状态快照可覆盖 | 定期自动清理 |
 
 ---
 
@@ -55,6 +56,19 @@ state 可更新，events 不可更新。
 ### cache — 最宽松
 
 允许任何 worker/agent 写入。但 cache ≠ memory，不参与长期事实检索。
+
+### data — 管道观测层
+
+append (日志/遥测) ✅ | update (状态快照) ✅ | read ✅ | modify ❌ | delete (自动清理) ✅
+
+data = "系统运行时产生的观测数据"，不属于事实 truth。
+- 治理管道日志 (governance-pipeline.jsonl)
+- 治理状态快照 (governance-state.json)
+- 系统遥测 (system-health.jsonl, service-state.jsonl, memory-snapshot.jsonl)
+
+与 events 的区别：
+- events = 事实链，永不可删除
+- data = 观测数据，周期性清理
 
 ---
 

@@ -17,7 +17,7 @@ import json, sys, subprocess, os
 from pathlib import Path
 from datetime import datetime, timezone
 
-WORKSPACE = Path.home() / '.openclaw' / 'workspace'
+WORKSPACE = Path(os.environ.get('OPENCLAW_WORKSPACE', str(Path.home() / '.openclaw' / 'workspace')))
 TOOLS_DIR = WORKSPACE / 'tools'
 CANDIDATES_DIR = WORKSPACE / 'memory' / 'candidates'
 RULES_DIR = WORKSPACE / 'memory' / 'rules'
@@ -29,6 +29,12 @@ GOVERNANCE_STATE = WORKSPACE / 'memory' / 'data' / 'system' / 'governance-state.
 GOVERNANCE_LAST = WORKSPACE / 'memory' / 'data' / 'system' / 'governance-last.json'
 GOVERNANCE_LOG = WORKSPACE / 'memory' / 'data' / 'system' / 'governance-pipeline.log'
 GOVERNANCE_ERR = WORKSPACE / 'memory' / 'data' / 'system' / 'governance-error.log'
+
+# MAB-07: 管道日志生命周期
+# memory/data/ 是非事实观测层，日志保留策略由外部运维管理
+# - governance-pipeline.jsonl: 最近30条运行摘要（自限制）
+# - governance-pipeline.log:  连续追加，建议外部 logrotate
+# - governance-error.log:     仅记录 Fatal，不滚动
 
 
 def run_script(name: str, args: list = None, dry_run: bool = False):

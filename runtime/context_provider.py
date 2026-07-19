@@ -14,8 +14,17 @@ import json, sys, os
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
-WORKSPACE = Path.home() / '.openclaw' / 'workspace'
+WORKSPACE = Path(os.environ.get('OPENCLAW_WORKSPACE', str(Path.home() / '.openclaw' / 'workspace')))
 CST = timezone(timedelta(hours=8), 'Asia/Shanghai')
+
+
+def runtime_timestamp() -> str:
+    """RTM-02: 单一时间真值源，取代分散的 datetime.now()
+    
+    Returns:
+        ISO 格式时间戳字符串
+    """
+    return datetime.now(CST).strftime('%Y-%m-%d %H:%M')
 
 
 def build_context(now: datetime | None = None) -> dict:

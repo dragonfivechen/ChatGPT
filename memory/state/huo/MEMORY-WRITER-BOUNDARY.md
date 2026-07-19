@@ -42,6 +42,7 @@ OpenClaw 当前源码已验证：
 | cache | ❌ | ❌ | ✅ disposable | ❌ | ❌ | ❌ | ❌ |
 | MEMORY.md (root) | ❌ | ✅ controlled | ❌ | ❌ | ❌ | ❌ | ❌ |
 | memory/dreaming/ | ❌ | ✅ append | ❌ | ❌ | ❌ | ❌ | ❌ |
+| memory/data/ | ✅ update | ❌ | ✅ append+update | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -55,6 +56,7 @@ OpenClaw 当前源码已验证：
 | events | append, read | ❌ modify / ❌ delete |
 | knowledge | create (versioned), read | 版本化替换，保留旧版本 |
 | cache | create, update, delete, read | 随时覆盖，可自动清理 |
+| memory/data/ | append, update, read | 管道日志 + 治理状态 + 系统遥测。append-only 日志，update 状态快照 |
 
 ---
 
@@ -100,12 +102,14 @@ writer:
 
 | ID | Class | Namespace | Domain | Mutation |
 |----|-------|-----------|--------|----------|
-| huo (Runtime) | runtime | state, events | — | update, append |
+| huo (Runtime) | runtime | state, events, data | — | update, append |
 | jin (Runtime) | runtime | events | — | append |
 | dreaming | generated | MEMORY.md, memory/dreaming/ | — | controlled, append |
 | billing | worker | cache | — | disposable |
 | token-observe | worker | cache | — | disposable |
 | lottery-worker | external-event-producer | events | lottery | append only |
+| governance-worker | worker | data | governance | append (pipeline log), update (state snapshot) |
+| collect-sensors | worker | data | system | append (telemetry jsonl) |
 
 ---
 

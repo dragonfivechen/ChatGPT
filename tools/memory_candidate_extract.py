@@ -11,7 +11,7 @@ memory_candidate_extract.py — 从反馈信号中提炼规则候选
   python3 tools/memory_candidate_extract.py --days 3           # 最近3天
   python3 tools/memory_candidate_extract.py --dry-run          # 预览不写入
 """
-import re, json, sys
+import re, json, sys, os
 from pathlib import Path
 from datetime import datetime, timezone
 
@@ -28,7 +28,7 @@ RULE_PATTERNS = [
     (r'-\s+(?!.*(?:阶段|Phase|##))(?:\*{0,2})?(.+?)(?:[，。]|$)', 0.65),
 ]
 
-WORKSPACE = Path.home() / '.openclaw' / 'workspace'
+WORKSPACE = Path(os.environ.get('OPENCLAW_WORKSPACE', str(Path.home() / '.openclaw' / 'workspace')))
 CANDIDATES_DIR = WORKSPACE / 'memory' / 'candidates'
 
 # 引入反馈检测
@@ -215,7 +215,7 @@ def main():
         
         candidate = {
             "id": rule_id,
-            "source_event": nc['source'],
+            "source_event": nc.get('source_id') or nc['source'],  # MAB-03: event_id优先
             "source_line": nc['source_line'],
             "agent": nc['agent'],
             "date": nc['date'],
@@ -225,7 +225,7 @@ def main():
             "confidence": nc['confidence'],
             "score": 0.0,
             "hit_count": 1,
-            "status": "pending"
+            "state": "pending"
         }
         
         out_path = CANDIDATES_DIR / f"{rule_id}.json"

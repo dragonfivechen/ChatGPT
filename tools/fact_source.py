@@ -102,6 +102,9 @@ def _infer_domain(title: str, content_lines: list[str]) -> str:
 
 # —— Patch-006: Provenance Status ——
 
+PROVENANCE_STATES = frozenset({'valid', 'manual', 'missing'})
+
+
 def get_provenance_status(fact: dict) -> str:
     """
     返回事实的 provenance 状态。
@@ -181,7 +184,7 @@ def query_facts(
     if provenance:
         facts = [f for f in facts if f.get('provenance_status') == provenance.lower()]
 
-    conf_order = {'high': 0, 'medium': 1, 'low': 2, 'candidate': 3}
+    conf_order = {'high': 0, 'medium': 1, 'low': 2, 'candidate': 3, 'unknown': 99}
     facts.sort(key=lambda f: conf_order.get(f.get('confidence', 'low'), 3))
 
     if limit:

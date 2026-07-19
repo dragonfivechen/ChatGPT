@@ -84,27 +84,19 @@ def _parse_md(filepath: Path) -> list[dict]:
 
 
 def _infer_confidence(title: str, content_lines: list[str]) -> str:
-    """从标题内容推断置信度。"""
-    text = (title + ' ' + ''.join(content_lines)).lower()
-    if any(k in text for k in ['confirmed', 'validated', '已验证', '已确认', 'high']):
-        return 'high'
-    if any(k in text for k in ['观察', '候选', 'medium', 'candidate', 'pending']):
-        return 'medium'
-    return 'low'
+    """置信度由 promotion 层指定，Reader 不做推断。返回默认值。
+
+    Patch-004: 移除推断逻辑。Promotion 层在写入时必须指定 confidence。
+    此函数保持调用兼容，直接返回 'candidate' 表示需 promotion 层确认。
+    """
+    return 'candidate'
 
 
 def _infer_domain(title: str, content_lines: list[str]) -> str:
-    """从标题内容推断领域。"""
-    text = (title + ' ' + ''.join(content_lines)).lower()
-    domains = {
-        'governance': ['治理', '冻结', '修复', '审计', 'gap', 'freeze', 'observation'],
-        'architecture': ['架构', '契约', '边界', '合约', 'contract', 'architecture'],
-        'interaction': ['交互', '输出', '应答', '推断', 'interaction'],
-        'lottery': ['彩票', '开奖', '日报', 'lottery', 'draw'],
-    }
-    for domain, keywords in domains.items():
-        if any(k in text for k in keywords):
-            return domain
+    """领域由 promotion 层指定，Reader 不做推断。返回默认值。
+
+    Patch-004: 移除推断逻辑。
+    """
     return 'general'
 
 

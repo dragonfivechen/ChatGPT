@@ -1,73 +1,60 @@
 #!/usr/bin/env python3
 """
-memory_promote.py — 规则候选升级引擎
+memory_promote.py — 规则候选升级引擎 (v2.0 + Patch-001/002/003/004)
 
-从 memory/candidates/ 选取高评分候选，写入 memory/rules/<category>.yaml。
+从 memory/candidates/ 选取已审批候选，写入 memory/rules/<category>.yaml。
+
+Patch-001: Promotion Approval Gate — 需先经过 approved 状态
+Patch-002: SOUL.md 写入已从自动流程中移除，改为显式 --soul
+Patch-003: 每个 promoted rule 必须包含证据契约
+Patch-004: Fact Provenance — source_event 为必填
 
 用法:
-  python3 tools/memory_promote.py list               # 列出可升级候选
-  python3 tools/memory_promote.py promote <id>       # 升级指定候选
-  python3 tools/memory_promote.py promote-all         # 批量升级（score > 0.75）
-  python3 tools/memory_promote.py promote-all --dry-run  # 预览
-  python3 tools/memory_promote.py promote-all --force    # 覆盖所有 pending
+  python3 tools/memory_promote.py list                          # 列出候选
+  python3 tools/memory_promote.py validate <id>                 # 标记为 validated
+  python3 tools/memory_promote.py approve <id>                  # 标记为 approved
+  python3 tools/memory_promote.py promote <id>                  # 升级（需 approved）
+  python3 tools/memory_promote.py promote <id> --soul           # 升级并允许写入 SOUL.md
+  python3 tools/memory_promote.py promote-all                   # 批量升级已 approved
+  python3 tools/memory_promote.py promote-all --dry-run         # 预览
+  python3 tools/memory_promote.py reject <id>                   # 拒绝
 """
 import json, sys
 from pathlib import Path
 from datetime import datetime
-import shutil
 
 WORKSPACE = Path.home() / '.openclaw' / 'workspace'
 CANDIDATES_DIR = WORKSPACE / 'memory' / 'candidates'
 RULES_DIR = WORKSPACE / 'memory' / 'rules'
 ARCHIVE_DIR = WORKSPACE / 'memory' / 'archive'
 
-# 规则文件映射
-RULE_FILES = {
-    'interaction': RULES_DIR / 'interaction.yaml',
-    'project': RULES_DIR / 'project.yaml',
-    'architecture': RULES_DIR / 'architecture.yaml',
-    'governance': RULES_DIR / 'governance.yaml',
+# Promotion 状态机：state 流转顺序
+PROMOTION_STATES = ['pending', 'validated', 'approved', 'promoted', 'rejected']
+VALID_TRANSITIONS = {
+    'pending':   ['validated', 'rejected'],
+    'validated': ['approved', 'rejected'],
+    'approved':  ['promoted', 'rejected'],
+    'promoted':  [],
+    'rejected':  [],
 }
 
-# 默认规则文件模版
+# 规则文件映射
+RULE_FILES = {
+    'interaction':  RULES_DIR / 'interaction.yaml',
+    'project':      RULES_DIR / 'project.yaml',
+    'architecture': RULES_DIR / 'architecture.yaml',
+    'governance':   RULES_DIR / 'governance.yaml',
+}
+
 DEFAULT_RULES_TEMPLATES = {
-    'interaction.yaml': """# interaction.yaml — 交互行为规则
-# 自动管理，手动修改会被治理管道覆盖
-rules:
-  - rule: "暂无规则"
-    source: "system_init"
-    promoted: "2026-07-20"
-    score: 0
-""",
-    'project.yaml': """# project.yaml — 项目级规则
-# 自动管理，手动修改会被治理管道覆盖
-rules:
-  - rule: "暂无规则"
-    source: "system_init"
-    promoted: "2026-07-20"
-    score: 0
-""",
-    'architecture.yaml': """# architecture.yaml — 架构治理规则
-# 自动管理，手动修改会被治理管道覆盖
-rules:
-  - rule: "暂无规则"
-    source: "system_init"
-    promoted: "2026-07-20"
-    score: 0
-""",
-    'governance.yaml': """# governance.yaml — 治理原则
-# 自动管理，手动修改会被治理管道覆盖
-rules:
-  - rule: "暂无规则"
-    source: "system_init"
-    promoted: "2026-07-20"
-    score: 0
-""",
+    'interaction.yaml': "# interaction.yaml — 交互行为规则\n# 自动管理，手动修改会被治理管道覆盖\nrules:\n  - rule: \"暂无规则\"\n    source: \"system_init\"\n    promoted: \"2026-07-20\"\n    score: 0\n",
+    'project.yaml': "# project.yaml — 项目级规则\n# 自动管理，手动修改会被治理管道覆盖\nrules:\n  - rule: \"暂无规则\"\n    source: \"system_init\"\n    promoted: \"2026-07-20\"\n    score: 0\n",
+    'architecture.yaml': "# architecture.yaml — 架构治理规则\n# 自动管理，手动修改会被治理管道覆盖\nrules:\n  - rule: \"暂无规则\"\n    source: \"system_init\"\n    promoted: \"2026-07-20\"\n    score: 0\n",
+    'governance.yaml': "# governance.yaml — 治理原则\n# 自动管理，手动修改会被治理管道覆盖\nrules:\n  - rule: \"暂无规则\"\n    source: \"system_init\"\n    promoted: \"2026-07-20\"\n    score: 0\n",
 }
 
 
 def init_rules_dir():
-    """初始化 rules 目录"""
     RULES_DIR.mkdir(parents=True, exist_ok=True)
     ARCHIVE_DIR.mkdir(parents=True, exist_ok=True)
     for fname in RULE_FILES.values():
@@ -90,8 +77,14 @@ def load_candidates() -> list:
     return cands
 
 
+def save_candidate(candidate: dict):
+    """写回候选文件"""
+    out_path = CANDIDATES_DIR / f"{candidate['id']}.json"
+    with open(out_path, 'w') as f:
+        json.dump(candidate, f, ensure_ascii=False, indent=2)
+
+
 def load_rules(category: str) -> dict:
-    """加载某类已有规则"""
     target = RULE_FILES.get(category)
     if not target or not target.exists():
         return {'rules': []}
@@ -107,14 +100,12 @@ def load_rules(category: str) -> dict:
 
 
 def save_rules(category: str, rules_data: dict):
-    """保存规则到 YAML（保留注释头）"""
     target = RULE_FILES[category]
     import yaml
     import io
     buf = io.StringIO()
     yaml.dump(rules_data, buf, allow_unicode=True, default_flow_style=False, sort_keys=False)
     content = buf.getvalue()
-    # 从模板提取注释头（不包含 rules: 行）
     template = DEFAULT_RULES_TEMPLATES.get(target.name, '')
     header_lines = []
     for line in template.split('\n'):
@@ -129,42 +120,140 @@ def save_rules(category: str, rules_data: dict):
     print(f"  ✅ 已写入 {target}")
 
 
-def promote(candidate: dict, dry_run: bool = False) -> bool:
-    """升级候选规则"""
-    category = candidate.get('category', 'interaction')
+# ── Patch-001: Approval Gate ──
+
+def _transition_allowed(current: str, target: str) -> bool:
+    if target not in PROMOTION_STATES:
+        return False
+    if current == target:
+        return True
+    return target in VALID_TRANSITIONS.get(current, [])
+
+
+def transition(candidate: dict, target_state: str, reason: str = '') -> bool:
+    """执行状态转换"""
+    current = candidate.get('state', 'pending')
+    if not _transition_allowed(current, target_state):
+        print(f"  ⛔ 状态转换拒绝: {current} → {target_state}")
+        return False
+    candidate['state'] = target_state
+    candidate['state_changed_at'] = datetime.now().strftime('%Y-%m-%d %H:%M')
+    if reason:
+        candidate.setdefault('state_log', []).append({
+            'from': current,
+            'to': target_state,
+            'reason': reason,
+            'at': candidate['state_changed_at'],
+        })
+    save_candidate(candidate)
+    print(f"  ✅ {candidate['id']}: {current} → {target_state}")
+    return True
+
+
+# ── Patch-003: Promotion Evidence Contract ──
+
+REQUIRED_EVIDENCE_FIELDS = [
+    'source_event', 'validator', 'approved_at', 'approval_reason', 'promotion_id',
+]
+
+
+def _check_evidence(candidate: dict) -> list:
+    missing = []
+    for field in REQUIRED_EVIDENCE_FIELDS:
+        if not candidate.get(field):
+            missing.append(field)
+    return missing
+
+
+# ── Patch-004: Fact Provenance ──
+
+def _enforce_provenance(candidate: dict) -> list:
+    issues = []
+    if not candidate.get('source_event'):
+        issues.append('source_event is required for promotion')
+    return issues
+
+
+# ── Patch-002: SOUL.md is explicit only ──
+
+SOUL_MD_FLAG = '--soul'
+
+
+def promote_to_soulmd(candidate: dict, dry_run: bool = False) -> bool:
+    """仅当显式 --soul 标志时写入 SOUL.md"""
     rule_text = candidate.get('candidate', '')
-    
     if not rule_text:
         return False
-    
+    if candidate.get('state') != 'approved':
+        print(f"  ⛔ SOUL.md 写入拒绝: state='{candidate.get('state')}', 需要 'approved'")
+        return False
     if dry_run:
-        print(f"  [DRY RUN] 升级到 {RULE_FILES.get(category)}:")
-        print(f"    rule: {rule_text}")
-        print(f"    score: {candidate.get('score', 0):.3f}")
+        print(f"  [DRY RUN] 写入 SOUL.md: {rule_text}")
         return True
-    
-    # 加载已有规则
+    soul_path = WORKSPACE / 'SOUL.md'
+    with open(soul_path, 'a') as f:
+        f.write(f"\n- {rule_text}  # {candidate['id']}\n")
+    print(f"  ✅ 已写入 SOUL.md")
+    return True
+
+
+# ── Core: promote ──
+
+def promote(candidate: dict, dry_run: bool = False, write_soul: bool = False) -> bool:
+    """升级候选规则 — 需先经过 approved 状态"""
+    # Patch-001: approval gate
+    if candidate.get('state') != 'approved':
+        print(f"  ⛔ 升级拒绝: state='{candidate.get('state')}', 需要 'approved'")
+        return False
+
+    category = candidate.get('category', 'interaction')
+    rule_text = candidate.get('candidate', '')
+    if not rule_text:
+        return False
+
+    # Patch-003: check evidence
+    missing = _check_evidence(candidate)
+    if missing:
+        print(f"  ⛔ 证据契约缺失: {', '.join(missing)}")
+        return False
+
+    # Patch-004: provenance
+    provenance_issues = _enforce_provenance(candidate)
+    if provenance_issues:
+        for issue in provenance_issues:
+            print(f"  ⛔ {issue}")
+        return False
+
+    if dry_run:
+        print(f"  [DRY RUN] 升级到 {RULE_FILES.get(category)}: {rule_text}")
+        return True
+
     rules_data = load_rules(category)
     rules = rules_data.get('rules', [])
-    
-    # 去重（规则库级别）
+
+    # 去重
     for existing in rules:
         if rule_text in existing.get('rule', '') or existing.get('rule', '') in rule_text:
-            # 已有相似规则：更新 score
             existing['score'] = max(existing.get('score', 0), candidate.get('score', 0))
             existing['hit_count'] = existing.get('hit_count', 1) + candidate.get('hit_count', 1)
             existing['last_updated'] = datetime.now().strftime('%Y-%m-%d %H:%M')
             existing['source'] = candidate.get('source_event', existing.get('source', ''))
             save_rules(category, rules_data)
-            return True  # 更新，不是新增
-    
-    # 新规则
+            print(f"  ✅ 更新已有规则 (score={existing['score']:.3f})")
+            return True
+
+    # 新规则 — Patch-003: 完整证据契约
+    now_ts = datetime.now().strftime('%Y-%m-%d %H:%M')
     new_rule = {
         'rule': rule_text,
         'source': candidate.get('source_event', ''),
-        'promoted': datetime.now().strftime('%Y-%m-%d %H:%M'),
+        'promoted': now_ts,
         'score': candidate.get('score', 0),
         'hit_count': candidate.get('hit_count', 1),
+        'promotion_id': candidate.get('promotion_id', f"promote-{candidate['id']}"),
+        'validator': candidate.get('validator', 'system'),
+        'approved_at': candidate.get('approved_at', now_ts),
+        'approval_reason': candidate.get('approval_reason', ''),
     }
     rules.append(new_rule)
     rules_data['rules'] = rules
@@ -172,40 +261,14 @@ def promote(candidate: dict, dry_run: bool = False) -> bool:
     return True
 
 
-def promote_to_interaction_rule(candidate: dict, dry_run: bool = False) -> bool:
-    """高优先级交互规则 → 写入 SOUL.md"""
-    rule_text = candidate.get('candidate', '')
-    if not rule_text:
-        return False
-    
-    if dry_run:
-        print(f"  [DRY RUN] 写入 SOUL.md:")
-        print(f"    {rule_text}")
-        return True
-    
-    soul_path = WORKSPACE / 'SOUL.md'
-    with open(soul_path, 'a') as f:
-        f.write(f"\n- {rule_text}  # {candidate['id']}\n")
-    return True
-
-
-def archive_candidate(candidate: dict):
-    """归档已升级的候选"""
-    candidate['archived_at'] = datetime.now().strftime('%Y-%m-%d %H:%M')
-    candidate['status'] = 'approved'
-    
-    out_path = CANDIDATES_DIR / f"{candidate['id']}.json"
-    with open(out_path, 'w') as f:
-        json.dump(candidate, f, ensure_ascii=False, indent=2)
-
-
 def review_gate(candidate: dict) -> tuple:
-    """审核门"""
+    """审核门 — 检查基本完整性"""
     reasons = []
     if not candidate.get('candidate'):
         reasons.append('缺少规则文本')
-    if candidate.get('status') not in ('pending', 'deduped'):
-        reasons.append(f"状态不允许: {candidate.get('status')}")
+    state = candidate.get('state', 'pending')
+    if state not in ('pending', 'validated', 'approved'):
+        reasons.append(f"state 不允许: {state}")
     text = candidate.get('candidate', '')
     if len(text) < 10:
         reasons.append('规则文本过短')
@@ -214,84 +277,99 @@ def review_gate(candidate: dict) -> tuple:
     return len(reasons) == 0, reasons
 
 
+# ── CLI ──
+
 def main():
     init_rules_dir()
     candidates = load_candidates()
-    
+
     if not candidates:
         print("无待处理候选")
         return
-    
+
     if len(sys.argv) < 2:
-        print("用法: memory_promote.py list|promote|promote-all [--dry-run] [--force]")
+        print("用法: memory_promote.py list|validate|approve|promote|reject <id> [--dry-run] [--soul]")
         sys.exit(1)
-    
+
     action = sys.argv[1]
     dry_run = '--dry-run' in sys.argv
-    force = '--force' in sys.argv
-    
+    write_soul = SOUL_MD_FLAG in sys.argv
+
     if action == 'list':
         print(f"=== 候选列表 ({len(candidates)} 条) ===")
         for c in candidates:
-            status = c.get('status', 'unknown')
+            state = c.get('state', c.get('status', 'unknown'))
             score = c.get('score', 0)
             conf = c.get('confidence', 0)
             cat = c.get('category', '?')
-            passed, reasons = review_gate(c)
-            gate = '✅' if passed else '⛔'
-            print(f"  {c['id']} [{cat}] status={status} score={score:.3f} conf={conf} {gate}")
+            has_evidence = all(c.get(f) for f in REQUIRED_EVIDENCE_FIELDS)
+            ev_tag = '📋' if has_evidence else '⚠️'
+            print(f"  {c['id']} [{cat}] state={state} score={score:.3f} conf={conf} {ev_tag}")
             print(f"    '{c['candidate'][:80]}'")
-            if not passed:
-                print(f"    原因: {', '.join(reasons)}")
         return
-    
-    if action == 'promote' and len(sys.argv) > 2:
-        rule_id = sys.argv[2]
-        found = [c for c in candidates if c['id'] == rule_id]
+
+    if action == 'validate' and len(sys.argv) > 2:
+        found = [c for c in candidates if c['id'] == sys.argv[2]]
         if not found:
-            print(f"未找到: {rule_id}")
+            print(f"未找到: {sys.argv[2]}")
+            sys.exit(1)
+        transition(found[0], 'validated')
+        return
+
+    if action == 'approve' and len(sys.argv) > 2:
+        found = [c for c in candidates if c['id'] == sys.argv[2]]
+        if not found:
+            print(f"未找到: {sys.argv[2]}")
             sys.exit(1)
         c = found[0]
-        passed, reasons = review_gate(c)
-        if not passed:
-            print(f"审核未通过: {', '.join(reasons)}")
-            sys.exit(1)
-        
-        promote(c, dry_run)
-        promote_to_interaction_rule(c, dry_run)
-        if not dry_run:
-            archive_candidate(c)
-        print(f"  {c['id']} → {'dry-run' if dry_run else '已升级'}")
+        # 自动填充 evidence 字段（留空则提示）
+        if not c.get('validator'):
+            c['validator'] = 'system'
+        if not c.get('approved_at'):
+            c['approved_at'] = datetime.now().strftime('%Y-%m-%d %H:%M')
+        if not c.get('promotion_id'):
+            c['promotion_id'] = f"promote-{c['id']}"
+        if not c.get('approval_reason'):
+            c['approval_reason'] = '(待填写)'
+        transition(c, 'approved')
         return
-    
+
+    if action == 'promote' and len(sys.argv) > 2:
+        found = [c for c in candidates if c['id'] == sys.argv[2]]
+        if not found:
+            print(f"未找到: {sys.argv[2]}")
+            sys.exit(1)
+        c = found[0]
+        promoted = promote(c, dry_run, write_soul)
+        if promoted and not dry_run:
+            if write_soul:
+                promote_to_soulmd(c, dry_run)
+            transition(c, 'promoted')
+            print(f"  ✅ {c['id']} 已升级")
+        return
+
     if action == 'promote-all':
         promoted_count = 0
         for c in candidates:
-            if c.get('status') not in ('pending', 'deduped'):
+            if c.get('state') != 'approved':
                 continue
-            
-            score = c.get('score', 0)
-            if score < 0.75 and not force:
-                if c.get('confidence', 0) < 0.8:
-                    continue
-            
-            passed, reasons = review_gate(c)
-            if not passed:
-                continue
-            
-            # 升级
-            cat = c.get('category', 'interaction')
-            if cat == 'interaction' and score > 0.85:
-                promote_to_interaction_rule(c, dry_run)
-            
-            promote(c, dry_run)
-            if not dry_run:
-                archive_candidate(c)
-            promoted_count += 1
-        
+            if promote(c, dry_run, write_soul):
+                if not dry_run:
+                    if write_soul and c.get('category') == 'interaction':
+                        promote_to_soulmd(c, dry_run)
+                    transition(c, 'promoted')
+                promoted_count += 1
         print(f"\n共升级 {promoted_count}/{len(candidates)} 条 ({'dry-run' if dry_run else '生效'})")
         return
-    
+
+    if action == 'reject' and len(sys.argv) > 2:
+        found = [c for c in candidates if c['id'] == sys.argv[2]]
+        if not found:
+            print(f"未找到: {sys.argv[2]}")
+            sys.exit(1)
+        transition(found[0], 'rejected', sys.argv[3] if len(sys.argv) > 3 else '')
+        return
+
     print(f"未知操作: {action}")
 
 

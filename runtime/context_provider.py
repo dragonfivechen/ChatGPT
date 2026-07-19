@@ -46,7 +46,7 @@ def write_context(ctx: dict, path: Path | None = None):
     if path is None:
         path = WORKSPACE / 'runtime' / 'time_context.json'
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(ctx, ensure_ascii=False, indent=2) + '\n')
+    path.write_text(json.dumps(ctx, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
 
 
 def main():

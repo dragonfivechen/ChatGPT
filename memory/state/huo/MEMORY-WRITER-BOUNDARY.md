@@ -110,6 +110,17 @@ writer:
 | lottery-worker | external-event-producer | events | lottery | append only |
 | governance-worker | worker | data | governance | append (pipeline log), update (state snapshot) |
 | collect-sensors | worker | data | system | append (telemetry jsonl) |
+| collect-daily-status | worker | data | daily-report | append (markdown report) |
+| backup-full | worker | data | backup | append (backup-events jsonl) |
+
+### 补充说明
+
+`runtime/context_provider.py` 写入 `runtime/time_context.json`。该路径**不属于** `memory/` namespace，
+但受 `context_contract.md` 约束（运行时观测层契约）。
+- 写入者: Runtime (OS clock)
+- namespace: runtime/ (非 memory)
+- 动作: update (每5分钟快照)
+- Authority: Context Provider Contract (context_contract.md)
 
 ---
 

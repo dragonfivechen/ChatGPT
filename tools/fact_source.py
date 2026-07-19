@@ -100,8 +100,8 @@ def _default_domain() -> str:
 
 
 # 兼容别名：旧命名保持可调用
-_infer_confidence = _default_confidence
-_infer_domain = _default_domain
+_infer_confidence = _default_confidence  # compatibility alias only — MUST NOT introduce inference logic
+_infer_domain = _default_domain          # compatibility alias only — MUST NOT introduce inference logic
 
 
 # —— Patch-006: Provenance Status ——

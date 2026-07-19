@@ -28,7 +28,10 @@ def reset_parse_stats():
 
 
 def get_parse_stats() -> dict:
-    return dict(_parse_stats)
+    return {
+        'error_count': _parse_stats['error_count'],
+        'error_records': list(_parse_stats['error_records']),
+    }
 
 
 # —— 解析 ——

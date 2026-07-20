@@ -67,32 +67,44 @@ def record_violation(contract: str, level: str, source: str, event: str, details
 # ═══════════════════════════════════════════
 
 def check_memory_ownership(dry_run: bool = False):
-    """验证 memory/events 目录写入者身份与所有权匹配"""
+    """验证 memory/events 目录写入者身份与所有权匹配
+    
+    只检测实际跨身份写入行为，不因身份关键词出现就报警。
+    例如：
+      - huo/ 文件包含 Telegram 消息原文 / TG 命令输出 → 跨身份写入
+      - huo/ 文件提到"烬🔥应遵守隔离规则" → 规则描述，豁免
+    """
     violations = []
-    for agent_dir in ['huo', 'jin']:
+    
+    # 跨身份行为信号：其他身份的实际产物，非规则描述
+    CROSS_IDENTITY_SIGNALS = {
+        'huo': [  # huo 中出现 tg-agent 的产物
+            '/send_message', '/telegram', 'tg_id:', 'message_id:',
+            'telegram.update', 'channel_post',
+        ],
+        'jin': [  # jin 中出现 main-agent 的产物
+            'shell_output', 'exit_code:', '/webchat',
+            'terminal_output', '[exec]',
+        ],
+    }
+    
+    for agent_dir, signals in CROSS_IDENTITY_SIGNALS.items():
         path = EVENTS_DIR / agent_dir
         if not path.exists():
             continue
         for f in sorted(path.glob('*.md')):
             content = f.read_text()
-            # 简易检测：检查文件内容中是否提到"tg-agent" 或 "jin" 字样
-            # 在 huo 目录中出现 tg-agent 相关内容 → 所有权偏离
-            if agent_dir == 'huo' and ('tg-agent' in content or '烬🔥' in content):
-                violations.append(record_violation(
-                    'memory_ownership', 'L1_violation', str(f),
-                    'cross_identity_write',
-                    f'huo/ 目录包含 tg-agent 身份内容',
-                    dry_run
-                ))
-            if agent_dir == 'jin' and ('main-agent' in content or '燃🔥' in content):
-                violations.append(record_violation(
-                    'memory_ownership', 'L1_violation', str(f),
-                    'cross_identity_write',
-                    f'jin/ 目录包含 main-agent 身份内容',
-                    dry_run
-                ))
+            for signal in signals:
+                if signal in content:
+                    violations.append(record_violation(
+                        'memory_ownership', 'L1_violation', str(f),
+                        'cross_identity_write',
+                        f'{agent_dir}/ 含其他身份行为信号: {signal}',
+                        dry_run
+                    ))
+                    break  # 一个文件只报一次
     if not violations:
-        print(f"  ✅ memory_ownership: 无违规 (检查 {sum(1 for _ in EVENTS_DIR.glob('*/*.md'))} 文件)")
+        print(f"  ✅ memory_ownership: 无跨身份写入")
     return violations
 
 
@@ -101,28 +113,54 @@ def check_memory_ownership(dry_run: bool = False):
 # ═══════════════════════════════════════════
 
 def check_reasoning_isolation(dry_run: bool = False):
-    """检测 reasoning/thinking 内容进入事实存储"""
+    """检测 reasoning/thinking 内容污染事实存储
+    
+    契约文档本身（描述推理隔离规则）不算污染。
+    污染指：reasoning 模型输出直接进入 event/memory/fact 且无标识。
+    """
     violations = []
-    # 检查 events/huo/ 中是否存在推理内容直接进入的痕迹
+    
+    # 契约描述豁免词：行中包含这些词时，内容是描述规则而非污染
+    CONTRACT_KEYWORDS = {
+        'Reasoning Isolation', 'RI-001', 'RI-002', 'reasoning_isolation',
+        '推理隔离', '推理痕迹', 'reasoning_content',
+        'FROZEN', 'Contract', 'V1', 'V2', 'V3',
+    }
+    
     for f in sorted((EVENTS_DIR / 'huo').glob('*.md')):
         content = f.read_text()
         lines = content.split('\n')
         for i, line in enumerate(lines):
-            if 'reasoning' in line.lower() or 'thinking' in line.lower():
-                # 检查上下文：如果出现在系统指令或结构描述中，不算污染
-                # 如果出现在事实记录中，算污染
-                context = lines[max(0,i-2):i+2]
-                context_str = ' '.join(context).lower()
-                # 启发式：含 "fact" "record" "event" "observation" 等事实语境才算
-                fact_indicators = ['fact', 'note', 'record', '##', 'event', 'observation']
-                is_fact_context = any(ind in context_str for ind in fact_indicators)
-                if is_fact_context:
-                    violations.append(record_violation(
-                        'reasoning_isolation', 'L1_violation', str(f),
-                        'reasoning_in_fact_context',
-                        f'line {i+1}: "{line.strip()[:80]}"',
-                        dry_run
-                    ))
+            if 'reasoning' not in line.lower() and 'thinking' not in line.lower():
+                continue
+            
+            # 豁免：契约描述行
+            if any(kw in line for kw in CONTRACT_KEYWORDS):
+                continue
+            
+            # 豁免：标题行和分隔行
+            if line.strip().startswith('##') or line.strip().startswith('---'):
+                continue
+            
+            # 豁免：包含「不得」「禁止」「允许」等规则描述词
+            if any(w in line for w in ['不得', '禁止', '允许', '必须', '规则']):
+                continue
+            
+            # 豁免：架构冻结状态行
+            if 'FROZEN' in line or 'Phase' in line:
+                continue
+            
+            # 豁免：文件路径引用
+            if '/REASONING-' in line or 'REASONING-' in line:
+                continue
+            
+            # 到达这里说明 reasoning 出现在非契约描述、非规则、非架构的上下文中
+            violations.append(record_violation(
+                'reasoning_isolation', 'L1_violation', str(f),
+                'reasoning_in_fact_context',
+                f'line {i+1}: "{line.strip()[:80]}"',
+                dry_run
+            ))
     if not violations:
         print("  ✅ reasoning_isolation: 无污染证据")
     return violations

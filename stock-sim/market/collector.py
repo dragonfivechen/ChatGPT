@@ -25,17 +25,9 @@ from market.feeds.sina import SinaFeed
 from market.normalize import normalize, error_event
 from market.validator import validate_quote, is_trading_time
 from market.symbols import format_symbol
+from market.pool_provider import get_pool
 
 EVENTS_FILE = os.path.join(PROJECT_DIR, "events", "market_events.jsonl")
-
-# 默认股票池（第一版硬编码，后续可配置）
-DEFAULT_SYMBOLS = [
-    "000001",  # 平安银行
-    "600519",  # 贵州茅台
-    "300750",  # 宁德时代
-    "000333",  # 美的集团
-    "601318",  # 中国平安
-]
 
 
 def append_event(event: dict):
@@ -48,7 +40,7 @@ def append_event(event: dict):
 def collect(symbols: list[str] = None):
     """单次采集周期"""
     if symbols is None:
-        symbols = DEFAULT_SYMBOLS
+        symbols, _ = get_pool()
 
     if not is_trading_time():
         return
@@ -94,7 +86,9 @@ def main():
     parser.add_argument("--symbols", nargs="+", help="指定股票代码")
     args = parser.parse_args()
 
-    symbols = [format_symbol(s) for s in (args.symbols or DEFAULT_SYMBOLS)]
+    pool_symbols, pool_meta = get_pool()
+    symbols = [format_symbol(s) for s in (args.symbols or pool_symbols)]
+    print(f"[collector] pool: {pool_meta.get('total', len(symbols))} stocks | {pool_meta.get('source','?')}")
 
     if args.watch:
         print(f"[collector] watch mode — {len(symbols)} symbols, 5s interval")

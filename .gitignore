@@ -33,3 +33,5 @@ Thumbs.db
 # Python
 __pycache__/
 *.pyc
+# Stock simulation observation data
+stock-sim/observe/

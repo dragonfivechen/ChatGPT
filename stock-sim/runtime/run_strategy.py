@@ -23,6 +23,7 @@ if _PROJECT not in sys.path:
 
 from strategy.engine import StrategyEngine
 from strategy.breakout import BreakoutStrategy
+from strategy.breakout_v2 import BreakoutV2
 from strategy.events import append_signal_event
 from strategy.adapter import signal_to_order
 from trading.execution.simulator import ExecutionSimulator
@@ -86,17 +87,21 @@ def main():
 
     # 引擎 + 策略
     engine = StrategyEngine()
+    # 注册策略
     bs = BreakoutStrategy()
     engine.register(bs)
+    bs_v2 = BreakoutV2()
+    engine.register(bs_v2)
 
     # 从历史行情恢复策略状态（避免无状态快照问题）
     historical = load_historical_quotes(events_dir)
     for hq in historical:
-        # 馈入历史行情，填充 _prices 窗口
-        bs.on_quote(hq, {"cash": 0, "positions": {}})
+        for strat in [bs, bs_v2]:
+            strat.on_quote(hq, {"cash": 0, "positions": {}})
     # 馈入最新行情，触发实际信号判断
     pf_view_init = {"cash": 0, "positions": {}}
-    bs.on_quote(quote, pf_view_init)
+    for strat in [bs, bs_v2]:
+        strat.on_quote(quote, pf_view_init)
 
     # 执行 + 账户 + 组合
     sim = ExecutionSimulator()

@@ -93,8 +93,17 @@ for f in /etc/systemd/system/ollama.service /etc/systemd/system/oc-watchdog-stre
 done
 [ -d /etc/systemd/system/ollama.service.d ] && cp -a /etc/systemd/system/ollama.service.d "${BACKUP_PATH}/systemd/" 2>/dev/null || true
 
+# ── 13b. Systemd 用户 timer + service（全量）──
+SD_USER_DIR="${HOME_DIR}/.config/systemd/user"
 mkdir -p "${BACKUP_PATH}/systemd-user"
-cp -a "${HOME_DIR}/.config/systemd/user/openclaw-gateway.service" "${BACKUP_PATH}/systemd-user/" 2>/dev/null || true
+if [ -d "$SD_USER_DIR" ]; then
+  # 全部 .service 和 .timer 文件
+  cp -a "${SD_USER_DIR}/"*.service "${BACKUP_PATH}/systemd-user/" 2>/dev/null || true
+  cp -a "${SD_USER_DIR}/"*.timer "${BACKUP_PATH}/systemd-user/" 2>/dev/null || true
+  cp -a "${SD_USER_DIR}/"*.d "${BACKUP_PATH}/systemd-user/" 2>/dev/null || true
+  # 记录完整 unit 列表
+  ls -1 "${SD_USER_DIR}/"*.service "${SD_USER_DIR}/"*.timer 2>/dev/null | xargs -n1 basename | sort > "${BACKUP_PATH}/systemd-user/units.list" || true
+fi
 
 # ── 14. 自定义脚本 ──
 [ -d "${HOME_DIR}/.local/bin" ] && cp -a "${HOME_DIR}/.local/bin" "${BACKUP_PATH}/local-bin" 2>/dev/null || true
@@ -120,6 +129,38 @@ done
 find "${BACKUP_PATH}" -type f | sed "s|${BACKUP_PATH}/||" | sort > "${BACKUP_PATH}/MANIFEST.txt"
 FILE_COUNT=$(wc -l < "${BACKUP_PATH}/MANIFEST.txt")
 echo "[$(date)] 文件总数: ${FILE_COUNT}"
+
+# ── 17b. 备份清单 JSON（机器可读）──
+SD_COUNT=$(ls -1 "${SD_USER_DIR}/"*.service 2>/dev/null | wc -l)
+SD_TIMER_COUNT=$(ls -1 "${SD_USER_DIR}/"*.timer 2>/dev/null | wc -l)
+CRON_COUNT=$(wc -l < "${BACKUP_PATH}/crontab.txt" 2>/dev/null || echo 0)
+OLLAMA_MODELS=$(ollama list 2>/dev/null | tail -n +2 | awk '{print $1}' | paste -sd ',' || echo 'unknown')
+python3 << 'PYEOF'
+import json, os
+sd_dir = os.path.expanduser('~/.config/systemd/user')
+units = sorted(os.listdir(sd_dir)) if os.path.isdir(sd_dir) else []
+services = [u for u in units if u.endswith('.service')]
+timers = [u for u in units if u.endswith('.timer')]
+cron_count = 0
+try:
+    with open('/backup/BACKUP_MANIFEST_CURSOR/crontab.txt') as f:
+        cron_txt = f.read()
+        cron_count = len([l for l in cron_txt.split(chr(10)) if l.strip() and not l.strip().startswith('#')])
+except: pass
+manifest = {
+    'timestamp': os.popen('date -u +%Y-%m-%dT%H:%M:%SZ').read().strip(),
+    'backup_name': os.environ.get('BACKUP_NAME', ''),
+    'hostname': os.uname().nodename,
+    'file_count': int(os.environ.get('FILE_COUNT', 0)),
+    'systemd_services': len(services),
+    'systemd_timers': len(timers),
+    'systemd_units': services + timers,
+    'cron_entries': cron_count,
+    'models': os.popen('ollama list 2>/dev/null | tail -n +2 | awk "{print \$1}" | paste -sd ","').read().strip().split(',') if os.popen('which ollama').read().strip() else [],
+}
+with open(os.environ['BACKUP_PATH'] + '/backup-manifest.json', 'w') as mf:
+    json.dump(manifest, mf, indent=2, ensure_ascii=False)
+PYEOF
 
 # ── 18. 打包 ──
 echo "[$(date)] 打包中..."

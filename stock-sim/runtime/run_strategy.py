@@ -49,6 +49,28 @@ def load_latest_quote(events_dir: str) -> dict | None:
     return None
 
 
+def load_historical_quotes(events_dir: str) -> list[dict]:
+    """从 market_events.jsonl 读取历史行情，按时间正序返回"""
+    path = os.path.join(events_dir, "market_events.jsonl")
+    if not os.path.exists(path):
+        return []
+    quotes = []
+    with open(path, "r") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                q = json.loads(line)
+                if q.get("event_type") == "MARKET_QUOTE":
+                    quotes.append(q)
+            except json.JSONDecodeError:
+                continue
+    # 按时间正序排列
+    quotes.sort(key=lambda x: x.get("timestamp", ""))
+    return quotes
+
+
 def load_account() -> Account:
     """加载/创建账户（v0.1: 每次重新创建）"""
     return Account()
@@ -64,7 +86,17 @@ def main():
 
     # 引擎 + 策略
     engine = StrategyEngine()
-    engine.register(BreakoutStrategy())
+    bs = BreakoutStrategy()
+    engine.register(bs)
+
+    # 从历史行情恢复策略状态（避免无状态快照问题）
+    historical = load_historical_quotes(events_dir)
+    for hq in historical:
+        # 馈入历史行情，填充 _prices 窗口
+        bs.on_quote(hq, {"cash": 0, "positions": {}})
+    # 馈入最新行情，触发实际信号判断
+    pf_view_init = {"cash": 0, "positions": {}}
+    bs.on_quote(quote, pf_view_init)
 
     # 执行 + 账户 + 组合
     sim = ExecutionSimulator()

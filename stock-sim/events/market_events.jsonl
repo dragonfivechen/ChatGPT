@@ -1,1 +1,0 @@
-{"event_type": "MARKET_QUOTE", "timestamp": "2026-07-18T17:47:09+08:00", "source": "tencent", "symbol": "600519", "market": "SH", "data": {"price": 1253.0, "volume": 5841700, "open": 1269.01, "high": 1269.33, "low": 1238.98, "pre_close": 1258.99}}

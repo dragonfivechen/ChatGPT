@@ -5,6 +5,9 @@
 memory/data/
 memory/cache/
 
+# Stock simulation runtime artifacts
+stock-sim/events/
+
 # Runtime snapshot (生成物，非源码)
 runtime/time_context.json
 

@@ -91,8 +91,26 @@ def main():
         sim.add_order(o.to_dict())
 
     trades = sim.on_quote(quote)
+    trade_details = []
     for t in trades:
         apply_trade(acc, t)
+        td = t.get("trade", t)
+        sym = td.get("symbol", "")
+        side = td.get("side", "")
+        price_t = td.get("price", 0)
+        qty = td.get("quantity", 0)
+        trade_details.append(f"{side} {qty}×{sym} @ {price_t:.2f}")
+
+    if trade_details:
+        push_title = "🟢 模拟交易执行"
+        push_body = "策略: " + signals[0].get("strategy_id", "?")[:20] if signals else "?"
+        push_body += "\n" + "\n".join(trade_details)
+        push_body += f"\n现金: {acc.cash:.0f}"
+        import subprocess, os as _os
+        _script_dir = _os.path.dirname(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+        push_script = _os.path.join(_script_dir, "hooks", "oek-ci-gate", "push-notify.mjs")
+        subprocess.Popen(["node", push_script, push_title, push_body],
+                        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
     # 组合快照
     symbol = quote.get("symbol", "")

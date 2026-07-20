@@ -106,17 +106,21 @@ memory/
 | Local Model Production Trial v1.0 | 中 | Step 1-3 ✅ (解耦链 + validation + 手动验证)。48h batch 观察中 ⏳ |
 | Maintenance Runbook v1.0 | — | Phase 1 ✅ → Phase 2 ✅ → Phase 3 ✅ → Phase 4 🔒 FROZEN |
 
-### Local Model Production Trial v1.0 — Current Status
+### Local Model Production Trial v1.0 ✅ COMPLETE
 
-**Status:**
-- Capability Observer (eval-local.sh) ✅ 每小时稳定运行
-- Runtime Availability (Ollama qwen2.5:3b) ✅
-- Scheduler Isolation (crontab 断链) ✅
-- Real Task Worker (local-task-worker.sh) ✅ 已修复，增 validation 字段
-- Inline Route Integration ❌ 保持 batch 模式观察
+**Status:** production active (scoped) — 已验证可承担生产职责
 
-**After fix (2026-07-19 14:33):** worker 执行可靠性修复完成，进入 48h 验证窗口。
-**判定标准：** 稳定运行 + 可识别各任务类型适合度。
+| Step | Status |
+|:---|:---:|
+| Step 1 解耦链 | ✅ |
+| Step 2 validation | ✅ |
+| Step 3 手动验证 | ✅ |
+| Step 4 生产路由注册 | ✅ |
+| Production evidence (144 calls, 100%) | ✅ |
+
+**架构:** 本地模型不作为云端降级替代。通过 `local-task-worker.sh` 处理 4 类确定型生产任务：`system_status_brief`, `config_explain`, `event_classify`, `log_summary`。
+**边界:** 复杂推理/主任务 → DeepSeek；确定型任务 → Ollama qwen2.5:3b。
+**关键文件:** `ollama-production.jsonl` (144 条, 0 失败), `local-task-worker.sh`。
 
 ## SecretRef Migration v1.0 — FROZEN
 

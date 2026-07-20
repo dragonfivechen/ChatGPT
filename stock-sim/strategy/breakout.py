@@ -19,7 +19,7 @@ class BreakoutStrategy(Strategy):
     """简单突破策略。跟踪近期价格区间，突破则反向操作。"""
 
     def __init__(self, strategy_id: str = "BREAKOUT_V1",
-                 lookback: int = 5, atr_multiple: float = 1.5):
+                 lookback: int = 2, atr_multiple: float = 1.5):
         super().__init__(strategy_id)
         self.lookback = lookback
         self.atr_multiple = atr_multiple

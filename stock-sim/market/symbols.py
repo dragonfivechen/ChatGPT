@@ -4,15 +4,22 @@
 """
 
 def detect_market(symbol: str) -> str:
-    """根据 6 位代码返回市场缩写：SH / SZ / 未知返回空"""
+    """根据 6 位代码返回市场缩写：SH / SZ / 未知返回空
+
+    A 股前缀规则:
+      SH: 600-603, 605, 688 (科创板), 730 (新股申购)
+      SZ: 000-003 (主板), 001-003, 002 (中小板), 300-301 (创业板)
+    """
     if not isinstance(symbol, str) or len(symbol) != 6 or not symbol.isdigit():
         return ""
 
     code = int(symbol[:3])
 
-    if 600 <= code <= 603 or code == 688:
+    # 上海
+    if 600 <= code <= 603 or code == 605 or code == 688 or code == 730:
         return "SH"
-    if code in (0, 1) or 2 <= code <= 3 or code == 300:
+    # 深圳
+    if code in (0, 1) or 2 <= code <= 3 or 300 <= code <= 301:
         return "SZ"
 
     return ""

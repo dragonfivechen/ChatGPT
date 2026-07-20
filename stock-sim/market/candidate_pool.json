@@ -1,0 +1,4293 @@
+{
+  "version": 1,
+  "pool_stage": "candidate",
+  "generated_at": "2026-07-20T12:55:22+08:00",
+  "source_snapshot": "l0_scan_20260720_125324",
+  "description": "L3 候选池：三层 Gate 决策（风险门 + 因子平衡 + 容量选择）",
+  "gate_config": {
+    "risk_gate": {
+      "min_score": 50.0,
+      "min_trend_quality": 40.0,
+      "min_volatility_quality": 30.0
+    },
+    "factor_balance": {
+      "factor_names": [
+        "trend_quality",
+        "money_flow",
+        "volume_quality",
+        "volatility_quality",
+        "price_structure"
+      ],
+      "min_factors_above_50": 4
+    },
+    "capacity": {
+      "max_selected": 50
+    }
+  },
+  "total_submitted": 114,
+  "risk_gate_passed": 87,
+  "balance_gate_passed": 55,
+  "total_selected": 50,
+  "total_rejected": 64,
+  "symbols": [
+    "002440",
+    "000759",
+    "600722",
+    "600227",
+    "300759",
+    "002432",
+    "603823",
+    "001206",
+    "300105",
+    "603779",
+    "600746",
+    "002396",
+    "300164",
+    "601318",
+    "002309",
+    "000676",
+    "600310",
+    "000596",
+    "300039",
+    "600095",
+    "688382",
+    "000938",
+    "300149",
+    "601899",
+    "600881",
+    "000722",
+    "000554",
+    "600644",
+    "603259",
+    "600519",
+    "600036",
+    "001258",
+    "600664",
+    "000889",
+    "301165",
+    "603127",
+    "002365",
+    "600276",
+    "300577",
+    "000858",
+    "605011",
+    "001388",
+    "002422",
+    "600900",
+    "301633",
+    "301520",
+    "300937",
+    "600236",
+    "000977",
+    "600406",
+    "603533",
+    "600756",
+    "000862",
+    "002490",
+    "600938",
+    "300335",
+    "600982",
+    "603893",
+    "603228",
+    "300795",
+    "300135",
+    "300968",
+    "000899",
+    "600452",
+    "605179",
+    "300033",
+    "600505",
+    "603501",
+    "300209",
+    "001288",
+    "600821",
+    "600744",
+    "600969",
+    "300059",
+    "603993",
+    "000037",
+    "600030",
+    "300317",
+    "600032",
+    "002156",
+    "301218",
+    "301609",
+    "300040",
+    "600797",
+    "600726",
+    "601869",
+    "300750",
+    "601991",
+    "603619",
+    "688347",
+    "301273",
+    "300502",
+    "603629",
+    "600126",
+    "601026",
+    "600021",
+    "000600",
+    "300478",
+    "300951",
+    "300274",
+    "603693",
+    "600396",
+    "000767",
+    "301190",
+    "300308",
+    "000100",
+    "002384",
+    "002466",
+    "000539",
+    "002475",
+    "601138",
+    "002463",
+    "600183",
+    "688679"
+  ],
+  "details": [
+    {
+      "symbol": "002440",
+      "name": "闰土股份",
+      "trace_id": "002440-20260720-067",
+      "score": 86.41,
+      "factors": {
+        "trend_quality": 89.3,
+        "money_flow": 85.4,
+        "volume_quality": 88.2,
+        "volatility_quality": 74.1,
+        "price_structure": 93.2
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 1
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 5,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 1
+        }
+      }
+    },
+    {
+      "symbol": "000759",
+      "name": "中百集团",
+      "trace_id": "000759-20260720-064",
+      "score": 81.55,
+      "factors": {
+        "trend_quality": 95.1,
+        "money_flow": 69.2,
+        "volume_quality": 80.1,
+        "volatility_quality": 77.6,
+        "price_structure": 85.4
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 2
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 5,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 2
+        }
+      }
+    },
+    {
+      "symbol": "600722",
+      "name": "金牛化工",
+      "trace_id": "600722-20260720-075",
+      "score": 78.93,
+      "factors": {
+        "trend_quality": 79.1,
+        "money_flow": 63.4,
+        "volume_quality": 90.3,
+        "volatility_quality": 89.7,
+        "price_structure": 78.6
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 3
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 5,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 3
+        }
+      }
+    },
+    {
+      "symbol": "600227",
+      "name": "赤天化",
+      "trace_id": "600227-20260720-065",
+      "score": 77.67,
+      "factors": {
+        "trend_quality": 97.7,
+        "money_flow": 65.2,
+        "volume_quality": 76.2,
+        "volatility_quality": 64.1,
+        "price_structure": 80.6
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 4
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 5,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 4
+        }
+      }
+    },
+    {
+      "symbol": "300759",
+      "name": "康龙化成",
+      "trace_id": "300759-20260720-110",
+      "score": 77.64,
+      "factors": {
+        "trend_quality": 82.6,
+        "money_flow": 69.5,
+        "volume_quality": 87.4,
+        "volatility_quality": 81.6,
+        "price_structure": 66.0
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 5
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 5,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 5
+        }
+      }
+    },
+    {
+      "symbol": "002432",
+      "name": "九安医疗",
+      "trace_id": "002432-20260720-003",
+      "score": 76.88,
+      "factors": {
+        "trend_quality": 95.7,
+        "money_flow": 64.1,
+        "volume_quality": 67.1,
+        "volatility_quality": 87.8,
+        "price_structure": 68.9
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 6
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 5,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 6
+        }
+      }
+    },
+    {
+      "symbol": "603823",
+      "name": "百合花",
+      "trace_id": "603823-20260720-060",
+      "score": 76.71,
+      "factors": {
+        "trend_quality": 91.3,
+        "money_flow": 62.5,
+        "volume_quality": 83.6,
+        "volatility_quality": 60.1,
+        "price_structure": 83.5
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 7
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 5,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 7
+        }
+      }
+    },
+    {
+      "symbol": "001206",
+      "name": "依依股份",
+      "trace_id": "001206-20260720-084",
+      "score": 75.05,
+      "factors": {
+        "trend_quality": 94.8,
+        "money_flow": 45.0,
+        "volume_quality": 77.8,
+        "volatility_quality": 83.8,
+        "price_structure": 79.8
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 8
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 8
+        }
+      }
+    },
+    {
+      "symbol": "300105",
+      "name": "龙源技术",
+      "trace_id": "300105-20260720-069",
+      "score": 73.91,
+      "factors": {
+        "trend_quality": 98.5,
+        "money_flow": 34.1,
+        "volume_quality": 84.0,
+        "volatility_quality": 74.9,
+        "price_structure": 84.8
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 9
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 9
+        }
+      }
+    },
+    {
+      "symbol": "603779",
+      "name": "威龙股份",
+      "trace_id": "603779-20260720-082",
+      "score": 73.78,
+      "factors": {
+        "trend_quality": 86.3,
+        "money_flow": 52.6,
+        "volume_quality": 75.1,
+        "volatility_quality": 66.5,
+        "price_structure": 93.7
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 10
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 5,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 10
+        }
+      }
+    },
+    {
+      "symbol": "600746",
+      "name": "江苏索普",
+      "trace_id": "600746-20260720-089",
+      "score": 73.68,
+      "factors": {
+        "trend_quality": 100.0,
+        "money_flow": 46.4,
+        "volume_quality": 70.8,
+        "volatility_quality": 54.3,
+        "price_structure": 98.5
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 11
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 11
+        }
+      }
+    },
+    {
+      "symbol": "002396",
+      "name": "星网锐捷",
+      "trace_id": "002396-20260720-046",
+      "score": 72.24,
+      "factors": {
+        "trend_quality": 82.7,
+        "money_flow": 48.3,
+        "volume_quality": 79.1,
+        "volatility_quality": 90.8,
+        "price_structure": 67.0
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 12
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 12
+        }
+      }
+    },
+    {
+      "symbol": "300164",
+      "name": "通源石油",
+      "trace_id": "300164-20260720-014",
+      "score": 72.14,
+      "factors": {
+        "trend_quality": 98.0,
+        "money_flow": 29.8,
+        "volume_quality": 86.9,
+        "volatility_quality": 70.6,
+        "price_structure": 81.5
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 13
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 13
+        }
+      }
+    },
+    {
+      "symbol": "601318",
+      "name": "中国平安",
+      "trace_id": "601318-20260720-044",
+      "score": 71.56,
+      "factors": {
+        "trend_quality": 78.4,
+        "money_flow": 58.8,
+        "volume_quality": 65.8,
+        "volatility_quality": 64.6,
+        "price_structure": 96.1
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 14
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 5,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 14
+        }
+      }
+    },
+    {
+      "symbol": "002309",
+      "name": "中利集团",
+      "trace_id": "002309-20260720-031",
+      "score": 70.83,
+      "factors": {
+        "trend_quality": 72.3,
+        "money_flow": 56.6,
+        "volume_quality": 87.7,
+        "volatility_quality": 64.2,
+        "price_structure": 76.2
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 15
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 5,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 15
+        }
+      }
+    },
+    {
+      "symbol": "000676",
+      "name": "智度股份",
+      "trace_id": "000676-20260720-015",
+      "score": 70.52,
+      "factors": {
+        "trend_quality": 93.8,
+        "money_flow": 64.1,
+        "volume_quality": 47.7,
+        "volatility_quality": 75.3,
+        "price_structure": 68.1
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 16
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 16
+        }
+      }
+    },
+    {
+      "symbol": "600310",
+      "name": "广西能源",
+      "trace_id": "600310-20260720-068",
+      "score": 70.39,
+      "factors": {
+        "trend_quality": 95.8,
+        "money_flow": 38.3,
+        "volume_quality": 69.7,
+        "volatility_quality": 58.1,
+        "price_structure": 94.7
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 17
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 17
+        }
+      }
+    },
+    {
+      "symbol": "000596",
+      "name": "古井贡酒",
+      "trace_id": "000596-20260720-018",
+      "score": 69.78,
+      "factors": {
+        "trend_quality": 99.5,
+        "money_flow": 32.0,
+        "volume_quality": 69.2,
+        "volatility_quality": 54.5,
+        "price_structure": 99.3
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 18
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 18
+        }
+      }
+    },
+    {
+      "symbol": "300039",
+      "name": "上海凯宝",
+      "trace_id": "300039-20260720-083",
+      "score": 69.61,
+      "factors": {
+        "trend_quality": 87.5,
+        "money_flow": 30.8,
+        "volume_quality": 93.0,
+        "volatility_quality": 58.5,
+        "price_structure": 84.4
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 19
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 19
+        }
+      }
+    },
+    {
+      "symbol": "600095",
+      "name": "湘财股份",
+      "trace_id": "600095-20260720-063",
+      "score": 69.4,
+      "factors": {
+        "trend_quality": 93.7,
+        "money_flow": 70.6,
+        "volume_quality": 55.2,
+        "volatility_quality": 61.7,
+        "price_structure": 53.5
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 20
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 5,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 20
+        }
+      }
+    },
+    {
+      "symbol": "688382",
+      "name": "益方生物-U",
+      "trace_id": "688382-20260720-070",
+      "score": 69.28,
+      "factors": {
+        "trend_quality": 83.2,
+        "money_flow": 40.9,
+        "volume_quality": 90.7,
+        "volatility_quality": 58.7,
+        "price_structure": 75.4
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 21
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 21
+        }
+      }
+    },
+    {
+      "symbol": "000938",
+      "name": "紫光股份",
+      "trace_id": "000938-20260720-010",
+      "score": 69.22,
+      "factors": {
+        "trend_quality": 80.1,
+        "money_flow": 37.5,
+        "volume_quality": 92.3,
+        "volatility_quality": 77.6,
+        "price_structure": 64.8
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 22
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 22
+        }
+      }
+    },
+    {
+      "symbol": "300149",
+      "name": "睿智医药",
+      "trace_id": "300149-20260720-072",
+      "score": 69.16,
+      "factors": {
+        "trend_quality": 82.9,
+        "money_flow": 41.0,
+        "volume_quality": 90.4,
+        "volatility_quality": 78.6,
+        "price_structure": 55.4
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 23
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 23
+        }
+      }
+    },
+    {
+      "symbol": "601899",
+      "name": "紫金矿业",
+      "trace_id": "601899-20260720-047",
+      "score": 69.14,
+      "factors": {
+        "trend_quality": 84.4,
+        "money_flow": 55.9,
+        "volume_quality": 55.1,
+        "volatility_quality": 76.9,
+        "price_structure": 76.7
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 24
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 5,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 24
+        }
+      }
+    },
+    {
+      "symbol": "600881",
+      "name": "亚泰集团",
+      "trace_id": "600881-20260720-023",
+      "score": 69.03,
+      "factors": {
+        "trend_quality": 95.3,
+        "money_flow": 44.5,
+        "volume_quality": 69.3,
+        "volatility_quality": 64.1,
+        "price_structure": 70.7
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 25
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 25
+        }
+      }
+    },
+    {
+      "symbol": "000722",
+      "name": "湖南发展",
+      "trace_id": "000722-20260720-019",
+      "score": 68.86,
+      "factors": {
+        "trend_quality": 99.2,
+        "money_flow": 33.4,
+        "volume_quality": 69.0,
+        "volatility_quality": 56.8,
+        "price_structure": 89.3
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 26
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 26
+        }
+      }
+    },
+    {
+      "symbol": "000554",
+      "name": "泰山石油",
+      "trace_id": "000554-20260720-088",
+      "score": 68.66,
+      "factors": {
+        "trend_quality": 93.8,
+        "money_flow": 25.5,
+        "volume_quality": 83.9,
+        "volatility_quality": 66.7,
+        "price_structure": 80.3
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 27
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 27
+        }
+      }
+    },
+    {
+      "symbol": "600644",
+      "name": "乐山电力",
+      "trace_id": "600644-20260720-007",
+      "score": 68.6,
+      "factors": {
+        "trend_quality": 98.3,
+        "money_flow": 29.8,
+        "volume_quality": 60.2,
+        "volatility_quality": 64.5,
+        "price_structure": 99.1
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 28
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 28
+        }
+      }
+    },
+    {
+      "symbol": "603259",
+      "name": "药明康德",
+      "trace_id": "603259-20260720-043",
+      "score": 68.51,
+      "factors": {
+        "trend_quality": 66.9,
+        "money_flow": 72.2,
+        "volume_quality": 64.5,
+        "volatility_quality": 84.2,
+        "price_structure": 54.7
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 29
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 5,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 29
+        }
+      }
+    },
+    {
+      "symbol": "600519",
+      "name": "贵州茅台",
+      "trace_id": "600519-20260720-038",
+      "score": 68.42,
+      "factors": {
+        "trend_quality": 86.2,
+        "money_flow": 57.0,
+        "volume_quality": 54.6,
+        "volatility_quality": 49.6,
+        "price_structure": 95.1
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 30
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 30
+        }
+      }
+    },
+    {
+      "symbol": "600036",
+      "name": "招商银行",
+      "trace_id": "600036-20260720-055",
+      "score": 68.36,
+      "factors": {
+        "trend_quality": 81.5,
+        "money_flow": 41.7,
+        "volume_quality": 66.2,
+        "volatility_quality": 68.6,
+        "price_structure": 93.5
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 31
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 31
+        }
+      }
+    },
+    {
+      "symbol": "001258",
+      "name": "立新能源",
+      "trace_id": "001258-20260720-021",
+      "score": 67.85,
+      "factors": {
+        "trend_quality": 100.0,
+        "money_flow": 33.6,
+        "volume_quality": 62.4,
+        "volatility_quality": 58.3,
+        "price_structure": 88.2
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 32
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 32
+        }
+      }
+    },
+    {
+      "symbol": "600664",
+      "name": "哈药股份",
+      "trace_id": "600664-20260720-004",
+      "score": 67.82,
+      "factors": {
+        "trend_quality": 98.7,
+        "money_flow": 43.4,
+        "volume_quality": 62.4,
+        "volatility_quality": 43.6,
+        "price_structure": 88.5
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "factor_imbalance"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 3,
+          "reasons": [
+            "factor_imbalance"
+          ]
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "000889",
+      "name": "中嘉博创",
+      "trace_id": "000889-20260720-098",
+      "score": 67.78,
+      "factors": {
+        "trend_quality": 56.5,
+        "money_flow": 60.1,
+        "volume_quality": 85.5,
+        "volatility_quality": 82.6,
+        "price_structure": 60.9
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 33
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 5,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 33
+        }
+      }
+    },
+    {
+      "symbol": "301165",
+      "name": "锐捷网络",
+      "trace_id": "301165-20260720-012",
+      "score": 67.62,
+      "factors": {
+        "trend_quality": 79.8,
+        "money_flow": 36.3,
+        "volume_quality": 83.5,
+        "volatility_quality": 81.1,
+        "price_structure": 64.9
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 34
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 34
+        }
+      }
+    },
+    {
+      "symbol": "603127",
+      "name": "昭衍新药",
+      "trace_id": "603127-20260720-011",
+      "score": 67.22,
+      "factors": {
+        "trend_quality": 79.4,
+        "money_flow": 54.5,
+        "volume_quality": 64.0,
+        "volatility_quality": 78.3,
+        "price_structure": 61.3
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 35
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 5,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 35
+        }
+      }
+    },
+    {
+      "symbol": "002365",
+      "name": "永安药业",
+      "trace_id": "002365-20260720-078",
+      "score": 67.03,
+      "factors": {
+        "trend_quality": 86.6,
+        "money_flow": 62.5,
+        "volume_quality": 57.8,
+        "volatility_quality": 69.6,
+        "price_structure": 51.7
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 36
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 5,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 36
+        }
+      }
+    },
+    {
+      "symbol": "600276",
+      "name": "恒瑞医药",
+      "trace_id": "600276-20260720-049",
+      "score": 66.99,
+      "factors": {
+        "trend_quality": 65.9,
+        "money_flow": 66.9,
+        "volume_quality": 61.7,
+        "volatility_quality": 82.3,
+        "price_structure": 60.7
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 37
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 5,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 37
+        }
+      }
+    },
+    {
+      "symbol": "300577",
+      "name": "开润股份",
+      "trace_id": "300577-20260720-028",
+      "score": 66.92,
+      "factors": {
+        "trend_quality": 95.0,
+        "money_flow": 71.5,
+        "volume_quality": 49.0,
+        "volatility_quality": 47.4,
+        "price_structure": 55.9
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "factor_imbalance"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 3,
+          "reasons": [
+            "factor_imbalance"
+          ]
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "000858",
+      "name": "五 粮 液",
+      "trace_id": "000858-20260720-052",
+      "score": 66.77,
+      "factors": {
+        "trend_quality": 79.7,
+        "money_flow": 37.0,
+        "volume_quality": 68.7,
+        "volatility_quality": 65.5,
+        "price_structure": 93.5
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 38
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 38
+        }
+      }
+    },
+    {
+      "symbol": "605011",
+      "name": "杭州热电",
+      "trace_id": "605011-20260720-080",
+      "score": 66.59,
+      "factors": {
+        "trend_quality": 95.3,
+        "money_flow": 46.2,
+        "volume_quality": 55.9,
+        "volatility_quality": 54.3,
+        "price_structure": 79.3
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 39
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 39
+        }
+      }
+    },
+    {
+      "symbol": "001388",
+      "name": "信通电子",
+      "trace_id": "001388-20260720-029",
+      "score": 66.35,
+      "factors": {
+        "trend_quality": 95.7,
+        "money_flow": 41.1,
+        "volume_quality": 63.4,
+        "volatility_quality": 65.5,
+        "price_structure": 64.3
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 40
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 40
+        }
+      }
+    },
+    {
+      "symbol": "002422",
+      "name": "科伦药业",
+      "trace_id": "002422-20260720-059",
+      "score": 66.28,
+      "factors": {
+        "trend_quality": 78.9,
+        "money_flow": 44.5,
+        "volume_quality": 82.0,
+        "volatility_quality": 65.5,
+        "price_structure": 61.4
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 41
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 41
+        }
+      }
+    },
+    {
+      "symbol": "600900",
+      "name": "长江电力",
+      "trace_id": "600900-20260720-050",
+      "score": 65.11,
+      "factors": {
+        "trend_quality": 84.8,
+        "money_flow": 36.8,
+        "volume_quality": 68.4,
+        "volatility_quality": 42.8,
+        "price_structure": 97.4
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "factor_imbalance"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 3,
+          "reasons": [
+            "factor_imbalance"
+          ]
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "301633",
+      "name": "港迪技术",
+      "trace_id": "301633-20260720-103",
+      "score": 65.09,
+      "factors": {
+        "trend_quality": 78.3,
+        "money_flow": 39.7,
+        "volume_quality": 64.7,
+        "volatility_quality": 66.8,
+        "price_structure": 84.2
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 42
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 42
+        }
+      }
+    },
+    {
+      "symbol": "301520",
+      "name": "万邦医药",
+      "trace_id": "301520-20260720-024",
+      "score": 64.42,
+      "factors": {
+        "trend_quality": 90.4,
+        "money_flow": 39.4,
+        "volume_quality": 58.4,
+        "volatility_quality": 63.0,
+        "price_structure": 72.3
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 43
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 43
+        }
+      }
+    },
+    {
+      "symbol": "300937",
+      "name": "药易购",
+      "trace_id": "300937-20260720-092",
+      "score": 64.11,
+      "factors": {
+        "trend_quality": 87.2,
+        "money_flow": 29.6,
+        "volume_quality": 71.1,
+        "volatility_quality": 82.8,
+        "price_structure": 55.1
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 44
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 44
+        }
+      }
+    },
+    {
+      "symbol": "600236",
+      "name": "桂冠电力",
+      "trace_id": "600236-20260720-020",
+      "score": 63.95,
+      "factors": {
+        "trend_quality": 98.6,
+        "money_flow": 35.4,
+        "volume_quality": 42.6,
+        "volatility_quality": 50.4,
+        "price_structure": 95.8
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "factor_imbalance"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 3,
+          "reasons": [
+            "factor_imbalance"
+          ]
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "000977",
+      "name": "浪潮信息",
+      "trace_id": "000977-20260720-037",
+      "score": 63.94,
+      "factors": {
+        "trend_quality": 71.2,
+        "money_flow": 39.6,
+        "volume_quality": 91.1,
+        "volatility_quality": 88.4,
+        "price_structure": 31.7
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "factor_imbalance"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 3,
+          "reasons": [
+            "factor_imbalance"
+          ]
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "600406",
+      "name": "国电南瑞",
+      "trace_id": "600406-20260720-058",
+      "score": 63.45,
+      "factors": {
+        "trend_quality": 64.0,
+        "money_flow": 60.4,
+        "volume_quality": 52.7,
+        "volatility_quality": 58.8,
+        "price_structure": 86.6
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 45
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 5,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 45
+        }
+      }
+    },
+    {
+      "symbol": "603533",
+      "name": "掌阅科技",
+      "trace_id": "603533-20260720-086",
+      "score": 63.45,
+      "factors": {
+        "trend_quality": 42.3,
+        "money_flow": 72.2,
+        "volume_quality": 85.3,
+        "volatility_quality": 81.0,
+        "price_structure": 37.4
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "factor_imbalance"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 3,
+          "reasons": [
+            "factor_imbalance"
+          ]
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "600756",
+      "name": "浪潮软件",
+      "trace_id": "600756-20260720-085",
+      "score": 63.02,
+      "factors": {
+        "trend_quality": 71.5,
+        "money_flow": 33.4,
+        "volume_quality": 87.4,
+        "volatility_quality": 57.9,
+        "price_structure": 70.9
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 46
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 46
+        }
+      }
+    },
+    {
+      "symbol": "000862",
+      "name": "银星能源",
+      "trace_id": "000862-20260720-091",
+      "score": 62.08,
+      "factors": {
+        "trend_quality": 82.4,
+        "money_flow": 26.9,
+        "volume_quality": 65.9,
+        "volatility_quality": 45.8,
+        "price_structure": 98.0
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "factor_imbalance"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 3,
+          "reasons": [
+            "factor_imbalance"
+          ]
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "002490",
+      "name": "山东墨龙",
+      "trace_id": "002490-20260720-079",
+      "score": 61.66,
+      "factors": {
+        "trend_quality": 68.8,
+        "money_flow": 24.4,
+        "volume_quality": 81.8,
+        "volatility_quality": 80.4,
+        "price_structure": 66.3
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 47
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 47
+        }
+      }
+    },
+    {
+      "symbol": "600938",
+      "name": "中国海油",
+      "trace_id": "600938-20260720-057",
+      "score": 60.8,
+      "factors": {
+        "trend_quality": 90.8,
+        "money_flow": 13.1,
+        "volume_quality": 71.6,
+        "volatility_quality": 37.4,
+        "price_structure": 99.3
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "factor_imbalance"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 3,
+          "reasons": [
+            "factor_imbalance"
+          ]
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "300335",
+      "name": "迪森股份",
+      "trace_id": "300335-20260720-032",
+      "score": 60.22,
+      "factors": {
+        "trend_quality": 83.9,
+        "money_flow": 32.5,
+        "volume_quality": 64.6,
+        "volatility_quality": 48.8,
+        "price_structure": 72.5
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "factor_imbalance"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 3,
+          "reasons": [
+            "factor_imbalance"
+          ]
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "600982",
+      "name": "宁波能源",
+      "trace_id": "600982-20260720-076",
+      "score": 60.12,
+      "factors": {
+        "trend_quality": 80.2,
+        "money_flow": 41.4,
+        "volume_quality": 60.2,
+        "volatility_quality": 34.3,
+        "price_structure": 83.6
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "factor_imbalance"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 3,
+          "reasons": [
+            "factor_imbalance"
+          ]
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "603893",
+      "name": "瑞芯微",
+      "trace_id": "603893-20260720-045",
+      "score": 59.96,
+      "factors": {
+        "trend_quality": 71.0,
+        "money_flow": 27.9,
+        "volume_quality": 83.5,
+        "volatility_quality": 78.1,
+        "price_structure": 45.5
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "factor_imbalance"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 3,
+          "reasons": [
+            "factor_imbalance"
+          ]
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "603228",
+      "name": "景旺电子",
+      "trace_id": "603228-20260720-051",
+      "score": 59.78,
+      "factors": {
+        "trend_quality": 66.7,
+        "money_flow": 27.4,
+        "volume_quality": 77.8,
+        "volatility_quality": 80.9,
+        "price_structure": 57.1
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 48
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 48
+        }
+      }
+    },
+    {
+      "symbol": "300795",
+      "name": "米奥会展",
+      "trace_id": "300795-20260720-008",
+      "score": 59.33,
+      "factors": {
+        "trend_quality": 96.1,
+        "money_flow": 34.3,
+        "volume_quality": 54.3,
+        "volatility_quality": 39.8,
+        "price_structure": 66.0
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "factor_imbalance"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 3,
+          "reasons": [
+            "factor_imbalance"
+          ]
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "300135",
+      "name": "宝利国际",
+      "trace_id": "300135-20260720-034",
+      "score": 59.27,
+      "factors": {
+        "trend_quality": 69.8,
+        "money_flow": 58.5,
+        "volume_quality": 64.2,
+        "volatility_quality": 38.9,
+        "price_structure": 56.8
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 49
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 49
+        }
+      }
+    },
+    {
+      "symbol": "300968",
+      "name": "格林精密",
+      "trace_id": "300968-20260720-087",
+      "score": 59.22,
+      "factors": {
+        "trend_quality": 79.1,
+        "money_flow": 56.4,
+        "volume_quality": 45.2,
+        "volatility_quality": 74.1,
+        "price_structure": 34.6
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "factor_imbalance"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 3,
+          "reasons": [
+            "factor_imbalance"
+          ]
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "000899",
+      "name": "赣能股份",
+      "trace_id": "000899-20260720-071",
+      "score": 58.48,
+      "factors": {
+        "trend_quality": 87.5,
+        "money_flow": 27.2,
+        "volume_quality": 55.0,
+        "volatility_quality": 34.7,
+        "price_structure": 90.7
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "factor_imbalance"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 3,
+          "reasons": [
+            "factor_imbalance"
+          ]
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "600452",
+      "name": "涪陵电力",
+      "trace_id": "600452-20260720-026",
+      "score": 58.21,
+      "factors": {
+        "trend_quality": 69.5,
+        "money_flow": 32.4,
+        "volume_quality": 62.0,
+        "volatility_quality": 41.9,
+        "price_structure": 93.7
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "factor_imbalance"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 3,
+          "reasons": [
+            "factor_imbalance"
+          ]
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "605179",
+      "name": "一鸣食品",
+      "trace_id": "605179-20260720-093",
+      "score": 57.72,
+      "factors": {
+        "trend_quality": 90.7,
+        "money_flow": 35.3,
+        "volume_quality": 54.3,
+        "volatility_quality": 37.1,
+        "price_structure": 65.3
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "factor_imbalance"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 3,
+          "reasons": [
+            "factor_imbalance"
+          ]
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "300033",
+      "name": "同花顺",
+      "trace_id": "300033-20260720-053",
+      "score": 57.52,
+      "factors": {
+        "trend_quality": 31.0,
+        "money_flow": 67.1,
+        "volume_quality": 80.9,
+        "volatility_quality": 88.3,
+        "price_structure": 23.8
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "trend_quality_low"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": false,
+          "reasons": [
+            "trend_quality_low"
+          ]
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 0,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "600505",
+      "name": "西昌电力",
+      "trace_id": "600505-20260720-090",
+      "score": 57.43,
+      "factors": {
+        "trend_quality": 83.0,
+        "money_flow": 20.2,
+        "volume_quality": 65.0,
+        "volatility_quality": 42.6,
+        "price_structure": 81.6
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "factor_imbalance"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 3,
+          "reasons": [
+            "factor_imbalance"
+          ]
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "603501",
+      "name": "豪威集团",
+      "trace_id": "603501-20260720-114",
+      "score": 57.38,
+      "factors": {
+        "trend_quality": 72.2,
+        "money_flow": 25.7,
+        "volume_quality": 58.8,
+        "volatility_quality": 88.8,
+        "price_structure": 52.2
+      },
+      "candidate_status": "selected",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": 50
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": true,
+          "rank": 50
+        }
+      }
+    },
+    {
+      "symbol": "300209",
+      "name": "行云科技",
+      "trace_id": "300209-20260720-005",
+      "score": 57.27,
+      "factors": {
+        "trend_quality": 43.7,
+        "money_flow": 53.3,
+        "volume_quality": 85.5,
+        "volatility_quality": 73.4,
+        "price_structure": 32.7
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "factor_imbalance"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 3,
+          "reasons": [
+            "factor_imbalance"
+          ]
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "001288",
+      "name": "运机集团",
+      "trace_id": "001288-20260720-099",
+      "score": 57.09,
+      "factors": {
+        "trend_quality": 34.4,
+        "money_flow": 70.7,
+        "volume_quality": 63.2,
+        "volatility_quality": 74.2,
+        "price_structure": 47.0
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "trend_quality_low"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": false,
+          "reasons": [
+            "trend_quality_low"
+          ]
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 0,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "600821",
+      "name": "金开新能",
+      "trace_id": "600821-20260720-073",
+      "score": 56.82,
+      "factors": {
+        "trend_quality": 45.7,
+        "money_flow": 36.1,
+        "volume_quality": 85.6,
+        "volatility_quality": 65.2,
+        "price_structure": 63.1
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "factor_imbalance"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 3,
+          "reasons": [
+            "factor_imbalance"
+          ]
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "600744",
+      "name": "华银电力",
+      "trace_id": "600744-20260720-006",
+      "score": 56.58,
+      "factors": {
+        "trend_quality": 59.5,
+        "money_flow": 42.7,
+        "volume_quality": 60.5,
+        "volatility_quality": 67.1,
+        "price_structure": 59.1
+      },
+      "candidate_status": "overflow",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": null,
+        "overflow_reason": "capacity_limit"
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "capacity_limit"
+        }
+      }
+    },
+    {
+      "symbol": "600969",
+      "name": "郴电国际",
+      "trace_id": "600969-20260720-097",
+      "score": 56.45,
+      "factors": {
+        "trend_quality": 76.0,
+        "money_flow": 26.9,
+        "volume_quality": 64.3,
+        "volatility_quality": 51.0,
+        "price_structure": 68.1
+      },
+      "candidate_status": "overflow",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": null,
+        "overflow_reason": "capacity_limit"
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "capacity_limit"
+        }
+      }
+    },
+    {
+      "symbol": "300059",
+      "name": "东方财富",
+      "trace_id": "300059-20260720-108",
+      "score": 56.22,
+      "factors": {
+        "trend_quality": 40.0,
+        "money_flow": 70.3,
+        "volume_quality": 73.5,
+        "volatility_quality": 75.6,
+        "price_structure": 17.4
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "factor_imbalance"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 3,
+          "reasons": [
+            "factor_imbalance"
+          ]
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "603993",
+      "name": "洛阳钼业",
+      "trace_id": "603993-20260720-054",
+      "score": 56.06,
+      "factors": {
+        "trend_quality": 47.4,
+        "money_flow": 66.0,
+        "volume_quality": 67.7,
+        "volatility_quality": 77.4,
+        "price_structure": 17.1
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "factor_imbalance"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 3,
+          "reasons": [
+            "factor_imbalance"
+          ]
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "000037",
+      "name": "深南电A",
+      "trace_id": "000037-20260720-025",
+      "score": 55.89,
+      "factors": {
+        "trend_quality": 79.0,
+        "money_flow": 26.1,
+        "volume_quality": 53.8,
+        "volatility_quality": 44.0,
+        "price_structure": 81.7
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "factor_imbalance"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 3,
+          "reasons": [
+            "factor_imbalance"
+          ]
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "600030",
+      "name": "中信证券",
+      "trace_id": "600030-20260720-112",
+      "score": 55.81,
+      "factors": {
+        "trend_quality": 42.2,
+        "money_flow": 66.5,
+        "volume_quality": 70.2,
+        "volatility_quality": 68.0,
+        "price_structure": 29.3
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "factor_imbalance"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 3,
+          "reasons": [
+            "factor_imbalance"
+          ]
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "300317",
+      "name": "珈伟新能",
+      "trace_id": "300317-20260720-001",
+      "score": 54.98,
+      "factors": {
+        "trend_quality": 75.8,
+        "money_flow": 23.1,
+        "volume_quality": 56.7,
+        "volatility_quality": 44.6,
+        "price_structure": 81.5
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "factor_imbalance"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 3,
+          "reasons": [
+            "factor_imbalance"
+          ]
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "600032",
+      "name": "浙江新能",
+      "trace_id": "600032-20260720-074",
+      "score": 54.77,
+      "factors": {
+        "trend_quality": 74.3,
+        "money_flow": 26.3,
+        "volume_quality": 56.5,
+        "volatility_quality": 35.8,
+        "price_structure": 86.3
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "factor_imbalance"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 3,
+          "reasons": [
+            "factor_imbalance"
+          ]
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "002156",
+      "name": "通富微电",
+      "trace_id": "002156-20260720-040",
+      "score": 54.76,
+      "factors": {
+        "trend_quality": 52.4,
+        "money_flow": 41.0,
+        "volume_quality": 72.3,
+        "volatility_quality": 81.8,
+        "price_structure": 31.2
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "factor_imbalance"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 3,
+          "reasons": [
+            "factor_imbalance"
+          ]
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "301218",
+      "name": "华是科技",
+      "trace_id": "301218-20260720-081",
+      "score": 54.74,
+      "factors": {
+        "trend_quality": 38.9,
+        "money_flow": 33.9,
+        "volume_quality": 89.8,
+        "volatility_quality": 74.9,
+        "price_structure": 49.0
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "trend_quality_low"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": false,
+          "reasons": [
+            "trend_quality_low"
+          ]
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 0,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "301609",
+      "name": "山大电力",
+      "trace_id": "301609-20260720-033",
+      "score": 54.48,
+      "factors": {
+        "trend_quality": 72.6,
+        "money_flow": 30.1,
+        "volume_quality": 56.3,
+        "volatility_quality": 40.5,
+        "price_structure": 76.5
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "factor_imbalance"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 3,
+          "reasons": [
+            "factor_imbalance"
+          ]
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "300040",
+      "name": "九洲集团",
+      "trace_id": "300040-20260720-002",
+      "score": 54.32,
+      "factors": {
+        "trend_quality": 76.8,
+        "money_flow": 19.5,
+        "volume_quality": 59.0,
+        "volatility_quality": 41.0,
+        "price_structure": 82.0
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "factor_imbalance"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 3,
+          "reasons": [
+            "factor_imbalance"
+          ]
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "600797",
+      "name": "浙大网新",
+      "trace_id": "600797-20260720-030",
+      "score": 54.0,
+      "factors": {
+        "trend_quality": 62.5,
+        "money_flow": 23.2,
+        "volume_quality": 60.5,
+        "volatility_quality": 58.3,
+        "price_structure": 78.2
+      },
+      "candidate_status": "overflow",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": null,
+        "overflow_reason": "capacity_limit"
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "capacity_limit"
+        }
+      }
+    },
+    {
+      "symbol": "600726",
+      "name": "华电能源",
+      "trace_id": "600726-20260720-066",
+      "score": 53.69,
+      "factors": {
+        "trend_quality": 22.2,
+        "money_flow": 58.2,
+        "volume_quality": 74.8,
+        "volatility_quality": 79.1,
+        "price_structure": 45.1
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "trend_quality_low"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": false,
+          "reasons": [
+            "trend_quality_low"
+          ]
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 0,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "601869",
+      "name": "长飞光纤",
+      "trace_id": "601869-20260720-042",
+      "score": 52.46,
+      "factors": {
+        "trend_quality": 20.0,
+        "money_flow": 72.6,
+        "volume_quality": 77.1,
+        "volatility_quality": 68.5,
+        "price_structure": 24.1
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "trend_quality_low"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": false,
+          "reasons": [
+            "trend_quality_low"
+          ]
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 0,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "300750",
+      "name": "宁德时代",
+      "trace_id": "300750-20260720-039",
+      "score": 52.39,
+      "factors": {
+        "trend_quality": 45.4,
+        "money_flow": 38.5,
+        "volume_quality": 65.8,
+        "volatility_quality": 69.5,
+        "price_structure": 52.2
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "factor_imbalance"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 3,
+          "reasons": [
+            "factor_imbalance"
+          ]
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "601991",
+      "name": "大唐发电",
+      "trace_id": "601991-20260720-111",
+      "score": 52.3,
+      "factors": {
+        "trend_quality": 25.0,
+        "money_flow": 59.4,
+        "volume_quality": 77.9,
+        "volatility_quality": 67.4,
+        "price_structure": 36.7
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "trend_quality_low"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": false,
+          "reasons": [
+            "trend_quality_low"
+          ]
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 0,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "603619",
+      "name": "中曼石油",
+      "trace_id": "603619-20260720-077",
+      "score": 52.06,
+      "factors": {
+        "trend_quality": 49.8,
+        "money_flow": 19.6,
+        "volume_quality": 71.8,
+        "volatility_quality": 80.7,
+        "price_structure": 55.0
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "factor_imbalance"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 3,
+          "reasons": [
+            "factor_imbalance"
+          ]
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "688347",
+      "name": "华虹宏力",
+      "trace_id": "688347-20260720-041",
+      "score": 51.93,
+      "factors": {
+        "trend_quality": 43.2,
+        "money_flow": 39.5,
+        "volume_quality": 87.7,
+        "volatility_quality": 68.3,
+        "price_structure": 23.1
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "factor_imbalance"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 2,
+          "reasons": [
+            "factor_imbalance"
+          ]
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "301273",
+      "name": "瑞晨环保",
+      "trace_id": "301273-20260720-100",
+      "score": 51.36,
+      "factors": {
+        "trend_quality": 46.5,
+        "money_flow": 47.0,
+        "volume_quality": 78.8,
+        "volatility_quality": 50.5,
+        "price_structure": 31.0
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "factor_imbalance"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 2,
+          "reasons": [
+            "factor_imbalance"
+          ]
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "300502",
+      "name": "新易盛",
+      "trace_id": "300502-20260720-036",
+      "score": 51.31,
+      "factors": {
+        "trend_quality": 39.6,
+        "money_flow": 32.0,
+        "volume_quality": 79.9,
+        "volatility_quality": 83.7,
+        "price_structure": 32.5
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "trend_quality_low"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": false,
+          "reasons": [
+            "trend_quality_low"
+          ]
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 0,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "603629",
+      "name": "利通电子",
+      "trace_id": "603629-20260720-061",
+      "score": 50.94,
+      "factors": {
+        "trend_quality": 15.9,
+        "money_flow": 62.4,
+        "volume_quality": 74.3,
+        "volatility_quality": 64.0,
+        "price_structure": 46.0
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "trend_quality_low"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": false,
+          "reasons": [
+            "trend_quality_low"
+          ]
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 0,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "600126",
+      "name": "杭钢股份",
+      "trace_id": "600126-20260720-022",
+      "score": 50.87,
+      "factors": {
+        "trend_quality": 51.2,
+        "money_flow": 20.3,
+        "volume_quality": 61.9,
+        "volatility_quality": 76.0,
+        "price_structure": 61.4
+      },
+      "candidate_status": "overflow",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": null,
+        "overflow_reason": "capacity_limit"
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "capacity_limit"
+        }
+      }
+    },
+    {
+      "symbol": "601026",
+      "name": "道生天合",
+      "trace_id": "601026-20260720-102",
+      "score": 50.23,
+      "factors": {
+        "trend_quality": 52.6,
+        "money_flow": 28.1,
+        "volume_quality": 61.5,
+        "volatility_quality": 51.1,
+        "price_structure": 67.3
+      },
+      "candidate_status": "overflow",
+      "reject_reason": null,
+      "selection": {
+        "passed_gate": true,
+        "capacity_rank": null,
+        "overflow_reason": "capacity_limit"
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": true,
+          "reasons": []
+        },
+        "factor_balance": {
+          "passed": true,
+          "qualified_factors": 4,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "capacity_limit"
+        }
+      }
+    },
+    {
+      "symbol": "600021",
+      "name": "上海电力",
+      "trace_id": "600021-20260720-062",
+      "score": 49.92,
+      "factors": {
+        "trend_quality": 64.0,
+        "money_flow": 13.4,
+        "volume_quality": 61.6,
+        "volatility_quality": 49.7,
+        "price_structure": 72.0
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "score_below_50"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": false,
+          "reasons": [
+            "score_below_50"
+          ]
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 0,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "000600",
+      "name": "建投能源",
+      "trace_id": "000600-20260720-027",
+      "score": 49.76,
+      "factors": {
+        "trend_quality": 51.0,
+        "money_flow": 36.8,
+        "volume_quality": 65.9,
+        "volatility_quality": 38.4,
+        "price_structure": 59.1
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "score_below_50"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": false,
+          "reasons": [
+            "score_below_50"
+          ]
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 0,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "300478",
+      "name": "杭州高新",
+      "trace_id": "300478-20260720-096",
+      "score": 49.39,
+      "factors": {
+        "trend_quality": 19.8,
+        "money_flow": 66.1,
+        "volume_quality": 68.0,
+        "volatility_quality": 65.5,
+        "price_structure": 29.9
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "score_below_50",
+        "trend_quality_low"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": false,
+          "reasons": [
+            "score_below_50",
+            "trend_quality_low"
+          ]
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 0,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "300951",
+      "name": "博硕科技",
+      "trace_id": "300951-20260720-095",
+      "score": 48.3,
+      "factors": {
+        "trend_quality": 19.8,
+        "money_flow": 61.7,
+        "volume_quality": 67.5,
+        "volatility_quality": 64.2,
+        "price_structure": 32.0
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "score_below_50",
+        "trend_quality_low"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": false,
+          "reasons": [
+            "score_below_50",
+            "trend_quality_low"
+          ]
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 0,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "300274",
+      "name": "阳光电源",
+      "trace_id": "300274-20260720-109",
+      "score": 48.05,
+      "factors": {
+        "trend_quality": 15.9,
+        "money_flow": 57.9,
+        "volume_quality": 65.5,
+        "volatility_quality": 82.9,
+        "price_structure": 27.1
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "score_below_50",
+        "trend_quality_low"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": false,
+          "reasons": [
+            "score_below_50",
+            "trend_quality_low"
+          ]
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 0,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "603693",
+      "name": "江苏新能",
+      "trace_id": "603693-20260720-094",
+      "score": 47.92,
+      "factors": {
+        "trend_quality": 52.7,
+        "money_flow": 28.9,
+        "volume_quality": 60.1,
+        "volatility_quality": 34.2,
+        "price_structure": 69.1
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "score_below_50"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": false,
+          "reasons": [
+            "score_below_50"
+          ]
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 0,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "600396",
+      "name": "华电辽能",
+      "trace_id": "600396-20260720-013",
+      "score": 47.8,
+      "factors": {
+        "trend_quality": 31.4,
+        "money_flow": 40.3,
+        "volume_quality": 80.2,
+        "volatility_quality": 50.7,
+        "price_structure": 41.5
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "score_below_50",
+        "trend_quality_low"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": false,
+          "reasons": [
+            "score_below_50",
+            "trend_quality_low"
+          ]
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 0,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "000767",
+      "name": "晋控电力",
+      "trace_id": "000767-20260720-016",
+      "score": 47.48,
+      "factors": {
+        "trend_quality": 45.1,
+        "money_flow": 23.7,
+        "volume_quality": 72.4,
+        "volatility_quality": 51.3,
+        "price_structure": 54.0
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "score_below_50"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": false,
+          "reasons": [
+            "score_below_50"
+          ]
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 0,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "301190",
+      "name": "善水科技",
+      "trace_id": "301190-20260720-009",
+      "score": 47.44,
+      "factors": {
+        "trend_quality": 59.1,
+        "money_flow": 15.0,
+        "volume_quality": 59.6,
+        "volatility_quality": 41.0,
+        "price_structure": 72.3
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "score_below_50"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": false,
+          "reasons": [
+            "score_below_50"
+          ]
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 0,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "300308",
+      "name": "中际旭创",
+      "trace_id": "300308-20260720-035",
+      "score": 47.28,
+      "factors": {
+        "trend_quality": 23.0,
+        "money_flow": 28.0,
+        "volume_quality": 78.7,
+        "volatility_quality": 93.0,
+        "price_structure": 32.3
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "score_below_50",
+        "trend_quality_low"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": false,
+          "reasons": [
+            "score_below_50",
+            "trend_quality_low"
+          ]
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 0,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "000100",
+      "name": "TCL科技",
+      "trace_id": "000100-20260720-056",
+      "score": 47.17,
+      "factors": {
+        "trend_quality": 35.5,
+        "money_flow": 44.7,
+        "volume_quality": 65.9,
+        "volatility_quality": 76.1,
+        "price_structure": 16.8
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "score_below_50",
+        "trend_quality_low"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": false,
+          "reasons": [
+            "score_below_50",
+            "trend_quality_low"
+          ]
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 0,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "002384",
+      "name": "东山精密",
+      "trace_id": "002384-20260720-104",
+      "score": 45.96,
+      "factors": {
+        "trend_quality": 44.9,
+        "money_flow": 24.5,
+        "volume_quality": 64.1,
+        "volatility_quality": 75.8,
+        "price_structure": 29.5
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "score_below_50"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": false,
+          "reasons": [
+            "score_below_50"
+          ]
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 0,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "002466",
+      "name": "天齐锂业",
+      "trace_id": "002466-20260720-113",
+      "score": 45.31,
+      "factors": {
+        "trend_quality": 13.9,
+        "money_flow": 53.1,
+        "volume_quality": 56.8,
+        "volatility_quality": 87.5,
+        "price_structure": 27.2
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "score_below_50",
+        "trend_quality_low"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": false,
+          "reasons": [
+            "score_below_50",
+            "trend_quality_low"
+          ]
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 0,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "000539",
+      "name": "粤电力Ａ",
+      "trace_id": "000539-20260720-017",
+      "score": 42.5,
+      "factors": {
+        "trend_quality": 23.8,
+        "money_flow": 27.7,
+        "volume_quality": 70.8,
+        "volatility_quality": 57.6,
+        "price_structure": 45.5
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "score_below_50",
+        "trend_quality_low"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": false,
+          "reasons": [
+            "score_below_50",
+            "trend_quality_low"
+          ]
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 0,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "002475",
+      "name": "立讯精密",
+      "trace_id": "002475-20260720-048",
+      "score": 42.08,
+      "factors": {
+        "trend_quality": 25.5,
+        "money_flow": 36.7,
+        "volume_quality": 57.8,
+        "volatility_quality": 81.1,
+        "price_structure": 18.7
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "score_below_50",
+        "trend_quality_low"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": false,
+          "reasons": [
+            "score_below_50",
+            "trend_quality_low"
+          ]
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 0,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "601138",
+      "name": "工业富联",
+      "trace_id": "601138-20260720-107",
+      "score": 41.37,
+      "factors": {
+        "trend_quality": 18.1,
+        "money_flow": 25.7,
+        "volume_quality": 66.6,
+        "volatility_quality": 86.5,
+        "price_structure": 27.5
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "score_below_50",
+        "trend_quality_low"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": false,
+          "reasons": [
+            "score_below_50",
+            "trend_quality_low"
+          ]
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 0,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "002463",
+      "name": "沪电股份",
+      "trace_id": "002463-20260720-106",
+      "score": 40.39,
+      "factors": {
+        "trend_quality": 26.8,
+        "money_flow": 27.7,
+        "volume_quality": 58.3,
+        "volatility_quality": 72.2,
+        "price_structure": 28.5
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "score_below_50",
+        "trend_quality_low"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": false,
+          "reasons": [
+            "score_below_50",
+            "trend_quality_low"
+          ]
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 0,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "600183",
+      "name": "生益科技",
+      "trace_id": "600183-20260720-105",
+      "score": 38.51,
+      "factors": {
+        "trend_quality": 15.2,
+        "money_flow": 29.7,
+        "volume_quality": 59.4,
+        "volatility_quality": 77.5,
+        "price_structure": 25.2
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "score_below_50",
+        "trend_quality_low"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": false,
+          "reasons": [
+            "score_below_50",
+            "trend_quality_low"
+          ]
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 0,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    },
+    {
+      "symbol": "688679",
+      "name": "通源环境",
+      "trace_id": "688679-20260720-101",
+      "score": 36.52,
+      "factors": {
+        "trend_quality": 17.7,
+        "money_flow": 17.6,
+        "volume_quality": 79.7,
+        "volatility_quality": 49.3,
+        "price_structure": 29.1
+      },
+      "candidate_status": "rejected",
+      "reject_reason": [
+        "score_below_50",
+        "trend_quality_low"
+      ],
+      "selection": {
+        "passed_gate": false,
+        "capacity_rank": null
+      },
+      "gate_results": {
+        "risk_gate": {
+          "passed": false,
+          "reasons": [
+            "score_below_50",
+            "trend_quality_low"
+          ]
+        },
+        "factor_balance": {
+          "passed": false,
+          "qualified_factors": 0,
+          "reasons": []
+        },
+        "capacity_gate": {
+          "passed": false,
+          "reason": "gate_blocked"
+        }
+      }
+    }
+  ]
+}

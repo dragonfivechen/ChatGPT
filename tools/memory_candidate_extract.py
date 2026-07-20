@@ -11,7 +11,7 @@ memory_candidate_extract.py — 从反馈信号中提炼规则候选
   python3 tools/memory_candidate_extract.py --days 3           # 最近3天
   python3 tools/memory_candidate_extract.py --dry-run          # 预览不写入
 """
-import re, json, sys, os
+import re, json, sys, os, hashlib
 from pathlib import Path
 from datetime import datetime, timezone
 
@@ -146,9 +146,46 @@ def load_existing_candidates() -> list:
     return cands
 
 
+def compute_identity(source_text: str, rule_type: str, category: str) -> str:
+    """按 CANDIDATE-IDENTITY-RULE 计算候选身份"""
+    h = hashlib.sha256(source_text.encode()).hexdigest()[:16]
+    return f'candidate:{h}:{rule_type}:{category}'
+
+
+def find_by_identity(identity: str, existing: list) -> dict | None:
+    """按身份查询已有候选，支持新老格式"""
+    for ec in existing:
+        ec_identity = ec.get('identity', '')
+        if ec_identity and ec_identity == identity:
+            return ec
+    return None
+
+
+def migrate_identity(ec: dict) -> bool:
+    """为缺少 identity 字段的旧候选补充 identity"""
+    if 'identity' in ec and ec['identity']:
+        return False
+    source_text = ec.get('candidate', '')
+    rule_type = ec.get('feedback_type', 'unknown')
+    category = ec.get('category', 'interaction')
+    ec['identity'] = compute_identity(source_text, rule_type, category)
+    return True
+
+
 def is_duplicate(new_cand: dict, existing: list) -> bool:
-    """简单去重检查"""
-    new_text = new_cand.get('candidate', '')
+    """身份去重（CANDIDATE-IDENTITY-RULE v1.0），旧内容去重作为 fallback"""
+    # 优先使用 identity 去重
+    source_text = new_cand.get('candidate', '')
+    rule_type = new_cand.get('feedback_type', 'unknown')
+    category = new_cand.get('category', 'interaction')
+    identity = compute_identity(source_text, rule_type, category)
+    
+    existing_match = find_by_identity(identity, existing)
+    if existing_match:
+        return True  # identity 重复
+    
+    # fallback: 旧内容去重
+    new_text = source_text
     for ec in existing:
         old_text = ec.get('candidate', '')
         if new_text == old_text:
@@ -177,22 +214,51 @@ def main():
     raw_candidates = extract_rule_candidates(feedbacks)
     print(f"[extract] 提炼 {len(raw_candidates)} 条规则候选")
     
-    # Step 3: 去重 + 过滤
+    # Step 3: 迁移旧候选（补齐 identity）
     existing = load_existing_candidates()
+    migrated = 0
+    for ec in existing:
+        if migrate_identity(ec):
+            migrated += 1
+            out_path = CANDIDATES_DIR / f"{ec['id']}.json"
+            with open(out_path, 'w') as outf:
+                json.dump(ec, outf, ensure_ascii=False, indent=2)
+    if migrated:
+        print(f"[migrate] 补充 {migrated} 条旧候选的 identity 字段")
+    
+    # Step 4: 身份去重 + 过滤
     dedup_count = 0
     confidence_filter = 0
+    update_count = 0
     
     new_candidates = []
     for rc in raw_candidates:
         if rc['confidence'] < args.min_confidence:
             confidence_filter += 1
             continue
+        
+        source_text = rc.get('candidate', '')
+        rule_type = rc.get('feedback_type', 'unknown')
+        category = rc.get('category', 'interaction')
+        identity = compute_identity(source_text, rule_type, category)
+        
+        existing_match = find_by_identity(identity, existing)
+        if existing_match:
+            # 更新已有候选：命中数+1，置信度取 max
+            existing_match['hit_count'] = existing_match.get('hit_count', 1) + 1
+            existing_match['confidence'] = max(existing_match.get('confidence', 0), rc['confidence'])
+            out_path = CANDIDATES_DIR / f"{existing_match['id']}.json"
+            with open(out_path, 'w') as outf:
+                json.dump(existing_match, outf, ensure_ascii=False, indent=2)
+            update_count += 1
+            continue
+        
         if is_duplicate(rc, existing):
             dedup_count += 1
             continue
         new_candidates.append(rc)
     
-    print(f"[filter] 置信度过滤: {confidence_filter}, 去重过滤: {dedup_count}")
+    print(f"[filter] 置信度过滤: {confidence_filter}, 身份更新: {update_count}, 内容去重: {dedup_count}")
     print(f"[output] 新候选: {len(new_candidates)} 条")
     
     if args.dry_run:
@@ -201,7 +267,7 @@ def main():
             print(f"  [{nc['category']}] conf={nc['confidence']}: {nc['candidate'][:60]}")
         return
     
-    # Step 4: 写入 candidates
+    # Step 5: 写入 candidates（含 identity）
     for idx, nc in enumerate(new_candidates):
         rule_id = f"rule-candidate-{nc['date']}-{idx:03d}"
         
@@ -213,8 +279,14 @@ def main():
             rule_id = f"{base_id}-{counter}"
             counter += 1
         
+        identity = compute_identity(
+            nc.get('candidate', ''),
+            nc.get('feedback_type', 'unknown'),
+            nc.get('category', 'interaction')
+        )
         candidate = {
             "id": rule_id,
+            "identity": identity,
             "source_event": nc.get('source_id') or nc['source'],  # MAB-03: event_id优先
             "source_line": nc['source_line'],
             "agent": nc['agent'],

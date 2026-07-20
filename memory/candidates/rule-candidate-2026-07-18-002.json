@@ -9,6 +9,7 @@
   "candidate": "求 → 直接执行",
   "confidence": 0.75,
   "score": 0.595,
-  "hit_count": 1,
-  "status": "deduped"
+  "hit_count": 6,
+  "status": "deduped",
+  "identity": "candidate:77f8faf534df06c3:correction_explicit:interaction"
 }

@@ -9,6 +9,7 @@
   "candidate": "用证据证明能力边界",
   "confidence": 0.75,
   "score": 0.645,
-  "hit_count": 1,
-  "status": "deduped"
+  "hit_count": 3,
+  "status": "deduped",
+  "identity": "candidate:ad15eda6d74c274f:principle:architecture"
 }

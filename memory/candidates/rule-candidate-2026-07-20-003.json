@@ -10,5 +10,6 @@
   "confidence": 0.7,
   "score": 0.58,
   "hit_count": 1,
-  "status": "deduped"
+  "status": "deduped",
+  "identity": "candidate:2f5e7b1c1a5eae1d:correction_explicit:interaction"
 }

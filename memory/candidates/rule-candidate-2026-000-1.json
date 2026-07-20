@@ -1,0 +1,15 @@
+{
+  "id": "rule-candidate-2026-000-1",
+  "source_event": "/home/dragonfive/.openclaw/workspace/memory/events/jin/2026-07-17.md",
+  "source_line": 43,
+  "agent": "jin",
+  "date": "2026",
+  "category": "interaction",
+  "feedback_type": "correction_implicit",
+  "candidate": "Source Adapter Layer 诞生: 不是简单\"换源\"",
+  "confidence": 0.65,
+  "score": 0.0,
+  "hit_count": 2,
+  "state": "pending",
+  "identity": "candidate:1f2e0de2a68466a1:correction_implicit:interaction"
+}

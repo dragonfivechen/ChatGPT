@@ -9,6 +9,7 @@
   "candidate": "显式重新 enable",
   "confidence": 0.75,
   "score": 0.595,
-  "hit_count": 1,
-  "status": "deduped"
+  "hit_count": 3,
+  "status": "deduped",
+  "identity": "candidate:0f6721a2a6d3789e:correction_explicit:interaction"
 }

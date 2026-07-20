@@ -104,6 +104,7 @@ memory/
 |------|--------|------|
 | Telegram `accounts.default` 缺失 | 低 | 标记待处理，当前 defaultAccount: main 回退启用 |
 | Local Model Production Trial v1.0 | 中 | Step 1-3 ✅ (解耦链 + validation + 手动验证)。48h batch 观察中 ⏳ |
+| Maintenance Runbook v1.0 | — | Phase 1 ✅ → Phase 2 ✅ → Phase 3 ✅ → Phase 4 🔒 FROZEN |
 
 ### Local Model Production Trial v1.0 — Current Status
 

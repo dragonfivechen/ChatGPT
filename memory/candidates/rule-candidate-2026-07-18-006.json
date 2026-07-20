@@ -9,7 +9,14 @@
   "candidate": "冻结保护基线稳定，不禁止审计缺口修复。观察不用于延迟已确认缺口修复。",
   "confidence": 0.8,
   "score": 0.61,
-  "hit_count": 1,
+  "hit_count": 6,
   "status": "approved",
-  "archived_at": "2026-07-20 01:03"
+  "archived_at": "2026-07-20 01:03",
+  "promotion_id": "legacy-rule-candidate-2026-07-18-006",
+  "validator": "legacy_migration",
+  "approved_at": "2026-07-20 06:38",
+  "approval_reason": "legacy migration: pre-Patch approved candidate",
+  "state": "promoted",
+  "state_changed_at": "2026-07-20 06:38",
+  "identity": "candidate:999ae602d609da54:correction_explicit:interaction"
 }

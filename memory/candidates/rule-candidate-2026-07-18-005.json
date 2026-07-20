@@ -9,7 +9,14 @@
   "candidate": "exfiltrate 私有数据",
   "confidence": 0.9,
   "score": 0.64,
-  "hit_count": 1,
+  "hit_count": 6,
   "status": "approved",
-  "archived_at": "2026-07-20 01:03"
+  "archived_at": "2026-07-20 01:03",
+  "promotion_id": "legacy-rule-candidate-2026-07-18-005",
+  "validator": "legacy_migration",
+  "approved_at": "2026-07-20 06:38",
+  "approval_reason": "legacy migration: pre-Patch approved candidate",
+  "state": "promoted",
+  "state_changed_at": "2026-07-20 06:38",
+  "identity": "candidate:8fc9164edf92b439:correction_explicit:interaction"
 }

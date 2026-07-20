@@ -1,0 +1,15 @@
+{
+  "id": "rule-candidate-2026-001-1",
+  "source_event": "/home/dragonfive/.openclaw/workspace/memory/events/jin/2026-07-17.md",
+  "source_line": 44,
+  "agent": "jin",
+  "date": "2026",
+  "category": "interaction",
+  "feedback_type": "correction_implicit",
+  "candidate": "事实链修正: 500.com 是观察层（observation）",
+  "confidence": 0.65,
+  "score": 0.0,
+  "hit_count": 2,
+  "state": "pending",
+  "identity": "candidate:bc924c4978c8fb41:correction_implicit:interaction"
+}

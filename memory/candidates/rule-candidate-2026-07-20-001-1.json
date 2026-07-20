@@ -9,6 +9,7 @@
   "candidate": "关联: Interaction Governance 缺口 — 闭环后填充行为无规则约束",
   "confidence": 0.75,
   "score": 0.565,
-  "hit_count": 1,
-  "status": "deduped"
+  "hit_count": 6,
+  "status": "deduped",
+  "identity": "candidate:3c87d1386041210c:principle:interaction"
 }

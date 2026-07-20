@@ -9,6 +9,7 @@
   "candidate": "插件绕过 Context Builder 直接注入",
   "confidence": 0.7,
   "score": 0.58,
-  "hit_count": 1,
-  "status": "deduped"
+  "hit_count": 6,
+  "status": "deduped",
+  "identity": "candidate:dc42ffa8f5831f40:correction_explicit:interaction"
 }

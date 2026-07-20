@@ -9,7 +9,14 @@
   "candidate": "执行链路：执行命令 → 保存原始输出 → 读取确认 → 复制进入聊天正文 → 用户验收 → 形成结论。禁止用结论代替证据。",
   "confidence": 0.8,
   "score": 0.61,
-  "hit_count": 1,
+  "hit_count": 6,
   "status": "approved",
-  "archived_at": "2026-07-20 01:03"
+  "archived_at": "2026-07-20 01:03",
+  "promotion_id": "legacy-rule-candidate-2026-07-18-003",
+  "validator": "legacy_migration",
+  "approved_at": "2026-07-20 06:38",
+  "approval_reason": "legacy migration: pre-Patch approved candidate",
+  "state": "promoted",
+  "state_changed_at": "2026-07-20 06:38",
+  "identity": "candidate:9de23859f8964253:correction_explicit:interaction"
 }

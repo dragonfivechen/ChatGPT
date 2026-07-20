@@ -157,7 +157,75 @@ compare: issue_equal=true, numbers_equal=true
 
 ---
 
-## 8. 源方法约束
+## 8. 事件唯一性约束（Event Dedup Rule）
+
+### 8.1 事件身份（Event Fingerprint）
+
+每个彩票事件的唯一身份由以下复合键定义：
+
+```
+lottery:{game}:{issue}:{number_hash}
+```
+
+| 字段 | 来源 | 说明 |
+|------|------|------|
+| game | payload.game | SSQ / DLT / KL8 |
+| issue | payload.issue | 期号，如 2026080 |
+| number_hash | payload.numbers | 号码排序后 SHA256[:16] |
+
+### 8.2 写入规则
+
+```
+事件到达
+ ↓
+计算 fingerprint
+ ↓
+fingerprint 已存在？
+ ├── 否 → append（新事件）
+ └── 是 → reject（重复），写入 dup log
+```
+
+- **不修改历史事件** — events 为 source of truth，不可篡改
+- **重复事件拒绝写入** — 不在 event store 中产生重复行
+- **重复日志** — 记录到 `events/lottery/dup.log`：timestamp + fingerprint + reason
+
+### 8.3 历史数据清理
+
+对已存在的重复事件（如 DLT 2026080 写入 6 次）：
+
+- 保留原始事件（不可删除历史记录）
+- 在索引/消费层标记重复
+- 建立 `events/lottery/dedup-index.json` 记录：
+  ```json
+  {
+    "canonical": "lottery:dlt:2026080:<hash>",
+    "duplicates": 5,
+    "first_seen": "2026-07-18T14:25:31Z",
+    "last_seen": "2026-07-19T15:25:40Z",
+    "mark": "merged"
+  }
+  ```
+
+### 8.4 验证
+
+重新导入同一期数据：
+
+```
+第一次 → accepted
+第二次 → deduped（拒绝写入，记录 dup log）
+```
+
+### 8.5 覆盖关系
+
+| 场景 | 判定 |
+|------|------|
+| 同一 source 重复推送 | duplicate → reject |
+| 不同 source 同内容 | duplicate → reject（选择信任级高的标记为 canonical） |
+| 不同 source 不同内容 | conflict → 告警，人工判定 |
+
+---
+
+## 9. 源方法约束
 
 - 外部源只通过 `sources/` 脚本访问，不直接写入 events
 - 所有 external source 输出必须经过 validator

@@ -9,11 +9,12 @@
   "candidate": "单任务失败不阻断后续链路",
   "confidence": 0.95,
   "score": 0.825,
-  "hit_count": 18,
+  "hit_count": 60,
   "status": "deduped",
   "merged_group": [
     "rule-candidate-2026-07-19-000",
     "rule-candidate-2026-07-19-001"
   ],
-  "archived_at": "2026-07-20 03:30"
+  "archived_at": "2026-07-20 03:30",
+  "identity": "candidate:3a9ded2582f30219:principle:interaction"
 }

@@ -1,8 +1,9 @@
 # 系统架构里程碑
 
-**最后更新:** 2026-07-19 09:24 CST
+**最后更新:** 2026-07-20 22:15 CST
 **当前状态:** Architecture Governance Layer v1.0 — FROZEN (观察期)
 Phase 6 Runtime Intelligence Layer — COMPLETE (v1)
+Runtime Context Layer v1.0 — FROZEN (Boundary Completion)
 
 ---
 
@@ -13,7 +14,8 @@ Phase 6 Runtime Intelligence Layer — COMPLETE (v1)
 | Runtime 注入路径关闭 | ✅ | NODE_OPTIONS 已移除，billing 独立运行 |
 | External Worker 标准化 | ✅ | timer + oneshot 模型，无常驻 daemon |
 | 通知出口统一 | ✅ | push-notify → push-gate 唯一出口 |
-| crontab 清除 | ✅ | 零条目 |
+| Gateway cron 注入关闭 | ✅ | 网关/worker cron injection 已移除 |
+| 用户 crontab | 🟡 | 遗留 + 新增共 6 条（backup/sensors/eval/context-provider/governance/token），未迁移 systemd |
 | Secret 边界清理 | ✅ | 无脚本硬编码 token |
 
 **源码校验:** systemd timer 正确（OpenClaw cron 是 Agent Workflow Scheduler 非 worker scheduler）、push-gate 独立保持正确（OpenClaw outbound 在 Runtime 内）、External Secret 后续优化。
@@ -98,6 +100,37 @@ Phase 6.3: Context Projection Contract    🔒 FROZEN
 Phase 6.4: Tool Call Gateway              🔒 FROZEN
 ```
 
+---
+
+## Runtime Context Layer v1.0 ✅ COMPLETE (FROZEN)
+
+**分类:** Truth Architecture Boundary Completion
+**起源:** Truth Architecture 框架预先标识的 Time/Context 真相源缺口
+**冻结状态:** 🔒 FROZEN
+
+**产出:**
+
+| 项 | 状态 |
+|---|------|
+| `runtime/context_contract.md` — Time Truth Source 消费契约 | ✅ FROZEN |
+| `runtime/context_provider.py` — OS Clock → Context Snapshot | ✅ 每 5min (crontab) |
+| `runtime/context_validator.py` — 歧义标记 | ✅ FROZEN |
+| `runtime/temporal_resolver.py` — 自然语言→绝对时间解析 | ✅ FROZEN |
+| `runtime/time_context.json` — 运行时快照 | ✅ 持续刷新 |
+
+**核心原则:** Time Truth Source (OS Clock) → Context Provider → Consumer。任何模块不能自行 datetime.now()。
+
+**相关契约:**
+
+```
+state/huo/CONTEXT-PROJECTION-CONTRACT.md     Context Projection (Phase 6.3, 与 Runtime Context 分离)
+state/huo/CONFIG-SOURCE-CONTRACT.md          Config Truth Source 契约 (同日补齐)
+state/huo/FACT-SOURCE-CONTRACT.md            Fact Truth Source 契约 (同日补齐)
+state/huo/EVENT-SOURCE-CONTRACT.md           Event Truth Source 契约 (同日补齐)
+```
+
+---
+
 ### 运行中组件
 
 | 服务 | 类型 | 生命周期管理 |
@@ -106,6 +139,8 @@ Phase 6.4: Tool Call Gateway              🔒 FROZEN
 | oek-billing-snapshot | External Worker | systemd timer (5min) + oneshot |
 | oek-billing-push | External Worker | systemd timer (1h) + oneshot |
 | oek-token-observe | External Worker | systemd timer (hourly) + oneshot |
+| context-provider | External Worker | crontab (5min) — 见 Phase 1 crontab 状态 |
+| memory-governance-worker | External Worker | crontab (30min) — 见 Phase 1 crontab 状态 |
 
 ### 治理层文档清单
 
@@ -158,7 +193,7 @@ state/huo/tool-call-event.schema.json         Tool Call Event Schema（Phase 6.4
 | Plugin Capability 分级 enforcement 实现 | 低 | Contract 和 Registry 已定义，源码已有 enforcement point，但无实现需求 |
 | External Secret Interface 统一 | 低 | 当前 `.secrets/push-gate.json` 独立，后续可考虑接入 `src/secrets/` |
 | Memory Writer Pipeline 微调 | 低 | dreaming 自动写入与 Writer Boundary 的对应关系需运行数据验证 |
-| cron→systemd timer 全面迁移 | 已完成 | crontab 已清零 |
+| cron→systemd timer 全面迁移 | 🟡 待决策 | 6 条活跃 crontab 条目。原目标：迁移 Gateway 相关 cron 注入（已完成）。用户 crontab 是否需要全清零待龙哥确认 |
 
 ### 非架构维护项
 

@@ -9,6 +9,7 @@
   "candidate": "新增 `LOTTERY-PREDICTION-CONTRACT.md` — 预测格式/验证规则/能力依赖",
   "confidence": 0.75,
   "score": 0.605,
-  "hit_count": 1,
-  "status": "deduped"
+  "hit_count": 3,
+  "status": "deduped",
+  "identity": "candidate:0fa91856827d311f:principle:project"
 }

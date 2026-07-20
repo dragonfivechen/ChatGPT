@@ -9,7 +9,14 @@
   "candidate": "/推测\"而无来源；推断来源必须是 fact 或确认过的 cache",
   "confidence": 0.8,
   "score": 0.58,
-  "hit_count": 1,
+  "hit_count": 6,
   "status": "approved",
-  "archived_at": "2026-07-20 01:03"
+  "archived_at": "2026-07-20 01:03",
+  "promotion_id": "legacy-rule-candidate-2026-07-18-004",
+  "validator": "legacy_migration",
+  "approved_at": "2026-07-20 06:38",
+  "approval_reason": "legacy migration: pre-Patch approved candidate",
+  "state": "promoted",
+  "state_changed_at": "2026-07-20 06:38",
+  "identity": "candidate:54120950216e6c3f:principle:interaction"
 }

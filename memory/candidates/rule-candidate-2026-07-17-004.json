@@ -9,7 +9,10 @@
   "candidate": "- 没有证据，不要给根因",
   "confidence": 0.8,
   "score": 0.61,
-  "hit_count": 1,
+  "hit_count": 3,
   "status": "approved",
-  "archived_at": "2026-07-20 02:09"
+  "archived_at": "2026-07-20 02:09",
+  "state": "promoted",
+  "state_changed_at": "2026-07-20 06:37",
+  "identity": "candidate:819393de32c6b1c3:correction_explicit:interaction"
 }

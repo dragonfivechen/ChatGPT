@@ -35,3 +35,12 @@ __pycache__/
 *.pyc
 # Stock simulation observation data
 stock-sim/observe/
+
+# Stale workspace copy
+ChatGPT/
+
+# Test artifacts
+docs/test-contract.md
+
+# Generated runtime data
+stock-sim/market/admission_pool.json

@@ -12,5 +12,6 @@
   "hit_count": 1,
   "status": "duplicate",
   "merged_into": "rule-candidate-2026-07-20-004",
-  "notes": "合并至 rule-candidate-2026-07-20-004"
+  "notes": "合并至 rule-candidate-2026-07-20-004",
+  "identity": "candidate:94f4d4a25b7ace06:principle:interaction"
 }

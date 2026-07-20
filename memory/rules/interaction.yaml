@@ -19,12 +19,22 @@ rules:
   source: /home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-18.md
   promoted: 2026-07-20 01:03
   score: 0.64
-  hit_count: 1
+  hit_count: 2
+  last_updated: 2026-07-20 06:38
+  promotion_id: legacy-rule-candidate-2026-07-18-005
+  validator: legacy_migration
+  approved_at: 2026-07-20 06:38
+  approval_reason: 'legacy migration: pre-Patch approved candidate'
 - rule: '- 没有证据，不要给根因'
   source: /home/dragonfive/.openclaw/workspace/memory/events/jin/2026-07-17.md
   promoted: 2026-07-20 02:09
   score: 0.61
-  hit_count: 1
+  hit_count: 2
+  last_updated: 2026-07-20 06:37
+  promotion_id: ''
+  validator: ''
+  approved_at: ''
+  approval_reason: ''
 - rule: 单任务失败不阻断后续链路
   source: /home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-19.md
   promoted: 2026-07-20 02:09
@@ -51,3 +61,48 @@ rules:
   validator: human
   approved_at: '2026-07-20'
   approval_reason: confirmed
+- rule: 输出可能、好像等不确定内容
+  source: /home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-18.md
+  promoted: 2026-07-20 06:38
+  score: 0.64
+  hit_count: 1
+  promotion_id: legacy-rule-candidate-2026-07-18-001
+  validator: legacy_migration
+  approved_at: 2026-07-20 06:38
+  approval_reason: 'legacy migration: pre-Patch approved candidate'
+- rule: 执行链路：执行命令 → 保存原始输出 → 读取确认 → 复制进入聊天正文 → 用户验收 → 形成结论。禁止用结论代替证据。
+  source: /home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-18.md
+  promoted: 2026-07-20 06:38
+  score: 0.61
+  hit_count: 1
+  promotion_id: legacy-rule-candidate-2026-07-18-003
+  validator: legacy_migration
+  approved_at: 2026-07-20 06:38
+  approval_reason: 'legacy migration: pre-Patch approved candidate'
+- rule: /推测"而无来源；推断来源必须是 fact 或确认过的 cache
+  source: /home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-18.md
+  promoted: 2026-07-20 06:38
+  score: 0.58
+  hit_count: 1
+  promotion_id: legacy-rule-candidate-2026-07-18-004
+  validator: legacy_migration
+  approved_at: 2026-07-20 06:38
+  approval_reason: 'legacy migration: pre-Patch approved candidate'
+- rule: 冻结保护基线稳定，不禁止审计缺口修复。观察不用于延迟已确认缺口修复。
+  source: /home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-18.md
+  promoted: 2026-07-20 06:38
+  score: 0.61
+  hit_count: 1
+  promotion_id: legacy-rule-candidate-2026-07-18-006
+  validator: legacy_migration
+  approved_at: 2026-07-20 06:38
+  approval_reason: 'legacy migration: pre-Patch approved candidate'
+- rule: 审计缺口处理方式 (2026-07-20 00:58)
+  source: /home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-20.md
+  promoted: 2026-07-20 06:38
+  score: 0.625
+  hit_count: 1
+  promotion_id: legacy-rule-candidate-2026-07-20-000
+  validator: legacy_migration
+  approved_at: 2026-07-20 06:38
+  approval_reason: 'legacy migration: pre-Patch approved candidate'

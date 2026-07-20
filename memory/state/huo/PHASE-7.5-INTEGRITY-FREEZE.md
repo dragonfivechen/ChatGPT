@@ -22,7 +22,7 @@
 
 | Contract | Phase | Status | Reference Document |
 |:---|:---|:---|:---|
-| 6.1 Reasoning Isolation | Phase 6.1 | 🔒 FROZEN | `PHASE-6.1-REASONING-ISOLATION-CONTRACT.md` |
+| 6.1 Reasoning Isolation | Phase 6.1 | 🔒 FROZEN | `REASONING-ISOLATION-CONTRACT.md` |
 | 6.2 Capability Registry | Phase 6.2 | 🔒 FROZEN | `PHASE-6.2-AUDIT-REPORT.md` |
 | 6.3 Context Projection | Phase 6.3 | 🔒 FROZEN | `PHASE-6.3-VALIDATION.md`, `EVENT-INTEGRATION-DESIGN.md`, `RUNTIME-INTEGRATION-DESIGN.md` |
 | 6.4 Tool Call Gateway | Phase 6.4 | 🔒 FROZEN | `PHASE-6.4.1-SCHEMA-DESIGN.md`, `RUNTIME-INTEGRATION-DESIGN.md`, `VALIDATION.md` |

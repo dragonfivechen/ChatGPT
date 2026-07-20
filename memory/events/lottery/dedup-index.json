@@ -1,0 +1,163 @@
+{
+  "created": "2026-07-20T23:35:00+08:00",
+  "rule": "lottery:{game}:{issue}:{number_hash}",
+  "entries": [
+    {
+      "fingerprint": "lottery:DLT:2026079:dc8ba410880ecfd7",
+      "count": 1,
+      "canonical": "lottery-dlt-2026079",
+      "first_seen": "2026-07-18T13:03:31Z",
+      "last_seen": "2026-07-18T13:03:31Z",
+      "sources": [
+        "500m"
+      ],
+      "lines": [
+        1
+      ],
+      "mark": "canonical"
+    },
+    {
+      "fingerprint": "lottery:DLT:2026080:8811d53c69215557",
+      "count": 7,
+      "canonical": "lottery-dlt-2026080",
+      "first_seen": "2026-07-18T14:25:31Z",
+      "last_seen": "2026-07-19T15:25:40Z",
+      "sources": [
+        "500m"
+      ],
+      "lines": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "mark": "has_duplicates",
+      "duplicate_events": [
+        "lottery-dlt-2026080",
+        "lottery-dlt-2026080",
+        "lottery-dlt-2026080",
+        "lottery-dlt-2026080",
+        "lottery-dlt-2026080",
+        "lottery-dlt-2026080"
+      ]
+    },
+    {
+      "fingerprint": "lottery:DLT:2026081:719ffbee42ca54ee",
+      "count": 3,
+      "canonical": "lottery-dlt-2026081",
+      "first_seen": "2026-07-20T14:10:11Z",
+      "last_seen": "2026-07-20T14:30:57Z",
+      "sources": [
+        "500m"
+      ],
+      "lines": [
+        9,
+        10,
+        11
+      ],
+      "mark": "has_duplicates",
+      "duplicate_events": [
+        "lottery-dlt-2026081",
+        "lottery-dlt-2026081"
+      ]
+    },
+    {
+      "fingerprint": "lottery:KL8:2026189:7a5cbe3fe9905890",
+      "count": 1,
+      "canonical": "lottery-kl8-2026189",
+      "first_seen": "2026-07-18T15:38:21Z",
+      "last_seen": "2026-07-18T15:38:21Z",
+      "sources": [
+        "cwl"
+      ],
+      "lines": [
+        1
+      ],
+      "mark": "canonical"
+    },
+    {
+      "fingerprint": "lottery:KL8:2026190:4e81e54b73de7805",
+      "count": 1,
+      "canonical": "lottery-kl8-2026190",
+      "first_seen": "2026-07-19T14:11:03Z",
+      "last_seen": "2026-07-19T14:11:03Z",
+      "sources": [
+        "cwl"
+      ],
+      "lines": [
+        2
+      ],
+      "mark": "canonical"
+    },
+    {
+      "fingerprint": "lottery:KL8:2026191:c96c4f3d6ce1327a",
+      "count": 1,
+      "canonical": "lottery-kl8-2026191",
+      "first_seen": "2026-07-20T14:10:15Z",
+      "last_seen": "2026-07-20T14:10:15Z",
+      "sources": [
+        "cwl"
+      ],
+      "lines": [
+        3
+      ],
+      "mark": "canonical"
+    },
+    {
+      "fingerprint": "lottery:SSQ:2026081:e2f05eb47894219e",
+      "count": 5,
+      "canonical": "lottery-ssq-2026081",
+      "first_seen": "2026-07-18T07:26:37Z",
+      "last_seen": "2026-07-18T15:23:37Z",
+      "sources": [
+        "cwl",
+        "500m"
+      ],
+      "lines": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "mark": "has_duplicates",
+      "duplicate_events": [
+        "lottery-ssq-2026081",
+        "lottery-ssq-2026081",
+        "lottery-ssq-2026081",
+        "lottery-ssq-2026081"
+      ]
+    },
+    {
+      "fingerprint": "lottery:SSQ:2026082:c0881de68f3df689",
+      "count": 7,
+      "canonical": "lottery-ssq-2026082",
+      "first_seen": "2026-07-19T14:10:54Z",
+      "last_seen": "2026-07-20T14:30:57Z",
+      "sources": [
+        "500m"
+      ],
+      "lines": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "mark": "has_duplicates",
+      "duplicate_events": [
+        "lottery-ssq-2026082",
+        "lottery-ssq-2026082",
+        "lottery-ssq-2026082",
+        "lottery-ssq-2026082",
+        "lottery-ssq-2026082",
+        "lottery-ssq-2026082"
+      ]
+    }
+  ]
+}

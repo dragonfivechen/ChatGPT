@@ -10,5 +10,6 @@
   "confidence": 0.75,
   "score": 0.645,
   "hit_count": 1,
-  "status": "deduped"
+  "status": "deduped",
+  "identity": "candidate:c9801c38facdac37:principle:architecture"
 }

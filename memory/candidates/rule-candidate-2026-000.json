@@ -9,11 +9,12 @@
   "candidate": "request_id/provider/model/token_count/latency 允许",
   "confidence": 0.98,
   "score": 0.834,
-  "hit_count": 6,
+  "hit_count": 48,
   "status": "deduped",
   "merged_group": [
     "rule-candidate-2026-000",
     "rule-candidate-2026-001"
   ],
-  "archived_at": "2026-07-20 03:30"
+  "archived_at": "2026-07-20 03:30",
+  "identity": "candidate:72469bce74703369:principle:interaction"
 }

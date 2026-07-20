@@ -406,3 +406,4 @@
 {"timestamp":"2026-07-20T15:00:02Z","model":"qwen2.5:3b","task":"format","latency_ms":11348,"input_tokens":48,"output_tokens":29,"total_tokens":77,"success":true,"quality":"pass","output_length":67,"cpu_peak_pct":0,"mem_peak_mb":40}
 {"timestamp":"2026-07-20T15:00:02Z","model":"qwen2.5:3b","task":"summarize","latency_ms":16773,"input_tokens":57,"output_tokens":44,"total_tokens":101,"success":true,"quality":"pass","output_length":76,"cpu_peak_pct":0,"mem_peak_mb":40}
 {"timestamp":"2026-07-20T15:00:02Z","model":"qwen2.5:3b","task":"report","latency_ms":7817,"input_tokens":47,"output_tokens":18,"total_tokens":65,"success":true,"quality":"pass","output_length":27,"cpu_peak_pct":0,"mem_peak_mb":40}
+{"timestamp":"2026-07-20T16:00:01Z","model":"qwen2.5:3b","task":"short_qa","latency_ms":17075,"input_tokens":35,"output_tokens":23,"total_tokens":58,"success":true,"quality":"pass","output_length":37,"cpu_peak_pct":0,"mem_peak_mb":40}

@@ -9,11 +9,10 @@
   "candidate": "把\"观察\"变成\"延期修复\"",
   "confidence": 0.95,
   "score": 0.825,
-  "hit_count": 108,
+  "hit_count": 109,
   "status": "deduped",
   "merged_group": [
     "rule-candidate-2026-07-20-004",
-    "rule-candidate-2026-07-20-005",
     "rule-candidate-2026-07-20-006"
   ],
   "archived_at": "2026-07-20 03:30",

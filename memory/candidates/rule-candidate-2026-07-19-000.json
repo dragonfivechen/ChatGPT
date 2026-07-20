@@ -9,7 +9,7 @@
   "candidate": "单任务失败不阻断后续链路",
   "confidence": 0.95,
   "score": 0.825,
-  "hit_count": 60,
+  "hit_count": 68,
   "status": "deduped",
   "merged_group": [
     "rule-candidate-2026-07-19-000",

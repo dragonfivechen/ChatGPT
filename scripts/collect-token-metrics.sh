@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Token Metrics Collector v1.1 — 每小时采集 Token 状态
+# Token Metrics Collector v1.2 — 每小时采集 Token 状态 + 配置快照
 # Output: memory/data/system/token-metrics.jsonl (append-only)
 # 不修改运行状态，只记录观测数据
 set -euo pipefail
@@ -7,22 +7,63 @@ set -euo pipefail
 BASE="$HOME/.openclaw/workspace"
 OUTFILE="$BASE/memory/data/system/token-metrics.jsonl"
 TS=$(TZ='Asia/Shanghai' date +"%Y-%m-%dT%H:%M:%S%z")
+CONFIG="/home/dragonfive/.openclaw/openclaw.json"
 
 mkdir -p "$(dirname "$OUTFILE")"
 
+# 1. 读取配置快照到临时文件
+CONFIG_TMP=$(mktemp)
+python3 -c "
+import json
+try:
+    with open('$CONFIG') as f:
+        cfg = json.load(f)
+    defaults = cfg.get('agents', {}).get('defaults', {})
+    pruning = defaults.get('contextPruning', {})
+    compaction = defaults.get('compaction', {})
+    agent_model = defaults.get('model', {})
+    primary_model = agent_model.get('primary', '')
+    print(json.dumps({
+        'contextPruning': {
+            'mode': pruning.get('mode'),
+            'softTrimRatio': pruning.get('softTrimRatio'),
+            'hardClearRatio': pruning.get('hardClearRatio'),
+            'keepLastAssistants': pruning.get('keepLastAssistants'),
+        },
+        'compaction': {
+            'maxActiveTranscriptBytes': str(compaction.get('maxActiveTranscriptBytes','')),
+            'keepRecentTokens': compaction.get('keepRecentTokens'),
+            'reserveTokensFloor': compaction.get('reserveTokensFloor'),
+            'maxHistoryShare': compaction.get('maxHistoryShare'),
+            'truncateAfterCompaction': compaction.get('truncateAfterCompaction'),
+        },
+        'agent_default_model': primary_model,
+    }))
+except Exception as e:
+    print(json.dumps({'error': str(e)}))
+" > "$CONFIG_TMP" 2>/dev/null
+
+# 2. 采集 runtime 指标
 STATUS=$(openclaw status --json 2>/dev/null || echo "")
+
 if [ -z "$STATUS" ]; then
-  echo "{\"ts\":\"$TS\",\"error\":\"status_unavailable\"}" >> "$OUTFILE"
+  CONFIG_JSON=$(cat "$CONFIG_TMP")
+  echo "{\"ts\":\"$TS\",\"metrics\":{},\"config\":$CONFIG_JSON,\"error\":\"status_unavailable\"}" >> "$OUTFILE"
+  rm -f "$CONFIG_TMP"
   exit 0
 fi
 
-python3 -c "
+# 3. 合并指标和配置快照
+CONFIG_JSON=$(cat "$CONFIG_TMP")
+echo "$STATUS" | python3 -c "
 import sys, json
+
+CONFIG_SNAPSHOT = '''$CONFIG_JSON'''  # 由 shell 注入
 
 try:
     root = json.loads(sys.stdin.read())
 except:
-    print(json.dumps({'ts':'$TS','error':'parse_failed'}))
+    print(json.dumps({'ts':'0','error':'parse_failed'}))
     sys.exit(0)
 
 sessions = root.get('sessions', {})
@@ -36,7 +77,8 @@ else:
 total = len(recent)
 sum_input = sum_output = sum_cache_read = sum_cache_write = sum_total = 0
 max_pct = 0.0
-ctx_sum = 0.0
+weighted_pct_sum = 0.0
+weight_sum = 0.0
 by_agent = {}
 
 for s in recent:
@@ -48,8 +90,12 @@ for s in recent:
     cw = s.get('cacheWrite', 0) or 0
     tt = s.get('totalTokens', 0) or 0
     pct = s.get('percentUsed', 0) or 0
-    ctx = s.get('contextTokens', 0) or 0
-    agent = s.get('agentId', s.get('key', 'unknown')).split(':')[0] if s.get('key') else 'unknown'
+    ctx = s.get('contextTokens', 1) or 1
+    agent = 'unknown'
+    key = s.get('key', '')
+    if ':' in key:
+        parts = key.split(':')
+        agent = parts[1] if len(parts) > 1 else 'unknown'
 
     sum_input += inp
     sum_output += out
@@ -57,16 +103,17 @@ for s in recent:
     sum_cache_write += cw
     sum_total += tt
     max_pct = max(max_pct, pct)
-    ctx_sum += ctx
+    weighted_pct_sum += pct * ctx
+    weight_sum += ctx
 
-    by_agent.setdefault(agent, {'sessions':0,'input':0,'output':0,'cache_read':0})
+    by_agent.setdefault(agent, {'sessions':0,'input':0,'output':0,'cache_read':0,'cache_write':0})
     by_agent[agent]['sessions'] += 1
     by_agent[agent]['input'] += inp
     by_agent[agent]['output'] += out
     by_agent[agent]['cache_read'] += cr
+    by_agent[agent]['cache_write'] += cw
 
-# avg pct: weighted by context window
-avg_pct = round(sum((s.get('percentUsed',0) or 0) * (s.get('contextTokens',1) or 1) for s in recent if isinstance(s,dict)) / max(ctx_sum, 1), 2) if ctx_sum else 0
+avg_pct = round(weighted_pct_sum / max(weight_sum, 1), 2) if weight_sum else 0
 
 record = {
     'ts': '$TS',
@@ -79,13 +126,16 @@ record = {
     'cache_efficiency': round(sum_cache_read / max(sum_input + sum_output, 1), 4),
     'avg_context_pct': avg_pct,
     'max_context_pct': max_pct,
-    'agents': {k: v for k, v in by_agent.items()},
+    'agents': by_agent,
+    'config': json.loads(CONFIG_SNAPSHOT),
 }
 
 print(json.dumps(record, ensure_ascii=False))
-" <<< "$STATUS" >> "$OUTFILE" 2>/dev/null
+" >> "$OUTFILE" 2>/dev/null
 
-# Rotate: keep 7 days (10080 entries at 1/hour)
+rm -f "$CONFIG_TMP"
+
+# 4. Rotate: keep 10080 entries (7 days)
 LINES=$(wc -l < "$OUTFILE" 2>/dev/null || echo 0)
 if [ "$LINES" -gt 11000 ]; then
     tail -n 10080 "$OUTFILE" > "$OUTFILE.tmp" && mv "$OUTFILE.tmp" "$OUTFILE"

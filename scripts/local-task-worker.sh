@@ -89,11 +89,11 @@ gen_event_tagging() {
   echo "{"type":"event_tagging","prompt":$(echo "$prompt" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read().strip()))")}"
 }
 
-# Task 7: Commit / Change Summary
+# Task 7: Commit / Change Summary（⚠️ 低置信 — 不直接作为事实来源）
 gen_change_summary() {
   local git_dir="$HOME/.openclaw/workspace"
   local log=$(cd "$git_dir" && git log --oneline -5 2>/dev/null || echo "无提交记录")
-  local prompt="总结以下 Git 变更记录的类型和影响范围：${log}"
+  local prompt="总结以下 Git 变更记录的类型和影响范围，标明你的置信度(high/medium/low)：${log}"
   echo "{"type":"change_summary","prompt":$(echo "$prompt" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read().strip()))")}"
 }
 

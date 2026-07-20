@@ -70,6 +70,46 @@ else:
   echo "{\"type\":\"config_explain\",\"prompt\":$(echo "$prompt" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read().strip()))")}"
 }
 
+# Task 5: JSON 结构校验 / 修复建议
+gen_json_validate() {
+  local state_file="$DATA_DIR/governance-state.json"
+  if [ ! -f "$state_file" ]; then
+    echo '{"type":"json_validate","prompt":"暂无状态文件"}'
+    return
+  fi
+  local snippet=$(tail -c 500 "$state_file" 2>/dev/null || echo "{}")
+  local prompt="验证以下 JSON 结构是否合法，只输出 valid:true/false 和 issues 列表：${snippet}"
+  echo "{"type":"json_validate","prompt":$(echo "$prompt" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read().strip()))")}"
+}
+
+# Task 6: Event 标签生成
+gen_event_tagging() {
+  local recent=$(journalctl --since "30 min ago" --no-pager -n 3 --output=short 2>/dev/null || echo "无日志")
+  local prompt="为以下系统事件生成分类标签（category,severity,tags），JSON 格式输出：${recent}"
+  echo "{"type":"event_tagging","prompt":$(echo "$prompt" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read().strip()))")}"
+}
+
+# Task 7: Commit / Change Summary
+gen_change_summary() {
+  local git_dir="$HOME/.openclaw/workspace"
+  local log=$(cd "$git_dir" && git log --oneline -5 2>/dev/null || echo "无提交记录")
+  local prompt="总结以下 Git 变更记录的类型和影响范围：${log}"
+  echo "{"type":"change_summary","prompt":$(echo "$prompt" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read().strip()))")}"
+}
+
+# Task 8: Markdown 报告格式化
+gen_report_format() {
+  local report_file="$DATA_DIR/daily-report/latest.md"
+  if [ ! -f "$report_file" ]; then
+    echo '{"type":"report_format","prompt":"暂无报告"}'
+    return
+  fi
+  local snippet=$(head -30 "$report_file" 2>/dev/null | grep -v '^#' | head -15 || echo "无内容")
+  local prompt="将以下系统状态文本整理为 Markdown 格式报告（含标题、指标表、风险标注）：${snippet}"
+  echo "{"type":"report_format","prompt":$(echo "$prompt" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read().strip()))")}"
+}
+
+
 # ── 执行引擎 ──
 
 run_task() {
@@ -122,6 +162,10 @@ TASKS+=("$(gen_status_brief)")
 TASKS+=("$(gen_event_classify)")
 TASKS+=("$(gen_log_summary)")
 TASKS+=("$(gen_config_explain)")
+TASKS+=("$(gen_json_validate)")
+TASKS+=("$(gen_event_tagging)")
+TASKS+=("$(gen_change_summary)")
+TASKS+=("$(gen_report_format)")
 
 SUCCESS_COUNT=0
 FAIL_COUNT=0

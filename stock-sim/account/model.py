@@ -7,7 +7,7 @@
 import uuid
 import copy
 
-DEFAULT_INITIAL_CASH = 1_000_000.0
+DEFAULT_INITIAL_CASH = 10_000_000.0
 
 
 class Position:

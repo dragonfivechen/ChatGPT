@@ -1,0 +1,62 @@
+{
+  "project": "Futures-Sim v0.1 → Trading-Runtime",
+  "phase": "6.5",
+  "phase_6_1": {
+    "status": "PASS",
+    "baseline": "FROZEN",
+    "date": "2026-07-21"
+  },
+  "phase_6_2": {
+    "status": "PASS",
+    "baseline": "FROZEN",
+    "date": "2026-07-21"
+  },
+  "phase_6_3": {
+    "status": "PASS",
+    "baseline": "FROZEN",
+    "date": "2026-07-21"
+  },
+  "phase_6_4": {
+    "status": "PASS",
+    "baseline": "FROZEN",
+    "date": "2026-07-21"
+  },
+  "phase_6_5": {
+    "status": "PASS",
+    "baseline": "FROZEN",
+    "date": "2026-07-21",
+    "tests": {
+      "test1_preloader": "PASS (6/6 品種, 720 bar, 状态恢复)",
+      "test2_notifier": "PASS (5种通知类型, 结构化+日志)",
+      "test3_daily_report": "PASS (4笔成交, 胜率50%, 2品种统计)",
+      "test4_scheduler_state_machine": "PASS (WAITING→PRE_MARKET→OPEN→TRADING→CLOSE→REPORT→DONE)",
+      "test5_integration": "PASS (3笔成交→日报→通知, 文件输出)"
+    },
+    "components": {
+      "session_scheduler": "session_scheduler.py ✅ (状态机调度)",
+      "preloader": "preloader.py ✅ (盘前预采集)",
+      "notifier": "notifier.py ✅ (5种通知类型)",
+      "daily_report": "daily_report.py ✅ (JSON+文本摘要)",
+      "session_config": "session_config.json ✅ (2交易时段)"
+    }
+  },
+  "architecture": {
+    "market_futures": "FROZEN (v0.1 Baseline)",
+    "trading_runtime": "ACTIVE (v0.5 Session Scheduler & Notification)",
+    "layers": {
+      "schedule_layer": "session_scheduler.py ✅ (状态机)",
+      "prepare_layer": "preloader.py ✅ (盘前预采集)",
+      "data_layer": "market_stream.py ✅ + historical CSVs",
+      "strategy_layer": "strategy_runner.py ✅ (4策略)",
+      "signal_layer": "signal_receiver.py ✅",
+      "execution_layer": "paper_executor.py ✅",
+      "account_layer": "runtime_account.py ✅ + valuation ✅",
+      "risk_layer": "risk_snapshot.py ✅",
+      "notification_layer": "notifier.py ✅ (成交/持仓/风控/时段)",
+      "report_layer": "daily_report.py ✅ (日结报告)",
+      "state_persistence": "save_state/load_state ✅"
+    },
+    "day_lifecycle": "PRE_MARKET(08:45) → OPEN(09:00) → TRADING → CLOSE(11:30/15:00) → REPORT"
+  },
+  "pipeline": "session_scheduler → preloader → market_stream → strategy_runner → signal_receiver → paper_executor → runtime_account → valuation → risk_snapshot → notifier → daily_report"
+}

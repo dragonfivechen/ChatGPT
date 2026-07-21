@@ -1,0 +1,33 @@
+{
+  "report_type": "DAILY",
+  "date": "2026-07-21",
+  "generated_at": "2026-07-21T04:21:10.832932+08:00",
+  "initial_cash": 10000000,
+  "final_equity": 10000000,
+  "daily_pnl": 0,
+  "daily_pnl_pct": 0.0,
+  "total_realized_pnl": 0,
+  "unrealized_pnl": 0,
+  "trades": 2,
+  "winning_trades": 1,
+  "losing_trades": 1,
+  "win_rate": 50.0,
+  "positions": 0,
+  "position_details": {},
+  "symbol_stats": {
+    "RB": {
+      "trades": 1,
+      "pnl": 200.0
+    },
+    "CU": {
+      "trades": 1,
+      "pnl": -150.0
+    }
+  },
+  "peak_equity": 10000000,
+  "max_drawdown": 0,
+  "max_drawdown_pct": 0,
+  "current_drawdown": 0,
+  "current_drawdown_pct": 0,
+  "strategy_stats": {}
+}

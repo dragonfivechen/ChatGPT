@@ -1,0 +1,15 @@
+{
+  "id": "rule-candidate-2026-000-6",
+  "identity": "candidate:8e6dd682770e0145:principle:interaction",
+  "source_event": "/home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-21.md",
+  "source_line": 18,
+  "agent": "huo",
+  "date": "2026",
+  "category": "interaction",
+  "feedback_type": "principle",
+  "candidate": "话题隔离：回答股票问题只输出股票信息",
+  "confidence": 0.75,
+  "score": 0.0,
+  "hit_count": 17,
+  "state": "pending"
+}

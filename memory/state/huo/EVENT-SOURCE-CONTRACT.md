@@ -1,5 +1,16 @@
 # EVENT-SOURCE-CONTRACT.md — Event Truth Source v1.0
 
+> ```yaml
+> contract:
+>   name: EVENT-SOURCE
+>   version: v1.0
+>   level: L1
+>   parent: FREEZE-CONTRACT
+>   scope: event truth source
+>   owner: 燃🔥
+>   status: active
+> ```
+>
 > 建立于 2026-07-20，属于 Truth Architecture Phase A。
 > 此契约定义事件域的唯一事实源和消费规则。
 

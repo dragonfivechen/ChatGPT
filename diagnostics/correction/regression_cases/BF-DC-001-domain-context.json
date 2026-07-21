@@ -1,0 +1,36 @@
+{
+  "id": "BF-DC-001",
+  "category": "DC",
+  "priority": "P3",
+  "severity": "medium",
+  "source": "TG-20260721-maintenance-test",
+  "pattern": "domain_context_confusion",
+
+  "evidence": {
+    "user_feedback": [
+      "现在是开盘时间？\n\n我掐死你，你拿股票交易时段脑补期货交易时段"
+    ],
+    "sessions": ["2026-07-20T20-24-28", "2026-07-20T20-28-02"],
+    "timestamp": "2026-07-21 04:24~04:25 GMT+8"
+  },
+
+  "user_input": "现在是开盘时间？",
+  "failure_behavior": "用户问期货开盘时间，模型用股票交易时段回答（09:30），领域规则迁移错误",
+  "expected_behavior": "识别查询涉及领域（期货/股票/系统），按对应规则回答，不默认用最近领域知识",
+
+  "regression_test": {
+    "input": "现在是开盘时间？",
+    "expected": [
+      "识别是否需要明确领域（期货/股票/商品）",
+      "如上下文可判断领域，按对应规则回答",
+      "如歧义，确认领域而非假设为股票"
+    ],
+    "fail_conditions": [
+      "直接回答股票 09:30",
+      "不问领域默认假设为股票",
+      "用股票交易经验回答期货问题"
+    ]
+  },
+
+  "status": "observe"
+}

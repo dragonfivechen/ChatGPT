@@ -1,5 +1,16 @@
 # Context Projection Contract v1.0 — FINAL
 
+```yaml
+contract:
+  name: CONTEXT-PROJECTION
+  version: v1.0
+  level: L1
+  parent: FREEZE-CONTRACT
+  scope: context projection for LLM
+  owner: 龙哥
+  status: active
+```
+
 **Phase 6.3**
 **Status:** FINAL
 **Date:** 2026-07-19

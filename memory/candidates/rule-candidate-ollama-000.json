@@ -1,0 +1,15 @@
+{
+  "id": "rule-candidate-ollama-000",
+  "identity": "candidate:6153fbfa377958dc:correction_explicit:interaction",
+  "source_event": "/home/dragonfive/.openclaw/workspace/memory/events/huo/ollama-production.jsonl",
+  "source_line": 6,
+  "agent": "huo",
+  "date": "ollama",
+  "category": "interaction",
+  "feedback_type": "correction_explicit",
+  "candidate": "{\"timestamp\": \"2026-07-21T11:01:16Z\", \"model\": \"qwen2.5:3b\", \"type\": \"event_tagging\", \"latency_ms\": 90832, \"input_tokens\": 267, \"output_tokens\": 222, ",
+  "confidence": 0.8,
+  "score": 0.0,
+  "hit_count": 15,
+  "state": "pending"
+}

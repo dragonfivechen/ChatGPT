@@ -1,5 +1,16 @@
 # 冻结契约 — Freeze Contract v1.0
 
+> ```yaml
+> contract:
+>   name: FREEZE-CONTRACT
+>   version: v1.0
+>   level: L0
+>   parent: null
+>   scope: system freeze rules
+>   owner: 燃🔥
+>   status: active
+> ```
+>
 > 审计的目标不是发现异常，而是验证治理能力完整性。
 > 任何缺口必须完成根因定位；若根因为治理定义缺失，则优先补齐治理定义，再执行修复。
 

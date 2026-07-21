@@ -1,0 +1,75 @@
+{
+  "baseline": "Conversation Maintenance Observation v1.0",
+  "data_window": {
+    "start": "2026-07-18T00:00:00+08:00",
+    "end": "2026-07-21T17:04:00+08:00"
+  },
+  "scan_bounds": {
+    "source": "TG/User conversation archive",
+    "method": "full_scan (metadata-free message format)",
+    "message_count": 797,
+    "feedback_count": 18,
+    "session_files": "~/.openclaw/agents/main/sessions/*.jsonl (excl current)"
+  },
+  "metrics": {
+    "UFR": {
+      "value": 2.3,
+      "unit": "%",
+      "desc": "User Feedback Rate"
+    },
+    "IF": {
+      "value": 0.5,
+      "unit": "%",
+      "desc": "Intent Failure Rate"
+    },
+    "OF": {
+      "value": 0.5,
+      "unit": "%",
+      "desc": "Off-topic Rate"
+    },
+    "OE": {
+      "value": 0.3,
+      "unit": "%",
+      "desc": "Over-expansion Rate"
+    },
+    "EC": {
+      "value": 0.3,
+      "unit": "%",
+      "desc": "Execution Conflict Rate"
+    }
+  },
+  "attribution": {
+    "F_intent_misjudgment": 9,
+    "E_over_expansion": 7,
+    "D_hallucination": 1,
+    "B_style_drift": 1
+  },
+  "regression_cases": 4,
+  "observation_queue": 46,
+  "known_issues": [
+    {
+      "id": "BF-IF-001",
+      "pattern": "intent_mismatch",
+      "priority": "P1"
+    },
+    {
+      "id": "BF-OE-001",
+      "pattern": "unrequested_expansion",
+      "priority": "P2"
+    },
+    {
+      "id": "BF-DC-001",
+      "pattern": "domain_context_confusion",
+      "priority": "P3"
+    },
+    {
+      "id": "BF-CC-001",
+      "pattern": "context_correction",
+      "priority": "P4"
+    }
+  ],
+  "runtime_impact": "NONE",
+  "patch": "NONE",
+  "frozen": true,
+  "correction_note": "F009 reclassified: N4|D → N4|E (no execution conflict evidence)"
+}

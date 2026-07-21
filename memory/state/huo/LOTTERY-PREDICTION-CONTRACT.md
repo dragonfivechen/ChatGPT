@@ -1,5 +1,16 @@
 # LOTTERY-PREDICTION-CONTRACT.md v1.0
 
+```yaml
+contract:
+  name: LOTTERY-PREDICTION
+  version: v1.0
+  level: L2
+  parent: FUNCTION-MODULE-BASELINE-CHECK-CONTRACT
+  scope: lottery prediction boundary
+  owner: 燃🔥
+  status: active
+```
+
 > 预测验证闭环契约：定义预测号码的生成、存储、验证边界。
 > 定位：Phase C → C-2 Prediction Checker
 

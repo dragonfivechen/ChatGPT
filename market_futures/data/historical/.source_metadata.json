@@ -1,0 +1,24 @@
+{
+  "provider": "akshare",
+  "source": "新浪财经 (futures_main_sina)",
+  "frequency": "daily",
+  "contract_type": "主力连续",
+  "fetch_date": "2026-07-21 03:42:59",
+  "period": "20220722~20260721",
+  "symbols": [
+    "AL",
+    "CU",
+    "I",
+    "JM",
+    "RB",
+    "SC"
+  ],
+  "files": [
+    "AL_2022-2026.csv",
+    "CU_2022-2026.csv",
+    "I_2022-2026.csv",
+    "JM_2022-2026.csv",
+    "RB_2022-2026.csv",
+    "SC_2022-2026.csv"
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "market": "CN_FUTURES",
+  "sessions": [
+    {
+      "name": "morning",
+      "prepare": "08:45",
+      "open": "09:00",
+      "sections": [
+        {"start": "09:00", "end": "10:15"},
+        {"start": "10:30", "end": "11:30"}
+      ]
+    },
+    {
+      "name": "afternoon",
+      "prepare": "12:45",
+      "open": "13:30",
+      "sections": [
+        {"start": "13:30", "end": "15:00"}
+      ]
+    }
+  ],
+  "night_session": {
+    "enabled": true,
+    "prepare": "20:45",
+    "open": "21:00",
+    "sections": [
+      {"start": "21:00", "end": "23:00"}
+    ]
+  },
+  "data": {
+    "history_lookback": 120,
+    "symbols": ["RB", "I", "JM", "CU", "AL", "SC"]
+  },
+  "daily_report": {
+    "enable": true,
+    "output_dir": "reports/daily",
+    "push_on_close": true
+  },
+  "notification": {
+    "enable": true,
+    "output_dir": "reports/notifications",
+    "events": ["fill", "position", "risk_warning", "session_state"]
+  }
+}

@@ -31,10 +31,19 @@ print(f\"cpu={l.get('cpu_pct',0)}% mem={l.get('mem_mb',0)}MB disk={l.get('disk_p
   echo "{\"type\":\"system_status_brief\",\"prompt\":$(echo "$prompt" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read().strip()))")}"
 }
 
-# Task 2: 事件分类（简短版）
+# Task 2: 事件分类（强约束）
 gen_event_classify() {
   local recent=$(journalctl --since "30 min ago" --no-pager -n 5 --output=short 2>/dev/null || echo "无日志")
-  local prompt="将以下系统事件分为 normal/warning/error，只输出分类：${recent}"
+  local prompt="根据以下系统事件，判断当前整体系统状态。
+
+规则：
+- 只能输出一个词
+- 只能从 normal、warning、error 中选择
+- 不要解释
+- 不要输出多个分类
+- normal = 无异常，warning = 有轻微异常但系统继续运行，error = 存在影响运行的问题
+
+事件：${recent}"
   echo "{\"type\":\"event_classify\",\"prompt\":$(echo "$prompt" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read().strip()))")}"
 }
 
@@ -79,14 +88,14 @@ gen_json_validate() {
   fi
   local snippet=$(tail -c 500 "$state_file" 2>/dev/null || echo "{}")
   local prompt="验证以下 JSON 结构是否合法，只输出 valid:true/false 和 issues 列表：${snippet}"
-  echo "{"type":"json_validate","prompt":$(echo "$prompt" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read().strip()))")}"
+  echo "{\"type\":\"json_validate\",\"prompt\":$(echo "$prompt" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read().strip()))")}"
 }
 
 # Task 6: Event 标签生成
 gen_event_tagging() {
   local recent=$(journalctl --since "30 min ago" --no-pager -n 3 --output=short 2>/dev/null || echo "无日志")
   local prompt="为以下系统事件生成分类标签（category,severity,tags），JSON 格式输出：${recent}"
-  echo "{"type":"event_tagging","prompt":$(echo "$prompt" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read().strip()))")}"
+  echo "{\"type\":\"event_tagging\",\"prompt\":$(echo "$prompt" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read().strip()))")}"
 }
 
 # Task 7: Commit / Change Summary（⚠️ 低置信 — 不直接作为事实来源）
@@ -94,7 +103,7 @@ gen_change_summary() {
   local git_dir="$HOME/.openclaw/workspace"
   local log=$(cd "$git_dir" && git log --oneline -5 2>/dev/null || echo "无提交记录")
   local prompt="总结以下 Git 变更记录的类型和影响范围，标明你的置信度(high/medium/low)：${log}"
-  echo "{"type":"change_summary","prompt":$(echo "$prompt" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read().strip()))")}"
+  echo "{\"type\":\"change_summary\",\"prompt\":$(echo "$prompt" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read().strip()))")}"
 }
 
 # Task 8: Markdown 报告格式化
@@ -106,7 +115,7 @@ gen_report_format() {
   fi
   local snippet=$(head -30 "$report_file" 2>/dev/null | grep -v '^#' | head -15 || echo "无内容")
   local prompt="将以下系统状态文本整理为 Markdown 格式报告（含标题、指标表、风险标注）：${snippet}"
-  echo "{"type":"report_format","prompt":$(echo "$prompt" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read().strip()))")}"
+  echo "{\"type\":\"report_format\",\"prompt\":$(echo "$prompt" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read().strip()))")}"
 }
 
 

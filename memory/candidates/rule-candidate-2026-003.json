@@ -1,0 +1,15 @@
+{
+  "id": "rule-candidate-2026-003",
+  "identity": "candidate:1023d698384c76ee:principle:interaction",
+  "source_event": "/home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-21.md",
+  "source_line": 140,
+  "agent": "huo",
+  "date": "2026",
+  "category": "interaction",
+  "feedback_type": "principle",
+  "candidate": "符合\"行为规范作为观察项",
+  "confidence": 0.75,
+  "score": 0.0,
+  "hit_count": 27,
+  "state": "pending"
+}

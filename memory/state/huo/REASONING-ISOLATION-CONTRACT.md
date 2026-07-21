@@ -1,5 +1,16 @@
 # Reasoning Isolation Contract v1.0
 
+```yaml
+contract:
+  name: REASONING-ISOLATION
+  version: v1.0
+  level: L1
+  parent: FREEZE-CONTRACT
+  scope: reasoning content isolation
+  owner: 燃🔥
+  status: active
+```
+
 **Phase 6.1 — 架构契约，非源码改动**
 **Date:** 2026-07-19
 **Status:** ✅ FINAL

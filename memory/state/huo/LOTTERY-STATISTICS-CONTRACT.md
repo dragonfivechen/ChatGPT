@@ -1,5 +1,16 @@
 # LOTTERY-STATISTICS-CONTRACT.md v1.0
 
+```yaml
+contract:
+  name: LOTTERY-STATISTICS
+  version: v1.0
+  level: L2
+  parent: FUNCTION-MODULE-BASELINE-CHECK-CONTRACT
+  scope: lottery statistics boundary
+  owner: 燃🔥
+  status: active
+```
+
 > 开奖统计契约：定义描述性统计的范围、格式和边界。
 > 定位：Phase C → C-3 Production Statistics
 

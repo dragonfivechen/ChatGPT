@@ -1,5 +1,16 @@
 # LOTTERY-SOURCE-CONTRACT.md v1.0
 
+```yaml
+contract:
+  name: LOTTERY-SOURCE
+  version: v1.0
+  level: L2
+  parent: FUNCTION-MODULE-BASELINE-CHECK-CONTRACT
+  scope: lottery data source
+  owner: 燃🔥
+  status: active
+```
+
 > Lottery Source Layer 契约：定义外部数据源的边界、信任模型和失败处理。
 > 位置：治理层（Governance Layer）
 

@@ -1,0 +1,30 @@
+{
+  "version": "v0.1",
+  "phase1": "PASS",
+  "phase2": "PASS",
+  "phase3": "PASS",
+  "phase4": "PASS",
+  "phase5": "PASS",
+  "phase5_1": "PASS",
+  "baseline_status": "FROZEN",
+  "dataset": "historical_expanded",
+  "test_checkpoints": {
+    "phase2_automated": 28,
+    "phase3_verification": 3,
+    "phase4_verification": 3,
+    "phase5_verification": 3,
+    "total": 37
+  },
+  "capabilities": {
+    "simulated_market": "流程验证 — 撮合/保证金/强平/异常测试",
+    "historical_replay": "策略验证 — 历史行情回放",
+    "historical_dataset": "AkShare 6品种日线 2022-2026",
+    "data_source_swappable": true,
+    "event_contract_compatibility": "100%"
+  },
+  "validation_note": "FUTURES-SIM-VALIDATION-NOTE.md v1.1 — 追加AkShare真实数据证据",
+  "arch_doc": "memory/state/huo/FUTURES-SIM-V0.1-ARCH.md",
+  "frozen_at": "2026-07-21T03:29:00+08:00",
+  "data_expanded_at": "2026-07-21T03:44:00+08:00",
+  "next_phase": "Phase 6 — Validation Enhancement (待龙哥决策)"
+}

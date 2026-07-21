@@ -1,5 +1,16 @@
 # Plugin Capability Contract v1.0
 
+```yaml
+contract:
+  name: PLUGIN-CAPABILITY
+  version: v1.0
+  level: L1
+  parent: FREEZE-CONTRACT
+  scope: plugin capability model
+  owner: 燃🔥
+  status: active
+```
+
 **Phase 3.2 — 架构规范，非源码改动**
 **Date:** 2026-07-17
 

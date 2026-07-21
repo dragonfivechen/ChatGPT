@@ -1,5 +1,16 @@
 # Tool Call Gateway Contract v1.0 — FINAL
 
+```yaml
+contract:
+  name: TOOL-CALL-GATEWAY
+  version: v1.0
+  level: L1
+  parent: FREEZE-CONTRACT
+  scope: system-wide tool call flow
+  owner: 燃🔥
+  status: active
+```
+
 **Phase 6.4**
 **Status:** FINAL
 **Date:** 2026-07-19

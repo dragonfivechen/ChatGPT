@@ -1,5 +1,16 @@
 # Lottery Worker Directory Contract v1.0
 
+```yaml
+contract:
+  name: LOTTERY-WORKER-DIRECTORY
+  version: v1.0
+  level: L3
+  parent: FUNCTION-MODULE-BASELINE-CHECK-CONTRACT
+  scope: lottery worker directory implementation
+  owner: 燃🔥
+  status: active
+```
+
 **Phase: External Worker Boundary — 非源码改动**
 **Date:** 2026-07-17
 

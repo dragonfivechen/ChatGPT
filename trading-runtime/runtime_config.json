@@ -1,0 +1,28 @@
+{
+  "account": {
+    "initial_cash": 10000000,
+    "currency": "CNY",
+    "account_type": "PAPER"
+  },
+  "market": {
+    "stream": {
+      "speed_sec": 10.0,
+      "history_dir": "../market_futures/data/historical"
+    },
+    "trading_hours": [
+      ["09:00", "11:30"],
+      ["13:30", "15:00"],
+      ["21:00", "23:00"]
+    ]
+  },
+  "session": {
+    "state_save_interval": 300,
+    "max_events_per_session": 10000,
+    "report_interval": 60
+  },
+  "risk": {
+    "max_drawdown_pct": 20.0,
+    "max_margin_ratio": 80.0,
+    "max_position_per_symbol": 10
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "id": "rule-candidate-2026-001-4",
+  "identity": "candidate:1e73be6e4bfcc4cc:principle:interaction",
+  "source_event": "/home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-21.md",
+  "source_line": 78,
+  "agent": "huo",
+  "date": "2026",
+  "category": "interaction",
+  "feedback_type": "principle",
+  "candidate": "OBSERVER-ABSTRACTION-LAYER-v1.0.md: 新增 §3 演化速度与稳定性 + §8 抽象稳定性原则",
+  "confidence": 0.75,
+  "score": 0.0,
+  "hit_count": 27,
+  "state": "pending"
+}

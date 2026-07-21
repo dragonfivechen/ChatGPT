@@ -1,0 +1,199 @@
+# Rule Status Registry v1.0
+#
+# 轻量 Registry：记录每条规则的生命周期状态。
+# 不是 runtime registry，不参与 context projection。
+# 功能：区分 "规则存在" vs "规则生效"。
+#
+# status 取值：
+#   recorded   — 事件已记录，未生成候选
+#   candidate  — 候选已生成，待确认
+#   approved   — 已确认，待激活
+#   active     — 已加入生效链（当前仅在 SOUL.md / 系统提示中生效）
+#
+# active_in_context: true / false
+#   当前运行时上下文中该规则是否实际加载。
+
+rules:
+
+# =============================================================================
+# 以下 rules 来自 legacy migration pipeline (validator: legacy_migration)
+# 状态统一标记为 approved，active_in_context = 取决于是否已写入 SOUL.md
+# =============================================================================
+
+- id: RULE-EVIDENCE-SOUL-V1
+  summary: 执行链路规范 — 执行命令 → 保存输出 → 读取确认 → 复制进正文 → 验收 → 结论
+  source:
+    - memory/events/huo/2026-07-18.md
+  status: active
+  active_in_context: true
+  observation:
+    first_seen: 2026-07-18
+    last_verified: 2026-07-21
+    violation_count: 0
+  validation:
+    source_path: SOUL.md §7
+
+- id: RULE-NO-UNCERTAIN-V1
+  summary: 禁止输出"可能""好像"等不确定内容
+  source:
+    - memory/events/huo/2026-07-18.md
+  status: active
+  active_in_context: true
+  observation:
+    first_seen: 2026-07-18
+    last_verified: 2026-07-21
+    violation_count: 0
+  validation:
+    source_path: SOUL.md §1
+
+- id: RULE-NO-ROOT-CAUSE-V1
+  summary: 没有证据不给根因
+  source:
+    - memory/events/jin/2026-07-17.md
+  status: active
+  active_in_context: true
+  observation:
+    first_seen: 2026-07-17
+    last_verified: 2026-07-21
+    violation_count: 0
+  validation:
+    source_path: SOUL.md §3
+
+- id: RULE-TASK-ISOLATION-V1
+  summary: 单任务失败不阻断后续链路
+  source:
+    - memory/events/huo/2026-07-19.md
+  status: active
+  active_in_context: true
+  observation:
+    first_seen: 2026-07-19
+    last_verified: 2026-07-21
+    violation_count: 0
+  validation:
+    source_path: SOUL.md §5（任务隔离原则）
+
+- id: RULE-OBSERVE-NO-DELAY-V1
+  summary: 已确认审计缺口立即修复，观察用于验证修复效果，不是延期理由
+  source:
+    - memory/events/huo/2026-07-20.md
+  status: active
+  active_in_context: true
+  observation:
+    first_seen: 2026-07-20
+    last_verified: 2026-07-21
+    violation_count: 0
+  validation:
+    source_path: SOUL.md §4（用户方案规则）
+
+- id: RULE-LOG-SANITIZE-V1
+  summary: request_id/provider/model/token_count/latency 允许日志输出
+  source:
+    - memory/events/huo/2026-07-19.md
+  status: approved
+  active_in_context: false
+  observation:
+    first_seen: 2026-07-19
+    last_verified: 2026-07-21
+    violation_count: 0
+  validation:
+    source_path: TOOLS.md（Token 观测）
+
+- id: RULE-CONCLUSION-EVIDENCE-V1
+  summary: 关键结论必须有可验证依据
+  source:
+    - memory/events/huo/2026-07-18.md
+  status: active
+  active_in_context: true
+  observation:
+    first_seen: 2026-07-18
+    last_verified: 2026-07-21
+    violation_count: 0
+  validation:
+    source_path: SOUL.md §6-7
+
+- id: RULE-NO-EXFIL-V1
+  summary: 禁止 exfiltrate 私有数据
+  source:
+    - memory/events/huo/2026-07-18.md
+  status: active
+  active_in_context: true
+  observation:
+    first_seen: 2026-07-18
+    last_verified: 2026-07-21
+    violation_count: 0
+  validation:
+    source_path: SOUL.md § Boundaries
+
+# =============================================================================
+# 以下 rules 来自 governance.yaml
+# =============================================================================
+
+- id: RULE-FREEZE-REPAIR-V1
+  summary: 冻结保护基线稳定，不禁止审计缺口修复
+  source:
+    - memory/events/huo/2026-07-18.md
+  status: active
+  active_in_context: true
+  observation:
+    first_seen: 2026-07-18
+    last_verified: 2026-07-21
+    violation_count: 0
+  validation:
+    source_path: MEMORY.md（架构冻结基线）
+
+- id: RULE-AUDIT-GAP-NO-DELAY-V1
+  summary: 已确认审计缺口立即修复，不因观察期延迟
+  source:
+    - memory/events/huo/2026-07-20.md
+    - memory/events/huo/2026-07-20.md
+  status: active
+  active_in_context: true
+  observation:
+    first_seen: 2026-07-20
+    last_verified: 2026-07-21
+    violation_count: 0
+  validation:
+    source_path: MEMORY.md（治理链闭环）
+
+# =============================================================================
+# 候选规则（待确认是否晋升）
+# =============================================================================
+
+- id: RULE-MEMORY-EFFECT-CONSTRAINT-V1
+  summary: 行为修正声明必须区分 recorded / candidate / active，禁止将事件写入等同于行为更新
+  source:
+    - SOUL.md § Memory Effect Constraint v1.0
+  status: active
+  active_in_context: true
+  observation:
+    first_seen: 2026-07-21
+    last_verified: 2026-07-21
+    violation_count: 0
+  validation:
+    source_path: SOUL.md
+
+- id: RULE-NO-FALSE-BEHAVIOR-CLAIM-V1
+  summary: 禁止输出"已记住""以后不会犯"等虚假行为更新声明
+  source:
+    - SOUL.md § Memory Effect Constraint v1.0 (Rule 3)
+  status: active
+  active_in_context: true
+  observation:
+    first_seen: 2026-07-21
+    last_verified: 2026-07-21
+    violation_count: 0
+  validation:
+    source_path: SOUL.md
+
+- id: RULE-IDENTITY-NAMESPACE-PATH-V1
+  summary: 身份记忆隔离 — 烬🔥写memory/events/jin/，燃🔥写memory/events/huo/
+  source:
+    - IDENTITY.md § 身份资源边界
+  status: active
+  active_in_context: true
+  observation:
+    first_seen: 2026-07-21
+    last_verified: 2026-07-21 19:22
+    violation_count: 0
+  validation:
+    source_path: IDENTITY.md

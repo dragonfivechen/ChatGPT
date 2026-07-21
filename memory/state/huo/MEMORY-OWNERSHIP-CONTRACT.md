@@ -1,5 +1,24 @@
 # Memory Ownership Contract v1.0
 
+```yaml
+contract:
+  name: MEMORY-OWNERSHIP
+  version: v1.0
+  level: L1
+  parent: FREEZE-CONTRACT
+  scope: memory namespace ownership
+  owner: 燃🔥
+  status: active
+
+binding:
+  target: workspace
+
+enforcement:
+  mode: advisory
+  mechanism: agent-convention
+  note: "当前无 filesystem ACL 或 namespace validator。namespace 分离依赖模型遵守。"
+```
+
 **Phase 2.2 — 架构约束，非源码改动**
 **Date:** 2026-07-17
 

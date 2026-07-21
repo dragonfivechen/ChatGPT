@@ -1,5 +1,16 @@
 # FACT-SOURCE-CONTRACT.md — Fact Truth Source v1.0
 
+> ```yaml
+> contract:
+>   name: FACT-SOURCE
+>   version: v1.0
+>   level: L1
+>   parent: FREEZE-CONTRACT
+>   scope: fact truth source
+>   owner: 燃🔥
+>   status: proposal
+> ```
+>
 > 建立于 2026-07-20，属于 Truth Architecture Phase C。
 > 此契约定义事实域的唯一来源和生命周期，是 Memory Governance 的自然延伸。
 

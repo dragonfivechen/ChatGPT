@@ -1,5 +1,16 @@
 # CONFIG-SOURCE-CONTRACT.md — Config Truth Source v1.0
 
+> ```yaml
+> contract:
+>   name: CONFIG-SOURCE
+>   version: v1.0
+>   level: L1
+>   parent: FREEZE-CONTRACT
+>   scope: config truth source
+>   owner: 燃🔥
+>   status: proposal
+> ```
+>
 > 建立于 2026-07-20，属于 Truth Architecture Phase B。
 > 此契约定义配置域的唯一事实源和消费规则。
 

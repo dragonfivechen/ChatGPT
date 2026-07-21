@@ -1,5 +1,16 @@
 # Provider Capability Contract v1.0 FINAL
 
+```yaml
+contract:
+  name: PROVIDER-CAPABILITY
+  version: v1.0
+  level: L1
+  parent: FREEZE-CONTRACT
+  scope: provider/model capability governance
+  owner: 燃🔥
+  status: active
+```
+
 **Phase 6.2.1 — 架构规范，非源码改动**
 **Status:** FINAL
 **Date:** 2026-07-19

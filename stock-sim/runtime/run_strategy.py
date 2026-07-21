@@ -17,6 +17,8 @@ import os
 import json
 import re
 import time
+import subprocess
+from datetime import datetime, time as dtime
 
 _THIS = os.path.dirname(os.path.abspath(__file__))
 _PROJECT = os.path.dirname(_THIS)  # stock-sim/
@@ -34,6 +36,42 @@ from portfolio.calculator import (calc_market_value, calc_holdings, calc_return)
 from portfolio.drawdown import DrawdownTracker
 from portfolio.snapshot import snapshot as pf_snapshot
 from trade.trade_ledger import update as ledger_update, update_post_exit
+
+# ── 持仓状态追踪（用于推送触发判定） ──────────────────────
+
+_HOLDINGS_STATE_PATH = os.path.join(_PROJECT, ".holdings_state.json")
+
+
+def _load_holdings_state() -> dict:
+    if not os.path.exists(_HOLDINGS_STATE_PATH):
+        return {}
+    with open(_HOLDINGS_STATE_PATH, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def _save_holdings_state(holdings: list[dict]):
+    state = {
+        "timestamp": time.strftime("%Y-%m-%dT%H:%M:%S+08:00"),
+        "holdings": sorted(holdings, key=lambda x: x.get("symbol", "")),
+    }
+    with open(_HOLDINGS_STATE_PATH, "w", encoding="utf-8") as f:
+        json.dump(state, f, ensure_ascii=False)
+
+
+def _holdings_changed(current: list[dict]) -> bool:
+    prev = _load_holdings_state()
+    if not prev:
+        return True
+    prev_h = prev.get("holdings", [])
+    if len(prev_h) != len(current):
+        return True
+    # 按 symbol 排序后逐项比较关键字段
+    cur_sorted = sorted(current, key=lambda x: x.get("symbol", ""))
+    for a, b in zip(prev_h, cur_sorted):
+        if a.get("symbol") != b.get("symbol") or a.get("quantity") != b.get("quantity"):
+            return True
+    return False
+
 
 # ── 推送格式化 ──────────────────────────────────────────
 
@@ -267,12 +305,54 @@ def load_account() -> Account:
 # ── 主流程 ───────────────────────────────────────────────
 
 
+def can_trade() -> bool:
+    """股票交易时段检查：09:30-11:30, 13:00-15:00"""
+    now = datetime.now().time()
+    am_start = dtime(9, 30)
+    am_end = dtime(11, 30)
+    pm_start = dtime(13, 0)
+    pm_end = dtime(15, 0)
+    return (am_start <= now <= am_end) or (pm_start <= now <= pm_end)
+
+
+def market_status() -> str:
+    return "OPEN" if can_trade() else "CLOSED"
+
+
 def main():
     events_dir = os.path.join(_PROJECT, "events")
 
     all_quotes = load_all_quotes(events_dir)
     if not all_quotes:
         print("[strategy-runner] no market data yet")
+        return
+
+    # ── 交易时段守卫 ──
+    quote_ts = all_quotes[-1].get("timestamp", "")
+    quote_age = 0
+    if quote_ts:
+        try:
+            qtime = datetime.fromisoformat(quote_ts.replace("Z", "+00:00"))
+            quote_age = int((datetime.now().astimezone() - qtime).total_seconds())
+        except Exception:
+            pass
+
+    market = market_status()
+    trade_allowed = can_trade()
+
+    # 记录观察字段
+    obs = {
+        "event": "strategy_tick",
+        "ts": datetime.now().isoformat(),
+        "market_status": market,
+        "quote_age_sec": max(quote_age, 0),
+        "trade_allowed": trade_allowed,
+        "batch_size": len(all_quotes[-50:]),
+    }
+    print(f"[strategy-runner] obs={json.dumps(obs)}")
+
+    if not trade_allowed:
+        print(f"[strategy-runner] market={market} quote_age={quote_age}s → 跳过交易")
         return
 
     latest_batch = get_latest_batch(all_quotes)
@@ -292,6 +372,33 @@ def main():
     sim = ExecutionSimulator()
     acc = load_account()
     dd = DrawdownTracker(acc.initial_cash)
+
+    # ── 报价字典（用于组合计算 + 推送） ──
+    quotes_dict = {}
+    for q in latest_batch:
+        sym = q.get("symbol", "")
+        pr = q.get("data", {}).get("price", 0)
+        if sym and pr > 0:
+            quotes_dict[sym] = pr
+
+    # ── 盘中止盈检查（提前下单，随 batch 执行） ──
+    profit_exit_triggers = []
+    now_time = datetime.now().time()
+    if in_window(now_time):
+        for sym, p in list(acc.positions.items()):
+            if p.quantity > 0:
+                cur_pr = quotes_dict.get(sym, 0)
+                if cur_pr > 0:
+                    sig = check_profit_exit(sym, p.quantity, p.avg_cost, cur_pr, now_time)
+                    if sig:
+                        profit_exit_triggers.append(sig)
+                        set_cooldown(sym)
+                        all_signals.append(sig)
+                        append_signal_event(sig, events_dir)
+                        o = signal_to_order(sig)
+                        if o:
+                            o.status = "SUBMITTED"
+                            sim.add_order(o.to_dict())
 
     # ── 批量处理最新一轮 ──
     all_signals = []
@@ -313,6 +420,9 @@ def main():
         # 策略处理行情 → 信号
         sig_evts = engine.on_quote(q, pf_view)
         for sig_evt in sig_evts:
+            # 冷却期内跳过买入信号
+            if sig_evt.get("action") == "BUY" and check_cooldown(sig_evt.get("symbol", "")):
+                continue
             append_signal_event(sig_evt, events_dir)
             o = signal_to_order(sig_evt)
             if o is None:
@@ -321,19 +431,11 @@ def main():
             sim.add_order(o.to_dict())
         all_signals.extend(sig_evts)
 
-        # 执行交易
+        # 执行交易（含止盈订单和策略订单）
         ts = sim.on_quote(q)
         for t in ts:
             apply_trade(acc, t)
         all_trades.extend(ts)
-
-    # ── 报价字典（用于组合计算 + 推送） ──
-    quotes_dict = {}
-    for q in latest_batch:
-        sym = q.get("symbol", "")
-        pr = q.get("data", {}).get("price", 0)
-        if sym and pr > 0:
-            quotes_dict[sym] = pr
 
     # ── 组合快照 ──
     mv = calc_market_value(acc, quotes_dict)
@@ -358,8 +460,9 @@ def main():
     }
     update_post_exit(events_dir, quote_prices)
 
-    # ── 推送（结构化交易摘要） ──
-    if all_trades:
+    # ── 推送判定：成交或持仓变化时推送 ──
+    holdings_changed = _holdings_changed(h)
+    if all_trades or holdings_changed:
         push_script = os.path.join(
             os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
             "hooks", "oek-ci-gate", "push-notify.mjs"
@@ -373,6 +476,7 @@ def main():
             ["node", push_script, "🧾 模拟交易执行", push_body],
             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
         )
+        _save_holdings_state(h)
 
     print(
         f"[strategy-runner] batch={len(latest_batch)}syms "
@@ -382,5 +486,4 @@ def main():
 
 
 if __name__ == "__main__":
-    import subprocess
     main()

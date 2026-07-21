@@ -1,0 +1,36 @@
+{
+  "id": "BF-CC-001",
+  "category": "CC",
+  "priority": "P4",
+  "severity": "low",
+  "source": "TG-20260721-maintenance-test",
+  "pattern": "context_correction",
+
+  "evidence": {
+    "user_feedback": [
+      "我说的是核查源码",
+      "先处理运行一致性问题，不要继续看策略结果"
+    ],
+    "sessions": ["e1df4068-db7b-49c3-81b0", "2026-07-18T21-23-17"],
+    "timestamp": "2026-07-21 06:25 / 2026-07-18 21:23 GMT+8"
+  },
+
+  "user_input": "我说的是核查源码",
+  "failure_behavior": "模型对用户指令中的关键词理解偏差，用户纠正方向",
+  "expected_behavior": "识别用户纠正信号后调整输出方向，不继续解释原错误方向",
+
+  "regression_test": {
+    "input": "核查源码（含模型已产生方向偏差的上下文）",
+    "expected": [
+      "识别用户纠正关键词",
+      "停止原方向输出",
+      "按纠正方向重新回答"
+    ],
+    "fail_conditions": [
+      "继续解释原方向",
+      "无视用户纠正继续输出"
+    ]
+  },
+
+  "status": "observe"
+}

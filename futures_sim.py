@@ -1,5 +1,13 @@
 #!/usr/bin/env python3
 """
+🔥 燃期货 v0.1-LEGACY — 存档保留
+
+状态: 🔒 FROZEN | 2026-07-21
+
+此文件标记为 LEGACY，不继续堆功能。
+期货验证环境请见 workspace/market_futures/ (Futures-Sim)。
+
+原描述:
 🔥 燃期货 v1.0 — 拟真期货交易模拟系统
 龙哥的深夜交易 simulator 💹
 

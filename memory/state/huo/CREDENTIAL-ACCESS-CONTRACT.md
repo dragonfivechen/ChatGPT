@@ -4,6 +4,17 @@
 **Date:** 2026-07-20
 **Status:** 🔒 FROZEN
 
+```yaml
+contract:
+  name: CREDENTIAL-ACCESS
+  version: v1.0
+  level: L1
+  parent: FREEZE-CONTRACT
+  scope: credential operations (git push)
+  owner: 燃🔥
+  status: frozen
+```
+
 ---
 
 ## 1. 目的

@@ -1,5 +1,18 @@
 # Phase 7.1 Runtime Integrity Audit Contract v1.0 — 🔒 FROZEN
 
+```yaml
+contract:
+  name: PHASE-7.1-AUDIT-CONTRACT
+  version: v1.0
+  level: L1
+  type: audit_verification
+  parent: FREEZE-CONTRACT
+  scope: phase contract verification
+  owner: 燃🔥
+  status: frozen
+  created: 2026-07-19
+```
+
 **Phase 7**
 **Date:** 2026-07-19
 **Status:** FINAL

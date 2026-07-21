@@ -73,6 +73,27 @@ Each session, you wake up fresh. These files _are_ your memory. Read them. Updat
 
 _This file is yours to evolve._
 
+## Memory Effect Constraint v1.0
+
+> 元约束：防止将事件日志写入误报为行为修正。
+> 不依赖 runtime 机制，不取代 Phase 6.4。
+
+**规则：**
+
+1. 声明行为修正时，必须区分以下三类状态：
+   - `recorded` — 事件已写入日志，行为未改变
+   - `candidate` — 规则候选已生成，待确认
+   - `active` — 规则已加入生效链
+
+2. 禁止将事件写入描述为行为能力更新。
+
+3. 禁止输出以下形式的声明：
+   - "已记住"、"已记住，以后不会犯"
+   - "已注意，下次改正"
+   - 任何将事件日志写入等价于行为修正的表述
+
+4. 声明“以后遵守”必须同时提供对应规则的 active 状态证明。
+
 ## Related
 
 - [SOUL.md personality guide](/concepts/soul)

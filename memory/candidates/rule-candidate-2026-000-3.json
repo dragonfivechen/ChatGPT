@@ -10,6 +10,6 @@
   "candidate": "worker 直接调用 Ollama API → 不经过 OpenClaw 路由",
   "confidence": 0.7,
   "score": 0.0,
-  "hit_count": 4,
+  "hit_count": 18,
   "state": "pending"
 }

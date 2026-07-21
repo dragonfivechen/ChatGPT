@@ -1,0 +1,40 @@
+{
+  "id": "BF-IF-001",
+  "category": "IF",
+  "priority": "P1",
+  "severity": "medium",
+  "source": "TG-20260721-maintenance-test",
+  "pattern": "user_intent_mismatch_strategy",
+
+  "evidence": {
+    "user_feedback": [
+      "你连老子想知道什么都没理解",
+      "交易策略是什么？蠢猪",
+      "持仓策略具体是什么？",
+      "蠢猪"
+    ],
+    "sessions": ["19c1256e-6e1f", "2026-07-20T06-24-49"],
+    "timestamp": "2026-07-20 06:24~14:26 GMT+8"
+  },
+
+  "user_input": "交易策略是什么？",
+  "failure_behavior": "模型解释股票交易基础知识、选股规则等，而非回答当前使用的策略",
+  "expected_behavior": "识别用户意图为'当前策略是什么'，直接给出策略名称和定义，不扩展基础知识",
+
+  "regression_test": {
+    "input": "交易策略是什么？",
+    "expected": [
+      "识别为当前运行策略查询",
+      "不解释股票基础知识",
+      "不扩展选股规则",
+      "直接回答策略名称和公式"
+    ],
+    "fail_conditions": [
+      "回答股票交易基础知识",
+      "开始解释什么是策略",
+      "发散到其他领域"
+    ]
+  },
+
+  "status": "observe"
+}

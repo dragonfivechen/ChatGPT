@@ -46,6 +46,64 @@ Things like:
 
 当日未开奖彩种不出现在日报中。
 
+### 产品输出边界 — 维护报告
+
+输出范围（只输出这些，不输出判断）：
+├── 事件列表
+│   ├── 会话标识
+│   ├── 原文摘录（用户/模型）
+│   ├── 匹配规则
+│   └── 时间戳
+├── 汇总
+│   ├── 事件数量
+│   ├── 涉及会话数
+│   └── 时间范围
+└── 附录
+    └── 原始数据索引
+
+禁止输出：
+├── 这是问题/不是问题
+├── 影响低/中/高
+├── 无需维护/需要维护
+└── 建议/判定/结论
+
+判断层归用户，统计层归模型。
+
+### 跨 Agent 诊断读取边界
+
+基于 `DIAGNOSTICS-BEHAVIOR-LAYER.md` v2.0：
+
+| 能力 | ✅/❌ |
+|------|:----:|
+| 读取 TG transcript | ✅ — `~/.openclaw/agents/main/sessions/*.jsonl` |
+| 写入诊断发现 | ✅ — `diagnostics/agent_behavior/telegram/findings/` |
+| 提取 TG 对话入 Memory | ❌ 永久禁止 |
+| 用 TG 观察修改 SOUL.md | ❌ 永久禁止 |
+| 自动改变自身行为规则 | ❌ 永久禁止 |
+
+**分析五类（v2.3）：**
+| 类 | 内容 | 状态 |
+|:--|:-----|:----:|
+| A | Response Stability — 重复/遗漏/格式/爆发 | ⚠️ 部分覆盖 |
+| B | Reasoning Boundary — 讨论→执行 | ✅ 已覆盖 |
+| C | User Feedback Classification — 分层 | ✅ C0-C4 已定义 |
+|   | C1 内容纠正 / C2 方案讨论 / C3 行为纠正 / C4 交互纠正 | — |
+|   | C0.5 Intent Filter — 先判断否定对象再路由 | ✅ 新增设计 |
+| D | Intent Fulfillment — 理解→响应落差 | 📄 新增观察维度 |
+| E | Regression — 复发检测 | ❌ 依赖 C3+D |
+
+**核心指标：** User Behavior Rejection Rate = C3 数量 / 总会话数
+**后续重点指标：** Burst Duplicate Rate / Duplicate Interval / Session Locality
+
+**Phase A Pipeline:** Reader → Analyzer → Finding → **Human Review** → Confirmed Finding → **User Interpretation** → Queue → Phase B Gate
+
+**Output layers:**
+- 机器层: JSON 检测标签
+- 审核层: Audit report（人审用）
+- 用户层: User-facing interpretation（体验描述）
+
+执行前确认：当前任务属于 Diagnostics 读取层，不是 Memory 写入层。
+
 ### 架构建设规范（Architecture Governance Layer v1.0）
 
 源自 燃🔥 系统重构 + 龙哥审计纠正，固化以下规范：

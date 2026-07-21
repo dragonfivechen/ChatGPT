@@ -1,5 +1,16 @@
 # Lottery Capability Contract v1.0
 
+```yaml
+contract:
+  name: LOTTERY-CAPABILITY
+  version: v1.0
+  level: L2
+  parent: FUNCTION-MODULE-BASELINE-CHECK-CONTRACT
+  scope: lottery module capability
+  owner: 燃🔥
+  status: active
+```
+
 **Phase: Capability Definition — 非源码改动**
 **Date:** 2026-07-17
 

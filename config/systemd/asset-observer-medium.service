@@ -1,0 +1,5 @@
+[Unit]
+Description=Asset Observer — Medium Scan (every 3 days, module mapping check)
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 %h/.openclaw/workspace/scripts/asset_observer.py --depth medium

@@ -1,0 +1,5 @@
+[Unit]
+Description=Baseline Observer — Daily baseline drift check
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 %h/.openclaw/workspace/scripts/baseline_observer.py

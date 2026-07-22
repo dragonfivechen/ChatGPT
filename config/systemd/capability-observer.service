@@ -1,0 +1,5 @@
+[Unit]
+Description=Capability Observer — Daily capability snapshot
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 %h/.openclaw/workspace/scripts/capability_observer.py

@@ -1,0 +1,5 @@
+[Unit]
+Description=Asset Observer — Full Scan (every 7 days, snapshot + classification)
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 %h/.openclaw/workspace/scripts/asset_observer.py --depth full

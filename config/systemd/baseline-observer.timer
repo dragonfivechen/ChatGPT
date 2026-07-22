@@ -1,0 +1,10 @@
+[Unit]
+Description=Baseline Observer — Daily
+Requires=baseline-observer.service
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+
+[Install]
+WantedBy=timers.target

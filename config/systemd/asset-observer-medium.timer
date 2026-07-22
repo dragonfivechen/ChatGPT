@@ -1,0 +1,10 @@
+[Unit]
+Description=Asset Observer — Medium Scan (every 3 days)
+Requires=asset-observer-medium.service
+
+[Timer]
+OnUnitActiveSec=3d
+Persistent=true
+
+[Install]
+WantedBy=timers.target

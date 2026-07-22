@@ -1,0 +1,10 @@
+[Unit]
+Description=Capability Observer — Daily
+Requires=capability-observer.service
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+
+[Install]
+WantedBy=timers.target

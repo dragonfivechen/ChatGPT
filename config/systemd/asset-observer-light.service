@@ -1,0 +1,6 @@
+[Unit]
+Description=Asset Observer — Light Scan (daily, file/path/service changes)
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 %h/.openclaw/workspace/scripts/asset_observer.py --depth light

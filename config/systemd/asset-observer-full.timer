@@ -1,0 +1,10 @@
+[Unit]
+Description=Asset Observer — Full Scan (every 7 days)
+Requires=asset-observer-full.service
+
+[Timer]
+OnUnitActiveSec=7d
+Persistent=true
+
+[Install]
+WantedBy=timers.target

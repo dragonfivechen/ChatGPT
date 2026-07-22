@@ -17,8 +17,18 @@ Baseline Observation Layer v1.0
 import json, os, re
 from datetime import datetime, timezone, timedelta
 
-WORKSPACE = os.path.expanduser("~/.openclaw/workspace")
-ROOT_REG = os.path.join(WORKSPACE, "config/asset-roots.json")
+# ─── Asset Root Registry ───
+ROOT_REGISTRY = os.path.join(os.path.expanduser("~/.openclaw/workspace"), "config/asset-roots.json")
+def resolve_root(key):
+    with open(ROOT_REGISTRY) as f: reg = json.load(f)
+    e = reg["roots"][key]
+    p = e["path"]
+    if e.get("resolve") == "home": return os.path.expanduser(p)
+    return p
+
+WORKSPACE = resolve_root("workspace")
+USER_BIN = resolve_root("user_bin")
+ROOT_REG = ROOT_REGISTRY
 OUTPUT = os.path.join(WORKSPACE, "memory/data/system/baseline-observation.jsonl")
 CST = timezone(timedelta(hours=8))
 

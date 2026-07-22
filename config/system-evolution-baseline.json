@@ -1,27 +1,53 @@
 {
   "baseline_id": "SYSTEM-EVOLUTION-BASELINE-001",
   "status": "PROPOSAL",
+  "stage": "stabilization",
+  "phase": "observation",
   "created": "2026-07-22",
-  "sources": {
-    "asset": "ASSET-SNAPSHOT-002",
-    "capability": "CAP-SNAPSHOT-001",
-    "baseline": "BASELINE-SNAPSHOT-001"
+  "sources": [
+    "ASSET-SNAPSHOT-002",
+    "CAP-SNAPSHOT-001",
+    "CONTRACT-REGISTRY",
+    "PHASE_STATUS",
+    "SYSTEM-BASELINE-OBSERVATION"
+  ],
+  "scale": {
+    "assets_total": 247,
+    "modules": 21,
+    "domains": 9,
+    "documents": 7,
+    "scripts": 51,
+    "services": 19,
+    "timers": 17,
+    "contracts": 41
   },
-  "snapshot": {
-    "assets_total": 265,
-    "capabilities_total": 24,
+  "capability": {
     "domains": 6,
-    "contracts": 41,
-    "observers": 6,
-    "timers": 22
+    "total": 24,
+    "available": 24,
+    "coverage": {
+      "Governance": "4/4",
+      "Runtime": "4/4",
+      "Monitoring": "5/5",
+      "Trading": "4/4",
+      "Lottery": "4/4",
+      "Infrastructure": "3/3"
+    }
   },
-  "capability_coverage": {
-    "Governance": "4/4",
-    "Runtime": "4/4",
-    "Monitoring": "5/5",
-    "Trading": "4/4",
-    "Lottery": "4/4",
-    "Infrastructure": "3/3"
+  "boundary": {
+    "frozen_contracts": ["CREDENTIAL-ACCESS-CONTRACT.md", "PHASE-7.1-AUDIT-CONTRACT.md", "TRADING-RUNTIME-V0.5-ARCH.md"],
+    "frozen_modules": ["market_futures"],
+    "governance_version": "stable"
+  },
+  "observation_coverage": {
+    "asset_observation": true,
+    "capability_observation": true,
+    "contract_observation": true,
+    "runtime_observation": "partial",
+    "baseline_observation": true,
+    "system_evolution_observation": true,
+    "semantic_index": true,
+    "file_mapping": true
   },
   "drift_at_creation": 0
 }

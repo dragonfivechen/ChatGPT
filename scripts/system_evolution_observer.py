@@ -173,6 +173,8 @@ def main():
         },
         "baseline_ref": baseline_ref,
         "baseline_status": evo_baseline.get("status") if evo_baseline else None,
+        "evolution_stage": evo_baseline.get("stage") if evo_baseline else None,
+        "evolution_phase": evo_baseline.get("phase") if evo_baseline else None,
         "evolution_diff": diff,
     }
 

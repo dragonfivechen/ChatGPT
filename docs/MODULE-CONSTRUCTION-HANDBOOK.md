@@ -1,7 +1,8 @@
-# 功能模块建设手册 v1.0
+# 功能模块建设手册 v1.1
 
 > 系统建设知识库，用于新增、复刻、迁移功能模块时提供标准建设流程、设计边界、避坑经验。
 > 定位：可复用的方法论和失败经验，非具体模块代码细节。
+> **最后更新：** 2026-07-22
 
 ---
 
@@ -17,7 +18,24 @@
 需求 → 职责边界 → 数据契约 → 事件模型 → 实现 → 验证
 ```
 
-### 1.2 模块必须回答五个问题
+### 1.2 契约等级体系
+
+新建模块前，确认契约层级归属：
+
+```
+M0  META-CONTRACT         元治理级 — 新契约分类判定规则
+L0  FREEZE-CONTRACT       系统仲裁级 — 冻结/修复/扩展判定
+L1  FUNCTION-MODULE-BASELINE  基线治理级 — 14 项验收维度
+L2  Module Adapter            模块适配级 — 模块专属契约
+L3  Implementation Alignment  建设执行级 — 实现对齐约束
+L4  Operational Evidence      运行证据级 — 观测数据
+```
+
+- 新模块契约不可自行声明等级，需经 META-CONTRACT 六问（Q1-Q6）+ 权限影响（Q7）分类
+- 等级不可越权，L2 不能自称 L1
+- 契约必须注册到 CONTRACT-REGISTRY
+
+### 1.3 模块必须回答五个问题
 
 | 问题 | 说明 |
 |------|------|
@@ -27,7 +45,7 @@
 | 谁可以修改 | 写入边界 |
 | 如何验证 | 正确性证明 |
 
-### 1.3 数据权威设计
+### 1.4 数据权威设计
 
 每次新增模块先确定：
 
@@ -45,7 +63,7 @@
 Official Prediction Anchor → Checker
 ```
 
-### 1.4 代码不承担业务规则解释
+### 1.5 代码不承担业务规则解释
 
 代码只负责：
 
@@ -56,6 +74,26 @@ Official Prediction Anchor → Checker
 ---
 
 ## 2. 标准建设流程
+
+### Phase 0：契约分类（新增）
+
+新模块需求出现后，先走 META-CONTRACT 判定流程：
+
+```text
+Q1 它定义行为规则吗？
+Q2 它产生/消费事实？
+Q3 它约束运行时？
+Q4 它是治理还是建设？
+Q5 它归属已有模块还是新模块？
+Q6 它需要冻结吗？
+   ↓
+Q7 权限影响（A0-A4）
+   ↓
+等级生成 → Registry 登记
+```
+
+- 判定结果决定这属于治理契约还是建设任务
+- 建设任务才进入 Phase 1-5
 
 ### Phase 1：需求定义
 
@@ -82,7 +120,9 @@ source:
 validation:
 ```
 
-实例（彩票系统 8 份契约）：
+遵循 `CONTRACT-DECLARATION-SCHEMA.md` v1.1（含 verification + binding + enforcement 块）。
+
+实例（彩票系统 11 份契约）：
 
 ```
 LOTTERY-CAPABILITY-CONTRACT.md
@@ -116,6 +156,8 @@ LOTTERY-WORKER-DIRECTORY-CONTRACT.md
 恢复测试
 重复执行测试
 ```
+
+完成后建议走 FUNCTION-MODULE-BASELINE-CHECK-CONTRACT 14 项验收。
 
 ---
 
@@ -248,13 +290,26 @@ checker 只核对 `purpose=official` 的预测。
 ## 5. 模块生命周期管理
 
 ```text
-设计 → 实验 → 验证 → 冻结 → 观察 → 升级
+设计 → 实验 → 验证 → 冻结 → 观察 → 维护/升级
 ```
+
+经过 Phase 6/7 后，该链路进一步扩展为治理闭环：
+
+```text
+发现 → 证据 → 决策 → 变更 → 维护
+```
+
+- **发现：** 审计/观察层检测到偏差
+- **证据：** `EVIDENCE-CONTRACT` 格式化记录
+- **决策：** `DECISION-CONTRACT` 判定是否需要变更
+- **变更：** `CHANGE-CONTRACT` 执行变更并审计
+- **维护：** 回归观察
 
 禁止：
 
 ```text
 出现一次异常 → 马上增加规则
+发现与修复直接连接（跳过证据和决策）
 ```
 
 观察期至少跑过完整事件周期后再决定是否调整。
@@ -293,6 +348,9 @@ memory/state/huo/XXX-CONTRACT.md ← 各模块领域规则
 
 ## 8. 已建设功能模块
 
+> 当前系统共有 **9 个功能模块**（A类4 + B类2 + C类2 + 新增1），**MODULE-INDEX.md** 维护完整清单。
+> 以下为写入手册的模块详情。
+
 ---
 
 ### 8.1 彩票系统 (Lottery System)
@@ -302,8 +360,9 @@ memory/state/huo/XXX-CONTRACT.md ← 各模块领域规则
 | 当前版本 | v1.1 |
 | 契约 | 11 份 ✅ 冻结 |
 | Timer | 8 个 ✅ 运行中 |
+| 预测引擎 | v3 ✅ FROZEN |
 | 生产闭环 | 100% ✅ |
-| 观察期 | ⏳ 进行中 |
+| 观察期 | ⏳ 持续（加入策略效果观测待建设） |
 
 #### 边界
 
@@ -528,7 +587,8 @@ compaction/prune 事件数
 | 项目 | 状态 |
 |------|------|
 | 类型 | A 类核心治理 |
-| 手册状态 | ✅ 文档完成，运行时验证中 |
+| 手册状态 | ✅ 已冻结 |
+| Phase 6 | ✅ COMPLETE（Runtime Intelligence Layer v1）|
 
 #### 模块定位
 
@@ -789,14 +849,244 @@ memory/state/huo/CAPABILITY-REGISTRY.md
 
 | 工具 | 归属 | 状态 |
 |------|------|------|
-| audit.sh / exec_audit.sh | Plugin Governance | Archived → archive/2026-07-10-pre-governance/ |
-| freeze_gate.sh / freeze_verify.sh | Plugin Governance（架构冻结辅助） | Archived |
+| audit.sh / exec_audit.sh | Plugin Governance | Archived |
+| freeze_gate.sh / freeze_verify.sh | Plugin Governance | Archived |
 | shadow.sh / snapshot.sh / replay.sh | Event Kernel | Archived |
 | config-health.sh | OpenClaw Runtime | 已确认 |
-| proof.sh | Event Kernel（Evidence Provenance） | Archived |
-| observe.sh / stats.sh / health.sh | D类 Observability辅助工具 | 保留D类 |
-| explain.sh / resolve.sh | D类排查工具 | Archived |
+| proof.sh | Event Kernel | Archived |
+| observe.sh / stats.sh / health.sh | Observability 辅助 | 保留D类 |
+| explain.sh / resolve.sh | 排查工具 | Archived |
 | test_audit.sh / test_authority.sh | 测试脚本 | Archived |
 | pre-backup-sync.sh | Backup Module | 已确认 |
 
 分类原则：按能力归属（治理边界），不按文件名。不因归属某领域而升级模块。
+
+---
+
+### 8.14 Futures-Sim v0.1（期货模拟系统）
+
+| 项目 | 状态 |
+|------|------|
+| 类型 | C 类业务模块 |
+| 基线 | 🟢 BASELINE_READY |
+| Phase 1-5 | ✅ 全线通过并冻结 |
+| 合约 | 15 个品种（螺纹钢/铁矿石/沪铜/原油等） |
+
+#### 边界
+
+- 负责：期货合约建模、多空双向持仓、保证金/盯市结算/强平、模拟/历史双行情源、策略回测
+- 不负责：实盘交易、行情采集（模拟生成或 CSV 导入）
+
+#### 关键决策
+
+- 与 stock-sim 镜像设计但不复用代码（期货=保证金+双向+T+0+盯市结算）
+- 事件契约 100% 兼容 FUTURES_QUOTE
+- AkShare 历史数据集 6 品种 × 967 bar（2022-2026）
+
+#### 验证记录
+
+```
+Breakout 模拟 +179.83% → 真实 -95.93%
+→ 确认模拟行情偏置严重，Phase 6 需分析差异
+```
+
+#### 文件结构
+
+```
+market_futures/
+├── futures_contracts.json, collector.py       ← Phase 1
+├── position.py, account.py, simulator.py     ← Phase 2
+├── strategies/ (MA, breakout, rsi)            ← Phase 3
+├── run_strategy.py                            ← Phase 4
+├── reports/performance.py                     ← Phase 4
+├── replay/loader.py, converter.py             ← Phase 5
+├── data/historical/                           ← Phase 5.1
+└── PHASE_STATUS.json                          ← FROZEN
+```
+
+#### 文档
+
+- 架构：`memory/state/huo/FUTURES-SIM-V0.1-ARCH.md`
+- 验证差异：`FUTURES-SIM-VALIDATION-NOTE.md`
+
+---
+
+### 8.15 Trading Runtime v0.5
+
+| 项目 | 状态 |
+|------|------|
+| 类型 | B 类运行维护 |
+| 基线合规 | 🟢 PASS |
+| 文档 | ✅ 独立架构文档已闭环 |
+
+#### 边界
+
+- 负责：交易运行时环境、策略调度、状态管理
+- 不负责：行情源、交易执行（由 collector/simulator 分别负责）
+
+#### 基线审计结果
+
+```
+Extension Boundary     🟢 PASS
+Memory Namespace       🟢 PASS
+Terminal Authority     🟢 PASS
+Module Ownership       🟢 PASS
+Freeze Integrity       🟢 PASS
+Overall:               GREEN
+```
+
+#### 文档
+
+- 架构：`memory/state/huo/TRADING-RUNTIME-V0.5-ARCH.md`
+
+---
+
+### 8.16 TG Agent Behavior Diagnostics（离线观察层）
+
+| 项目 | 状态 |
+|------|------|
+| 类型 | D 类| 离线观察工具（非系统运行时） |
+| 工具 | 3 个 Python 脚本 |
+
+#### 边界
+
+- 负责：TG 交互历史的离线分析、行为模式检测、异常识别
+- 不负责：实时监控、自动修复、运行时干预
+
+#### 工具清单
+
+| 工具 | 功能 |
+|:-----|:------|
+| `tools/tg_transcript_reader.py` | session 抽取 |
+| `tools/tg_behavior_analyzer.py` | 6 类检测（响应稳定性/推理边界/用户反馈/意图满足/回归） |
+| `tools/tg_maintenance_queue.py` | findings → queue |
+
+#### 隔离规则（TG-BEHAVIOR-DATA-CONTRACT）
+
+- TG transcript → Memory → 终端模型行为融合 🚫 **永久阻断**
+- 分析结果不写入 memory/rules/SOUL
+- 观察层发现 → Human Review → 决定是否治理
+
+#### 契约
+
+- `memory/state/huo/TG-BEHAVIOR-DATA-CONTRACT.md` — 数据隔离规则
+- `memory/state/huo/DIAGNOSTICS-BEHAVIOR-LAYER.md` — 工作笔记
+
+---
+
+### 8.17 Local Model Production Trial v1.0
+
+| 项目 | 状态 |
+|------|------|
+| 类型 | C 类业务模块 |
+| 生产运行 | ✅ active（scoped） |
+| 总调用 | 232 条生产数据，0 失败 |
+
+#### 架构定位
+
+本地模型不作为云端降级替代。通过 `local-task-worker.sh` 处理 8 类确定型生产任务。
+复杂推理/主任务 → DeepSeek；确定型任务 → Ollama qwen2.5:3b。
+
+#### 任务清单
+
+| 任务 | 状态 |
+|:---|:---:|
+| system_status_brief | ✅ |
+| log_summary | ✅ |
+| config_explain | ✅ |
+| event_classify | ⚠️ 38% 逐行分类（prompt 歧义，需收敛格式） |
+| json_validate | ✅ 修复后观察中 |
+| event_tagging | ✅ 修复后观察中 |
+| change_summary | ✅ 修复后观察中 |
+| report_format | ✅ 修复后观察中 |
+
+#### 避坑
+
+引号 Bug（2026-07-21）：`local-task-worker.sh` 中 4 个任务生成函数 echo JSON 时 key 双引号未转义，导致 44 条空类型记录混入生产数据。修复后重新进入观察期。
+
+#### 文档
+
+- 生产证据：`ollama-production.jsonl`
+- Worker：`local-task-worker.sh`
+
+---
+
+## 9. 治理框架变更参考
+
+> 本节记录手册写完后发生的治理层重大变更，供后续修订时参考。
+
+### 9.1 Phase 6 — Runtime Intelligence Layer ✅ COMPLETE
+
+- Event Integration (§6.3.2)
+- Runtime Integration (§6.3.3)
+- Schema Design (§6.4.1)
+- Runtime Enforcement (§6.4.2 + §6.4.3)
+
+### 9.2 Phase 7 — Boundary Integrity ✅ FROZEN
+
+- 7.1 Audit Contract → 7.2 Boundary Matrix → 7.3 Gap Closure → 7.4 Verification → 7.5 Integrity Freeze
+- 15 bypass paths 全部治理分类完成
+- 进入 Observe/Evidence Accumulation 周期
+
+### 9.3 Phase 8 — Runtime Observation Layer 🔒 FROZEN
+
+- Integrity Analyzer（10 项确定性检查 + 阈值 config）
+- Capability Contract（6 能力契约替代业务事件模型）
+- Maintenance Queue（Writer + Viewer + 日报集成）
+- 输出：`integrity_observe.jsonl`（append-only）
+
+### 9.4 契约体系（M0-L4）
+
+契约从本手册 v1.0 的 11 份 Lottery 契约膨胀至 27 份。
+
+| 等级 | 数量 | 代表 |
+|------|:----:|------|
+| M0 META-CONTRACT | 1 | 元治理契约 |
+| L0 FREEZE-CONTRACT | 1 | 系统仲裁 |
+| L1 基线治理 | 9 | EVIDENCE/DECISION/CHANGE/BASELINE-CHECK 等 |
+| L2 模块适配 | 11 | LOTTERY-* / TG-* / PLUGIN / MEMORY 等 |
+| L3 建设执行 | 5 | 实现对齐/执行契约 |
+| L4 运行证据 | 0 | （暂无可注册实体） |
+
+完整列表见 `memory/state/huo/CONTRACT-REGISTRY.md`
+
+### 9.5 治理链闭环
+
+```
+发现  →  证据  →  决策  →  变更  →  维护
+✅      ✅       ✅       ✅       ⚠️
+```
+
+- 发现：事件源/审计/观察层
+- 证据：`EVIDENCE-CONTRACT` v1.0
+- 决策：`DECISION-CONTRACT` v1.0
+- 变更：`CHANGE-CONTRACT` v1.0
+- 维护：Phase 8 能力已有，真实违反案例后考虑契约化
+
+**当前状态：关闭扩张周期，进入 Observe 阶段。**
+
+### 9.6 Memory 命名空间
+
+```
+memory/
+├── state/     ← 系统状态 / 契约 / 架构文档（ownership controlled）
+├── events/    ← 事件日志（身份隔离 / append-only）
+├── data/      ← 原始业务数据（无身份归属）
+├── knowledge/ ← 知识库（可共享）
+├── facts/     ← 事实数据
+├── preferences/ ← 偏好配置
+└── cache/     ← 缓存
+```
+
+详细的 Memory Governance 见 §8.10 及契约文件。
+
+### 9.7 MODULE-INDEX.md
+
+系统能力地图（A/B/C/D 四类），作为本手册的轻量入口：
+
+- A 类核心治理（4 个）→ 本手册 §8.8-8.11
+- B 类运行维护（4 个）→ 本手册 §8.12 + §8.15
+- C 类业务模块 → 本手册 §8.1-8.7 + §8.14 + §8.17
+- D 类工具 → 本手册 §8.13
+
+详见 `docs/MODULE-INDEX.md`

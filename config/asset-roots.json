@@ -1,0 +1,31 @@
+{
+  "registry_version": "1.0",
+  "description": "统一资产根配置。所有观察器/扫描器从此文件读取路径根。",
+  "roots": {
+    "workspace": {
+      "path": "~/.openclaw/workspace",
+      "resolve": "home",
+      "description": "主工作空间 — 文档/代码/契约/事件"
+    },
+    "user_bin": {
+      "path": "~/.local/bin",
+      "resolve": "home",
+      "description": "用户脚本 — Worker/工具/遗留脚本"
+    },
+    "systemd": {
+      "path": "~/.config/systemd/user",
+      "resolve": "home",
+      "description": "systemd 用户单元 — timer/service"
+    },
+    "openclaw_config": {
+      "path": "~/.openclaw",
+      "resolve": "home",
+      "description": "OpenClaw 配置 — gateway.json/secrets"
+    },
+    "backup": {
+      "path": "/backup",
+      "resolve": "absolute",
+      "description": "备份输出目录"
+    }
+  }
+}

@@ -1,0 +1,133 @@
+# M0 Health Source Registry
+# 模块 → 健康证据来源映射
+# 用于 health_graph.py 统一收集所有模块的健康信号
+
+modules:
+
+  # ── 常驻服务 ──────────────────────────────────
+  - id: openclaw-gateway
+    type: service
+    source: systemd
+    systemd_unit: openclaw-gateway
+
+  - id: telegram
+    type: service
+    source: channel_state          # P0 ongoing
+
+  # ── cron 文件输出型 ────────────────────────────
+  - id: collect-sensors
+    type: job
+    source: file
+    path: "/home/dragonfive/.openclaw/workspace/memory/data/system/memory-snapshot.jsonl"
+    schedule_min: 60
+    signal: mtime
+
+  - id: eval-local
+    type: job
+    source: file
+    path: "/home/dragonfive/.openclaw/workspace/memory/events/huo/ollama-eval.jsonl"
+    schedule_min: 60
+    signal: mtime
+
+  - id: task-worker
+    type: job
+    source: file
+    path: "/home/dragonfive/.openclaw/workspace/memory/events/huo/ollama-production.jsonl"
+    schedule_min: 60
+    signal: mtime
+
+  - id: context-provider
+    type: job
+    source: file
+    path: "/home/dragonfive/.openclaw/workspace/runtime/time_context.json"
+    schedule_min: 5
+    signal: mtime
+
+  - id: contract-validator
+    type: job
+    source: file
+    path: "/home/dragonfive/.openclaw/workspace/memory/data/system/contract_violation.jsonl"
+    schedule_min: 30
+    signal: mtime
+
+  - id: token-metrics
+    type: job
+    source: file
+    path: "/home/dragonfive/.openclaw/workspace/memory/data/system/token-metrics.jsonl"
+    schedule_min: 60
+    signal: mtime
+
+  - id: token-analysis
+    type: job
+    source: file
+    path: "/home/dragonfive/.openclaw/workspace/memory/data/system/daily-token-report.jsonl"
+    schedule_min: 1440
+    signal: mtime
+
+  - id: backup
+    type: job
+    source: file
+    path: "/home/dragonfive/.openclaw/workspace/memory/data/system/backup-events.jsonl"
+    schedule_min: 1440
+    signal: mtime
+
+  # ── systemd 管理模块 ──────────────────────────
+  - id: market-futures-collector
+    type: job
+    source: systemd
+    schedule_min: 2
+
+  - id: market-futures-strategy
+    type: job
+    source: systemd
+    schedule_min: 2
+
+  - id: oek-billing-snapshot
+    type: job
+    source: systemd
+    schedule_min: 60
+
+  - id: oek-billing-push
+    type: job
+    source: systemd
+    schedule_min: 60
+
+  - id: oek-token-observe
+    type: job
+    source: systemd
+    schedule_min: 60
+
+  - id: oek-daily-status
+    type: job
+    source: systemd
+    schedule_min: 1440
+
+  - id: source-retry
+    type: job
+    source: systemd
+    schedule_min: 60
+
+  - id: lottery-fetch
+    type: job
+    source: systemd
+    schedule_min: 1440
+
+  - id: dlt-predict
+    type: job
+    source: systemd
+    schedule_min: 1440
+
+  - id: dlt-check
+    type: job
+    source: systemd
+    schedule_min: 1440
+
+  - id: kl8-predict
+    type: job
+    source: systemd
+    schedule_min: 1440
+
+  - id: kl8-check
+    type: job
+    source: systemd
+    schedule_min: 1440

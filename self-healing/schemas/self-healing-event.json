@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "self-healing-event-v1",
+  "title": "Self-Healing Audit Event",
+  "description": "事件化记录 OpenClaw Runtime 已有自愈行为",
+  "type": "object",
+  "required": ["event_type", "trace_id", "timestamp", "component", "action", "result"],
+  "properties": {
+    "event_type": {
+      "type": "string",
+      "enum": ["self_healing"],
+      "description": "固定值，与 Event Source of Truth 区分"
+    },
+    "trace_id": {
+      "type": "string",
+      "description": "UUID，关联before/after/verified事件"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "UTC ISO-8601"
+    },
+    "component": {
+      "type": "string",
+      "enum": ["telegram", "config", "channel", "provider", "unknown"],
+      "description": "自愈行为发生的组件"
+    },
+    "action": {
+      "type": "string",
+      "enum": ["restart", "repair", "reconnect", "recover", "retry"],
+      "description": "自愈动作类型"
+    },
+    "result": {
+      "type": "string",
+      "enum": ["success", "failure", "unknown"],
+      "description": "自愈结果"
+    },
+    "reason": {
+      "type": "string",
+      "description": "触发自愈的原因描述"
+    },
+    "before_state": {
+      "type": "string",
+      "description": "修复前状态摘要"
+    },
+    "after_state": {
+      "type": "string",
+      "description": "修复后状态摘要"
+    },
+    "duration_ms": {
+      "type": "number",
+      "description": "自愈过程耗时（毫秒）"
+    },
+    "details": {
+      "type": "object",
+      "description": "额外上下文，扩展用"
+    },
+    "changes": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "修复变更列表（用于 doctor repair）"
+    },
+    "verified": {
+      "type": "boolean",
+      "description": "是否已验证恢复成功"
+    }
+  }
+}

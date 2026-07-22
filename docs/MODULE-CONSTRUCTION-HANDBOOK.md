@@ -989,6 +989,119 @@ Overall:               GREEN
 
 #### 任务清单
 
+---
+
+### 8.18 Asset Observation Layer
+
+| 项目 | 状态 |
+|------|------|
+| 类型 | B 类运行维护 |
+| 扫描器 | `scripts/asset_observer.py` |
+| 配置 | `config/asset-roots.json` |
+| 快照 | ASSET-SNAPSHOT-002 (247 assets) |
+
+#### 边界
+
+- 负责：资产存在性发现、分类统计（7 类）、一致性检查、漂移记录
+- 不负责：自动修复、资产生命周期管理、权限控制
+
+#### 调度
+
+| 级别 | 周期 | 范围 |
+|:-----|:----:|:-----|
+| Light | 1d | 文件/路径/服务变化 |
+| Medium | 3d | 模块映射校验 |
+| Full | 7d | 全量扫描+分类+快照 |
+
+#### 依赖
+
+- `config/asset-roots.json` — 统一扫描根路径
+- systemd timers: asset-observer-{light,medium,full}
+
+#### 文档
+
+- `docs/SYSTEM-ASSET-OBSERVATION.md`
+- `docs/SYSTEM-ASSET-SEMANTIC-INDEX.md`
+- `docs/SYSTEM-ASSET-MODULE-FILE-MAPPING.md`
+- `docs/SYSTEM-ASSET-SCAN-SCHEDULE.md`
+- `docs/ASSET-QUERY-GUIDE.md`
+
+---
+
+### 8.19 Capability Observation Layer
+
+| 项目 | 状态 |
+|------|------|
+| 类型 | B 类运行维护 |
+| 扫描器 | `scripts/capability_observer.py` |
+| 快照 | CAP-SNAPSHOT-001 (24 capabilities, 6 domains) |
+
+#### 边界
+
+- 负责：能力声明→证据→覆盖完整度观察
+- 不负责：自动补齐能力、自动创建模块、自动规划路线
+
+#### 能力状态
+
+| 状态 | 含义 |
+|:-----|:------|
+| available | 所有证据路径存在 |
+| partial | 部分证据存在 |
+| declared_only | 有声明无实现 |
+| missing | 基线要求但无实现 |
+| unknown | 无法判断 |
+
+#### 调度
+
+- 周期：每日 (`capability-observer.timer`)
+
+#### 依赖
+
+- CAPABILITY-REGISTRY.md、领域 Contract
+- Semantic Index 模块定义
+
+#### 文档
+
+- `docs/SYSTEM-CAPABILITY-OBSERVATION.md`
+
+---
+
+### 8.20 Baseline Observation Layer
+
+| 项目 | 状态 |
+|------|------|
+| 类型 | B 类运行维护 |
+| 扫描器 | `scripts/baseline_observer.py` |
+| 快照 | BASELINE-SNAPSHOT-001 (0 drifts) |
+
+#### 边界
+
+- 负责：冻结契约→资产基线→能力基线→模块基线的漂移检测
+- 不负责：修改基线、自动补齐、审批变更
+
+#### 观察维度
+
+| 维度 | 检查项 |
+|:-----|:--------|
+| Contract drift | frozen contract 文件是否丢失 |
+| Asset drift | unknown > 30% 触发 classification_drift |
+| Capability drift | available < total 触发 capability_drift |
+| Module drift | FROZEN module 是否被破坏 |
+
+#### 调度
+
+- 周期：每日 (`baseline-observer.timer`)
+
+#### 依赖
+
+- CONTRACT-REGISTRY.md
+- ASSET-SNAPSHOT、CAP-SNAPSHOT
+- PHASE_STATUS.json
+
+#### 文档
+
+- `docs/SYSTEM-BASELINE-OBSERVATION.md`
+
 | 任务 | 状态 |
 |:---|:---:|
 | system_status_brief | ✅ |
@@ -1085,8 +1198,8 @@ memory/
 系统能力地图（A/B/C/D 四类），作为本手册的轻量入口：
 
 - A 类核心治理（4 个）→ 本手册 §8.8-8.11
-- B 类运行维护（4 个）→ 本手册 §8.12 + §8.15
-- C 类业务模块 → 本手册 §8.1-8.7 + §8.14 + §8.17
+- B 类运行维护（7 个）→ 本手册 §8.12 + §8.15 + §8.18 + §8.19 + §8.20
+- C 类业务模块 → 本手册 §8.1-8.7 + §8.14 + §8.17 + §8.21（待分配）
 - D 类工具 → 本手册 §8.13
 
 详见 `docs/MODULE-INDEX.md`

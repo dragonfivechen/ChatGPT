@@ -22,6 +22,9 @@
 | Billing Pipeline | — | 待建 | ⏳ 部分完成 | oek-billing-snapshot/push |
 | Model Runtime | — | 待建 | ⏳ 待补充 | DeepSeek / Ollama / fallback 路由 |
 | Network Service | — | 待建 | ⏳ 待补充 | DNS / OpenWrt / AdGuard |
+| Asset Observation | ASSET-OBSERVATION | 8.18 | ✅ ACTIVE | 资产扫描+分类+漂移 |
+| Capability Observation | CAPABILITY-OBSERVATION | 8.19 | ✅ ACTIVE | 能力声明+证据+覆盖 |
+| Baseline Observation | BASELINE-OBSERVATION | 8.20 | ✅ ACTIVE | 冻结基线漂移检测 |
 
 ## C 类：已写入手册的业务模块
 
@@ -58,7 +61,7 @@
 | 类别 | 数量 | 状态 |
 |------|------|------|
 | A 类核心治理 | 4 | ✅ 已完成 |
-| B 类运行维护 | 4 | ✅ 已完成 |
+| B 类运行维护 | 7 | ✅ 已完成 |
 | C 类已有业务 | 9 | ✅ 运行中 |
 | D 类工具 | 14 | ✅ 已归类 |
 

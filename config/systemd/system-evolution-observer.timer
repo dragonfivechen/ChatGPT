@@ -1,0 +1,10 @@
+[Unit]
+Description=System Evolution Observer — Daily
+Requires=system-evolution-observer.service
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,5 @@
+[Unit]
+Description=System Evolution Observer — Daily system state summary
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 %h/.openclaw/workspace/scripts/system_evolution_observer.py

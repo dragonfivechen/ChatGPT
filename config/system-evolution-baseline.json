@@ -1,0 +1,27 @@
+{
+  "baseline_id": "SYSTEM-EVOLUTION-BASELINE-001",
+  "status": "PROPOSAL",
+  "created": "2026-07-22",
+  "sources": {
+    "asset": "ASSET-SNAPSHOT-002",
+    "capability": "CAP-SNAPSHOT-001",
+    "baseline": "BASELINE-SNAPSHOT-001"
+  },
+  "snapshot": {
+    "assets_total": 265,
+    "capabilities_total": 24,
+    "domains": 6,
+    "contracts": 41,
+    "observers": 6,
+    "timers": 22
+  },
+  "capability_coverage": {
+    "Governance": "4/4",
+    "Runtime": "4/4",
+    "Monitoring": "5/5",
+    "Trading": "4/4",
+    "Lottery": "4/4",
+    "Infrastructure": "3/3"
+  },
+  "drift_at_creation": 0
+}

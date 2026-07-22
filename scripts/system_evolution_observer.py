@@ -14,6 +14,7 @@ from datetime import datetime, timezone, timedelta
 from collections import defaultdict
 
 WORKSPACE = os.path.expanduser("~/.openclaw/workspace")
+BASELINE_FILE = os.path.join(WORKSPACE, "config/system-evolution-baseline.json")
 OUTPUT = os.path.join(WORKSPACE, "memory/data/system/system-evolution-observation.jsonl")
 CST = timezone(timedelta(hours=8))
 
@@ -114,6 +115,32 @@ def main():
         for domain, info in cap["by_domain"].items():
             cap_coverage[domain] = f"{info['available']}/{info['total']}"
 
+    # Load evolution baseline config
+    evo_baseline = load_json(BASELINE_FILE)
+    baseline_active = evo_baseline and evo_baseline.get("status") == "FROZEN"
+    baseline_ref = evo_baseline.get("baseline_id", "N/A") if evo_baseline else None
+
+    # Snapshot values for potential diff
+    current_size = {
+        "assets_total": asset["total"] if asset else 0,
+        "modules": asset["assets"].get("modules", 0) if asset and asset.get("assets") else 0,
+        "contracts": asset["assets"].get("contracts", 0) if asset and asset.get("assets") else 0,
+        "scripts": asset["assets"].get("scripts", 0) if asset and asset.get("assets") else 0,
+        "services": asset["assets"].get("services", 0) if asset and asset.get("assets") else 0,
+        "timers": asset["assets"].get("timers", 0) if asset and asset.get("assets") else 0,
+        "capabilities": cap["total"] if cap else 0,
+    }
+
+    # Diff against evolution baseline snapshot (only when FROZEN)
+    diff = None
+    if baseline_active and evo_baseline.get("snapshot"):
+        diff = {}
+        for k in current_size:
+            bv = evo_baseline["snapshot"].get(k)
+            cv = current_size[k]
+            if bv is not None and cv != bv:
+                diff[k] = {"baseline": bv, "current": cv, "delta": cv - bv}
+
     # Build event
     event = {
         "type": "SYSTEM_EVOLUTION",
@@ -144,6 +171,9 @@ def main():
             "drift_details": baseline["drifts"] if baseline else [],
             "baseline_snapshot": baseline["asset_snapshot"] if baseline else None,
         },
+        "baseline_ref": baseline_ref,
+        "baseline_status": evo_baseline.get("status") if evo_baseline else None,
+        "evolution_diff": diff,
     }
 
     os.makedirs(os.path.dirname(OUTPUT), exist_ok=True)

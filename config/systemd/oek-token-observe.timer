@@ -1,0 +1,9 @@
+[Unit]
+Description=OEK Token Observe (hourly)
+
+[Timer]
+OnCalendar=*-*-* *:07:00
+Unit=oek-token-observe.service
+
+[Install]
+WantedBy=timers.target

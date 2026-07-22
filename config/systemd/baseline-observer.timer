@@ -1,9 +1,8 @@
 [Unit]
 Description=Baseline Observer — Daily
-Requires=baseline-observer.service
 
 [Timer]
-OnCalendar=daily
+OnCalendar=*-*-* 00:25:00
 Persistent=true
 
 [Install]

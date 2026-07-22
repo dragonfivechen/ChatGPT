@@ -1,9 +1,8 @@
 [Unit]
 Description=Asset Observer — Light Scan (daily)
-Requires=asset-observer-light.service
 
 [Timer]
-OnCalendar=daily
+OnCalendar=*-*-* 00:05:00
 Persistent=true
 
 [Install]

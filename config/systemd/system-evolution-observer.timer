@@ -1,9 +1,8 @@
 [Unit]
 Description=System Evolution Observer — Daily
-Requires=system-evolution-observer.service
 
 [Timer]
-OnCalendar=daily
+OnCalendar=*-*-* 00:35:00
 Persistent=true
 
 [Install]

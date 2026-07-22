@@ -1,8 +1,29 @@
 {
-  "cash": 10000000.0,
-  "equity": 10000000.0,
-  "positions": {},
-  "peak_equity": 10000000.0,
-  "total_realized_pnl": 0,
-  "free_cash": 10000000.0
+  "cash": 9996535.56,
+  "equity": 10000401.56,
+  "realized_pnl": -3205.0,
+  "total_fees": 259.44,
+  "positions": {
+    "RB": {
+      "direction": "SHORT",
+      "qty": 4,
+      "avg_price": 3079.5
+    },
+    "I": {
+      "direction": "SHORT",
+      "qty": 7,
+      "avg_price": 742.68
+    },
+    "SC": {
+      "direction": "LONG",
+      "qty": 2,
+      "avg_price": 542.2
+    },
+    "JM": {
+      "direction": "SHORT",
+      "qty": 2,
+      "avg_price": 1269.75
+    }
+  },
+  "peak_equity": 10000401.56
 }

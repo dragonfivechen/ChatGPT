@@ -1,0 +1,15 @@
+{
+  "id": "rule-candidate-2026-000-8",
+  "identity": "candidate:ee81a97dd66d7848:correction_explicit:interaction",
+  "source_event": "/home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-22.md",
+  "source_line": 141,
+  "agent": "huo",
+  "date": "2026",
+  "category": "interaction",
+  "feedback_type": "correction_explicit",
+  "candidate": "**误判纠正：** 之前直接说「没有 Capability Observation」，不严谨。",
+  "confidence": 0.8,
+  "score": 0.0,
+  "hit_count": 2,
+  "state": "pending"
+}

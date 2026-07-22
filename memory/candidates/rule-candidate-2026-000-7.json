@@ -1,0 +1,15 @@
+{
+  "id": "rule-candidate-2026-000-7",
+  "identity": "candidate:67b1199415610829:correction_explicit:interaction",
+  "source_event": "/home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-22.md",
+  "source_line": 135,
+  "agent": "huo",
+  "date": "2026",
+  "category": "interaction",
+  "feedback_type": "correction_explicit",
+  "candidate": "Execution Momentum Rule（冻结后直接执行）",
+  "confidence": 0.7,
+  "score": 0.0,
+  "hit_count": 3,
+  "state": "pending"
+}

@@ -133,10 +133,10 @@ def main():
 
     # Diff against evolution baseline snapshot (only when FROZEN)
     diff = None
-    if baseline_active and evo_baseline.get("snapshot"):
+    if baseline_active and evo_baseline.get("scale"):
         diff = {}
         for k in current_size:
-            bv = evo_baseline["snapshot"].get(k)
+            bv = evo_baseline["scale"].get(k)
             cv = current_size[k]
             if bv is not None and cv != bv:
                 diff[k] = {"baseline": bv, "current": cv, "delta": cv - bv}

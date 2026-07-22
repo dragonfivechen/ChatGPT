@@ -9,7 +9,7 @@
   "candidate": "作为阻止动作的状态",
   "confidence": 0.95,
   "score": 0.825,
-  "hit_count": 163,
+  "hit_count": 183,
   "status": "deduped",
   "merged_group": [
     "rule-candidate-2026-07-20-001",

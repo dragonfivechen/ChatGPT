@@ -9,7 +9,7 @@
   "candidate": "判定: 违反 SOUL.md 铁律 #1 — \"仅限直接结果输出",
   "confidence": 0.7,
   "score": 0.58,
-  "hit_count": 61,
+  "hit_count": 81,
   "status": "deduped",
   "identity": "candidate:5793cf98ce9ec4f8:correction_explicit:interaction"
 }

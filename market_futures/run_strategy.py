@@ -27,6 +27,8 @@ import sys
 import os
 import json
 import argparse
+import subprocess
+from collections import deque
 
 # 路径
 _THIS = os.path.dirname(os.path.abspath(__file__))
@@ -452,6 +454,283 @@ def verify_account_consistency():
 
 
 # ═══════════════════════════════════════════════════════════
+#  ── Live 增量模式 ──
+# ═══════════════════════════════════════════════════════════
+
+LIVE_STATE_DIR = os.path.join(_THIS, "state")
+ACCOUNT_STATE_PATH = os.path.join(_THIS, "data", "account_state.json")
+
+# ── 策略状态序列化 ──
+
+def _serialize_strategy(strategy) -> dict:
+    """策略内部状态 → JSON 可序列化 dict (包括 _ 前缀的内部字段)"""
+    raw = {}
+    for attr in dir(strategy):
+        if attr.startswith('__'):
+            continue
+        val = getattr(strategy, attr)
+        if callable(val):
+            continue
+        if isinstance(val, deque):
+            raw[attr] = {"__deque__": True, "maxlen": val.maxlen, "items": list(val)}
+        elif isinstance(val, dict):
+            cleaned = {}
+            for k, v in val.items():
+                if isinstance(v, deque):
+                    cleaned[k] = {"__deque__": True, "maxlen": v.maxlen, "items": list(v)}
+                else:
+                    cleaned[k] = v
+            raw[attr] = cleaned
+        else:
+            raw[attr] = val
+    return raw
+
+
+def _deserialize_strategy(state: dict, strategy) -> None:
+    """反序列化恢复策略状态"""
+    for attr, val in state.items():
+        if not hasattr(strategy, attr):
+            continue
+        if isinstance(val, dict) and val.get("__deque__"):
+            dq = deque(val["items"], maxlen=val.get("maxlen"))
+            setattr(strategy, attr, dq)
+        elif isinstance(val, dict):
+            target = getattr(strategy, attr, None)
+            if isinstance(target, dict):
+                for k, v in val.items():
+                    if isinstance(v, dict) and v.get("__deque__"):
+                        target[k] = deque(v["items"], maxlen=v.get("maxlen"))
+                    else:
+                        target[k] = v
+            else:
+                setattr(strategy, attr, val)
+        else:
+            setattr(strategy, attr, val)
+
+
+# ── 账户状态 ──
+
+def _save_account_state(account) -> dict:
+    """保存账户状态到 JSON"""
+    state = {
+        "cash": round(account.balance, 2),
+        "equity": round(account.equity, 2),
+        "realized_pnl": round(account.realized_pnl, 2),
+        "total_fees": round(account.total_fees, 2),
+        "positions": {},
+        "peak_equity": max(account.equity, 0),
+    }
+    for pos in account.positions.list_active():
+        state["positions"][pos.symbol] = {
+            "direction": pos.direction,
+            "qty": pos.qty,
+            "avg_price": round(pos.avg_price, 2),
+        }
+    os.makedirs(os.path.dirname(ACCOUNT_STATE_PATH), exist_ok=True)
+    with open(ACCOUNT_STATE_PATH, "w", encoding="utf-8") as f:
+        json.dump(state, f, ensure_ascii=False, indent=2)
+    return state
+
+
+def _load_account_state(initial_equity: float = 10_000_000) -> acc_mod.FuturesAccount:
+    """从 JSON 加载账户状态"""
+    account = acc_mod.FuturesAccount(initial_equity=initial_equity)
+    if not os.path.exists(ACCOUNT_STATE_PATH):
+        return account
+    try:
+        with open(ACCOUNT_STATE_PATH, "r", encoding="utf-8") as f:
+            state = json.load(f)
+        account.balance = state.get("cash", initial_equity)
+        account.realized_pnl = state.get("realized_pnl", 0)
+        account.total_fees = state.get("total_fees", 0)
+        for sym, pdata in state.get("positions", {}).items():
+            pos = account.positions.get(sym)
+            # 注意: 从 state 加载的持仓需要按 position.py 的 Position 类来设置
+            # 由于 account.on_fill 处理加仓/平仓，这里直接用内部字段
+            # 但 position 的字段是直接访问的 public，先恢复
+        # 更稳妥: 用一个简单的交易记录自动重建
+        account.balance = state.get("cash", initial_equity)
+        account.realized_pnl = state.get("realized_pnl", 0)
+        account.total_fees = state.get("total_fees", 0)
+        for sym, pdata in state.get("positions", {}).items():
+            pos = account.positions.get(sym)
+            pos.direction = pdata["direction"]
+            pos.qty = pdata["qty"]
+            pos.avg_price = pdata["avg_price"]
+            pos.margin_used = 0  # 下次 on_quote 时重新计算
+        return account
+    except Exception:
+        return acc_mod.FuturesAccount(initial_equity=initial_equity)
+
+
+# ── Live 状态 ──
+
+def _save_live_state(strategy_name: str, last_line: int, strategy, account) -> dict:
+    """保存完整 live 状态"""
+    state = {
+        "strategy_name": strategy_name,
+        "last_line": last_line,
+        "strategy_state": _serialize_strategy(strategy),
+    }
+    os.makedirs(LIVE_STATE_DIR, exist_ok=True)
+    path = os.path.join(LIVE_STATE_DIR, f"live_{strategy_name}.json")
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(state, f, ensure_ascii=False, indent=2)
+    _save_account_state(account)
+    return state
+
+
+def _load_live_state(strategy_name: str, strategy) -> tuple[int, bool]:
+    """加载 live 状态. 返回 (last_line, 是否恢复成功)"""
+    path = os.path.join(LIVE_STATE_DIR, f"live_{strategy_name}.json")
+    if not os.path.exists(path):
+        return 0, False
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            state = json.load(f)
+        last_line = state.get("last_line", 0)
+        str_state = state.get("strategy_state", {})
+        if str_state:
+            _deserialize_strategy(str_state, strategy)
+        return last_line, True
+    except Exception:
+        return 0, False
+
+
+# ── 读取增量行情 ──
+
+def _read_new_quotes(events_path: str, from_line: int) -> tuple[list[dict], int]:
+    """读取从 from_line 开始的新行情, 返回 (quotes列表, 文件总行数)"""
+    quotes = []
+    total = 0
+    if not os.path.exists(events_path):
+        return quotes, 0
+    with open(events_path, "r", encoding="utf-8") as f:
+        for lineno, line in enumerate(f, 1):
+            line = line.strip()
+            if not line:
+                continue
+            if lineno <= from_line:
+                continue
+            try:
+                evt = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if evt.get("event_type") == "FUTURES_QUOTE" and evt.get("symbol") != "__END_SESSION__":
+                quotes.append(evt)
+            total = lineno
+    return quotes, total
+
+
+_PUSH_SCRIPT = os.path.join(
+    _THIS, "..", "hooks", "oek-ci-gate", "push-notify.mjs"
+)
+
+_SYMBOL_NAMES = {
+    "RB": "螺纹钢", "I": "铁矿石", "JM": "焦煤",
+    "CU": "沪铜", "AL": "沪铝", "SC": "原油",
+}
+
+
+def _notify(title: str, body: str):
+    """推送到 TG"""
+    if os.path.exists(_PUSH_SCRIPT):
+        subprocess.Popen(
+            ["node", _PUSH_SCRIPT, title, body],
+            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+        )
+
+
+def run_live(strategy_name: str, verbose: bool = False, interval_sec: int = 120):
+    """增量模式: 读取新增行情 → 策略 → 模拟成交 → 保存状态"""
+    strategy = get_strategy(strategy_name)
+    last_line, restored = _load_live_state(strategy_name, strategy)
+    account = _load_account_state()
+    account.set_trade_callback(None)
+    sim = sim_mod.Simulator()
+
+    ep = EVENTS_PATH
+    quotes, total_lines = _read_new_quotes(ep, last_line)
+
+    if not quotes:
+        return
+
+    eq0 = account.equity
+    signals_count = 0
+    fills: list[dict] = []
+
+    for i, quote in enumerate(quotes):
+        symbol = quote.get("symbol", "")
+
+        # 行情更新账户（浮动盈亏）
+        account.on_quote(quote)
+
+        # 策略
+        pos = account.positions.get(symbol)
+        pos_info = None if pos.is_empty() else pos.direction
+        signal = strategy.on_quote(quote, position_info=pos_info)
+
+        if signal:
+            signals_count += 1
+
+            if signal.action == "CLOSE":
+                side = resolve_close_side(symbol, account)
+                if side is None:
+                    continue
+                order_evt = {
+                    "event_type": "FUTURES_ORDER",
+                    "order_id": f"LIVE_CLOSE_{last_line + i}",
+                    "ts": quote.get("ts", ""),
+                    "symbol": symbol,
+                    "side": side,
+                    "action": "CLOSE",
+                    "order_type": "MARKET",
+                    "quantity": pos.qty,
+                    "strategy_id": strategy_name,
+                }
+            else:
+                order_evt = signal_to_order(signal)
+                order_evt["ts"] = quote.get("ts", "")
+                order_evt["order_id"] = f"LIVE_SIGNAL_{last_line + i}"
+
+            sim.add_order(order_evt)
+            for fill in sim.on_quote(quote):
+                fills.append(fill)
+                account.on_fill(fill)
+
+    # 保存状态
+    _save_live_state(strategy_name, total_lines, strategy, account)
+
+    eq1 = account.equity
+    positions = account.positions.list_active()
+    pos_count = len(positions)
+
+    # ── 推送 ──
+    if fills:
+        lines = []
+        for f in fills:
+            fill_action = f.get("action", f.get("side", ""))
+            emoji = "🟢" if fill_action in ("BUY",) or (fill_action == "CLOSE" and f.get("pnl", 0) >= 0) else "🔴"
+            qty = f.get("fill_qty", 1)
+            price = f.get("fill_price", 0)
+            pnl_s = f" PnL={f['pnl']:+.0f}" if f.get("pnl") else ""
+            lines.append(f"{emoji} {f['symbol']} {fill_action} {qty}手 @{price:.0f}{pnl_s}")
+
+        for p in positions:
+            dir_cn = "多" if p.direction == "LONG" else "空"
+            lines.append(f"📊 {p.symbol} {dir_cn}{p.qty}手 均价{p.avg_price:.0f}")
+
+        lines.append(f"💰 权益 ¥{eq1:,.0f} ({eq1 - eq0:+,.0f})")
+        _notify("🔥 期货", "\n".join(lines))
+
+    if verbose or fills:
+        print(f"[live:{strategy_name}] "
+              f"行情={len(quotes)} 信号={signals_count} "
+              f"成交={len(fills)} "
+              f"权益={eq1:,.0f} ({eq1 - eq0:+,.0f}) "
+              f"持仓={pos_count}")
+
+# ═══════════════════════════════════════════════════════════
 #  主 入 口
 # ═══════════════════════════════════════════════════════════
 
@@ -466,6 +745,10 @@ def main():
     parser.add_argument("--quiet", action="store_true", help="静默模式")
     parser.add_argument("--events", type=str, default="",
                         help="自定义事件文件路径 (默认 futures_events.jsonl)")
+    parser.add_argument("--live", type=str, default="",
+                        help="增量模式: 策略名 (ma/breakout/rsi)")
+    parser.add_argument("--interval", type=int, default=120,
+                        help="cron 调用间隔(秒), 用于日志/间隔过滤 (默认 120)")
 
     args = parser.parse_args()
 
@@ -526,6 +809,10 @@ def main():
                            events_path=args.events)
         perf = write_performance(args.strategy.upper())
         print(f"\n{BOLD}{G}📄 performance.json 已生成{N}")
+        return
+
+    if args.live:
+        run_live(args.live, verbose=not args.quiet, interval_sec=args.interval)
         return
 
     # 默认: 运行单个策略，不生成报告

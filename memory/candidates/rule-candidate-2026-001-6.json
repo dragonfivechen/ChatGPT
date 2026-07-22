@@ -1,0 +1,15 @@
+{
+  "id": "rule-candidate-2026-001-6",
+  "identity": "candidate:ea3de76dc9d0d1e5:correction_implicit:interaction",
+  "source_event": "/home/dragonfive/.openclaw/workspace/memory/events/huo/2026-07-22.md",
+  "source_line": 156,
+  "agent": "huo",
+  "date": "2026",
+  "category": "interaction",
+  "feedback_type": "correction_implicit",
+  "candidate": "当前属于 Capability Definition Layer",
+  "confidence": 0.65,
+  "score": 0.0,
+  "hit_count": 2,
+  "state": "pending"
+}

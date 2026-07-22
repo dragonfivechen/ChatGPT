@@ -9,7 +9,7 @@
   "candidate": "request_id/provider/model/token_count/latency 允许",
   "confidence": 0.98,
   "score": 0.834,
-  "hit_count": 1946,
+  "hit_count": 3046,
   "status": "deduped",
   "merged_group": [
     "rule-candidate-2026-000",

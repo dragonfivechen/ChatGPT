@@ -3,7 +3,7 @@
 > **系统发展坐标系，不是资产快照。**
 > 回答：当前系统处于什么阶段，具备什么结构，未来变化是否属于正常演化，还是偏离方向或缺少建设。
 >
-> **状态:** PROPOSAL — 待审核后冻结
+> **状态:** 🔒 FROZEN — 已审核确认，作为系统发展锚点
 > **来源:** ASSET-SNAPSHOT-002 / CAP-SNAPSHOT-001 / CONTRACT-REGISTRY / PHASE_STATUS / SYSTEM-BASELINE-OBSERVATION
 
 ---
@@ -143,10 +143,10 @@ EVOLUTION_SNAPSHOT
 EVOLUTION-SNAPSHOT-001
   ↓
 SYSTEM-EVOLUTION-BASELINE-001 (PROPOSAL)
-  ↓  人工审核
-BASELINE FROZEN
+  ↓  人工审核 ✅
+🔒 BASELINE FROZEN
   ↓
-system-evolution-observer 自动 diff
+system-evolution-observer 自动 diff 🟢
 ```
 
 ---
